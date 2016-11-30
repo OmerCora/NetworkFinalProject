@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="TCPModule">
+      <UniqueIdentifier>{e2fcb960-af51-41e3-81e2-f6f2782ba1bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Buffer">
+      <UniqueIdentifier>{7906fe6f-95b8-47e0-b689-31ffd0b460a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GoogleProto">
+      <UniqueIdentifier>{e19f2faa-373f-4a71-9f45-446fbe685a44}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cErrorReport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cSha256.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cTCPModule.cpp">
+      <Filter>TCPModule</Filter>
+    </ClCompile>
+    <ClCompile Include="cTCPModuleClient.cpp">
+      <Filter>TCPModule</Filter>
+    </ClCompile>
+    <ClCompile Include="cTCPModuleServer.cpp">
+      <Filter>TCPModule</Filter>
+    </ClCompile>
+    <ClCompile Include="cBuffer.cpp">
+      <Filter>Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="AuthenticationDef.pb.cc">
+      <Filter>GoogleProto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cErrorReport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sProtocols.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cSha256.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cTCPModule.h">
+      <Filter>TCPModule</Filter>
+    </ClInclude>
+    <ClInclude Include="cTCPModuleClient.h">
+      <Filter>TCPModule</Filter>
+    </ClInclude>
+    <ClInclude Include="cTCPModuleServer.h">
+      <Filter>TCPModule</Filter>
+    </ClInclude>
+    <ClInclude Include="iBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="AuthenticationDef.pb.h">
+      <Filter>GoogleProto</Filter>
+    </ClInclude>
+    <ClInclude Include="cBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AuthenticationDef.proto">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

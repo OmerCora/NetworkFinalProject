@@ -1,0 +1,52 @@
+package ProtocolAuthentication;
+
+message CreateAccountWeb {
+	required uint64 requestId = 1;
+	required string email = 2;
+	required string plaintextPassword = 3;
+}
+
+
+message CreateAccountWebSuccess {
+	required uint64 requestId = 1;
+	required uint64 userId = 2;
+	required string creationDate = 3;
+}
+
+message CreateAccountWebFailure {
+	required uint64 requestId=1;
+	
+	enum e_Reason {
+		UNKNOWN_ERROR = 0;
+		ACCOUNT_ALREADY_EXISTS = 1;
+		INVALID_PASSWORD = 2;
+		INTERNAL_SERVER_ERROR = 3;
+		FAILED_TO_PARSE_PROTOCOL = 4;
+	}
+
+	required e_Reason reason = 2 [default = UNKNOWN_ERROR];
+}
+
+message AuthenticateWeb {
+	required uint64 requestId = 1;
+	required string email = 2;
+	required string plaintextPassword = 3;
+}
+
+message AuthenticateWebSuccess {
+	required uint64 requestId = 1;
+	required uint64 userId = 2;
+	required string loginDate = 3;
+}
+
+message AuthenticateWebFailure {
+	required uint64 requestId = 1;
+	
+	enum e_Reason {
+		UNKNOWN_ERROR = 0;
+		INVALID_CREDENTIALS = 1;
+		INTERNAL_SERVER_ERROR = 2;
+		FAILED_TO_PARSE_PROTOCOL = 3;
+	}
+	required e_Reason reason = 2 [default = UNKNOWN_ERROR];
+}

@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPServer", "TCPServer\TCPServer.vcxproj", "{ED909C97-B5C0-4730-8350-E99C46A12685}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F2208A88-A885-48BB-B73C-CB918B324110} = {F2208A88-A885-48BB-B73C-CB918B324110}
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184} = {740172BA-B1D1-4941-8C86-D3FBD04A1184}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCPClient", "TCPClient\TCPClient.vcxproj", "{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184} = {740172BA-B1D1-4941-8C86-D3FBD04A1184}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CoreNetwork", "CoreNetwork\CoreNetwork.vcxproj", "{740172BA-B1D1-4941-8C86-D3FBD04A1184}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthenticationServer", "AuthenticationServer\AuthenticationServer.vcxproj", "{F2208A88-A885-48BB-B73C-CB918B324110}"
+	ProjectSection(ProjectDependencies) = postProject
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184} = {740172BA-B1D1-4941-8C86-D3FBD04A1184}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Debug|x64.ActiveCfg = Debug|Win32
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Debug|x86.ActiveCfg = Debug|Win32
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Debug|x86.Build.0 = Debug|Win32
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Release|x64.ActiveCfg = Release|Win32
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Release|x86.ActiveCfg = Release|Win32
+		{ED909C97-B5C0-4730-8350-E99C46A12685}.Release|x86.Build.0 = Release|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Debug|x64.ActiveCfg = Debug|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Debug|x86.ActiveCfg = Debug|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Debug|x86.Build.0 = Debug|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Release|x64.ActiveCfg = Release|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Release|x86.ActiveCfg = Release|Win32
+		{A20EDB61-B53F-4840-99E3-3BCC24BD64E0}.Release|x86.Build.0 = Release|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Debug|x64.ActiveCfg = Debug|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Debug|x86.ActiveCfg = Debug|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Debug|x86.Build.0 = Debug|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Release|x64.ActiveCfg = Release|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Release|x86.ActiveCfg = Release|Win32
+		{740172BA-B1D1-4941-8C86-D3FBD04A1184}.Release|x86.Build.0 = Release|Win32
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Debug|x64.ActiveCfg = Debug|x64
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Debug|x64.Build.0 = Debug|x64
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Debug|x86.ActiveCfg = Debug|Win32
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Debug|x86.Build.0 = Debug|Win32
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Release|x64.ActiveCfg = Release|x64
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Release|x64.Build.0 = Release|x64
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Release|x86.ActiveCfg = Release|Win32
+		{F2208A88-A885-48BB-B73C-CB918B324110}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
