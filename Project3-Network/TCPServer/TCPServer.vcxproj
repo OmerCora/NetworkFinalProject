@@ -87,6 +87,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cAssetDistrict.cpp" />
+    <ClCompile Include="cBuildingDistrict.cpp" />
+    <ClCompile Include="cCardDistrict.cpp" />
+    <ClCompile Include="cDistrict.cpp" />
+    <ClCompile Include="cFreeParking.cpp" />
+    <ClCompile Include="cGotoJailDistrict.cpp" />
+    <ClCompile Include="cJailDistrict.cpp" />
+    <ClCompile Include="cStationDistrict.cpp" />
+    <ClCompile Include="cTaxDistrict.cpp" />
     <ClCompile Include="cTCPAuthenticationClient.cpp" />
     <ClCompile Include="cLobby.cpp" />
     <ClCompile Include="cRoom.cpp" />
@@ -94,9 +103,19 @@
     <ClCompile Include="cTCPServer.cpp" />
     <ClCompile Include="cUser.cpp" />
     <ClCompile Include="cUserManager.cpp" />
+    <ClCompile Include="cUtilityDistrict.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cAssetDistrict.h" />
+    <ClInclude Include="cBuildingDistrict.h" />
+    <ClInclude Include="cCardDistrict.h" />
+    <ClInclude Include="cDistrict.h" />
+    <ClInclude Include="cFreeParking.h" />
+    <ClInclude Include="cGotoJailDistrict.h" />
+    <ClInclude Include="cJailDistrict.h" />
+    <ClInclude Include="cStationDistrict.h" />
+    <ClInclude Include="cTaxDistrict.h" />
     <ClInclude Include="cTCPAuthenticationClient.h" />
     <ClInclude Include="cLobby.h" />
     <ClInclude Include="cRoom.h" />
@@ -104,9 +123,15 @@
     <ClInclude Include="cTCPServer.h" />
     <ClInclude Include="cUser.h" />
     <ClInclude Include="cUserManager.h" />
+    <ClInclude Include="cUtilityDistrict.h" />
+    <ClInclude Include="iDistrict.h" />
     <ClInclude Include="iLobby.h" />
     <ClInclude Include="iRoom.h" />
     <ClInclude Include="iUser.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TCPServer.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

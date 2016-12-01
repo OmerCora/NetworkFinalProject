@@ -13,9 +13,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Room">
-      <UniqueIdentifier>{e3395a79-ef35-46f8-9969-9c5bba1b66fb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Lobby">
       <UniqueIdentifier>{0a95564b-3707-4490-8560-b84fe4d74457}</UniqueIdentifier>
     </Filter>
@@ -24,6 +21,15 @@
     </Filter>
     <Filter Include="Authenticate">
       <UniqueIdentifier>{3b168b80-7216-4df2-b43b-2b909a52d1be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Room">
+      <UniqueIdentifier>{e3395a79-ef35-46f8-9969-9c5bba1b66fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MonopolyLogic">
+      <UniqueIdentifier>{f8763f2b-4086-471e-b1ba-489b034ce83c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MonopolyLogic\Asset">
+      <UniqueIdentifier>{4b1915c6-cf1a-4e3e-a299-9c994a4608b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +56,36 @@
     </ClCompile>
     <ClCompile Include="cTCPAuthenticationClient.cpp">
       <Filter>Authenticate</Filter>
+    </ClCompile>
+    <ClCompile Include="cAssetDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cCardDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cFreeParking.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cGotoJailDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cJailDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaxDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cBuildingDistrict.cpp">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="cStationDistrict.cpp">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="cUtilityDistrict.cpp">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="cDistrict.cpp">
+      <Filter>MonopolyLogic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,5 +119,46 @@
     <ClInclude Include="cTCPAuthenticationClient.h">
       <Filter>Authenticate</Filter>
     </ClInclude>
+    <ClInclude Include="iDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="cAssetDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cCardDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cFreeParking.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cGotoJailDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cJailDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cTaxDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cBuildingDistrict.h">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="cStationDistrict.h">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="cUtilityDistrict.h">
+      <Filter>MonopolyLogic\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="cDistrict.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TCPServer.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -14,8 +14,8 @@
 //	3) creation_date DATETIME ?
 
 #include <string>
-#include <../src/sqlite3.h>
-#include "AuthenticationDef.pb.h"
+#include "../src/sqlite3.h"
+#include <AuthenticationDef.pb.h>
 
 class cDBAccessor
 {
