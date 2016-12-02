@@ -26,6 +26,7 @@ public:
 
 	void BroadcastData();
 
+	void UpdateGameLoop();
 
 private:
 

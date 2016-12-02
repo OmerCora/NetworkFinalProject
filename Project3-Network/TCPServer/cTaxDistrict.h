@@ -11,11 +11,11 @@ public:
 		e_Luxury,
 	};
 
-	cTaxDistrict(eTaxDistrictType taxtype);
+	cTaxDistrict(int districtID, eTaxDistrictType taxtype);
 	~cTaxDistrict();
 
 	// begin of iDistrict
-	virtual bool Actioon();
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 
 

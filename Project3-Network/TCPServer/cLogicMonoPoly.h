@@ -9,31 +9,31 @@
 #include <vector>
 #include <thread>
 
-class cLogicMonoPoly : public iLogicMonopoly
+class cLogicMonoPoly : public iLogicMonopoly, public iLogicMonopolyMediator
 {
 public:
 	cLogicMonoPoly();
 	virtual ~cLogicMonoPoly();
 
-
 	virtual bool PlayGame(iUser* userA, iUser* userB);
+	virtual bool UpdateGameLoop();
+	virtual bool IsGameOver();
+	virtual void BringToStart(iPlayer* player);
 
 private:
-	std::thread GameLoopThread();
-	bool GameLoop();
+	//std::thread GameLoopThread();
 	bool CleanUp();
 
 	iDice* m_dice;
 
-	iPlayer* m_playerA;
-	iPlayer* m_playerB;
+	iPlayer* m_players[2];
+	// 0 or 1
+	int m_currentPlayerIndex;
+	int m_nextLocation;
 
 	iCardStorage* m_communityStorage;
 	iCardStorage* m_chanceStorage;
 
-	const int m_numAssetDistricts = 23;// 6 + 6 +6+5
-	const int m_numCommunityDistricts = 3;
-	const int m_numChanceDistricts = 3;
 	std::vector<iDistrict*> m_districts;
 
 	enum ePlayState
@@ -41,12 +41,13 @@ private:
 		e_Stop,
 		e_Ready,
 		e_Start,
-		e_Wait,
+		e_ThrowDice,
+		e_UpdateDistrict,
+		e_ChangeTurn,
 		e_Finish,
+		e_GameOver,
 	};
 
 	ePlayState m_playState;
-
-	std::thread m_gameLoopThread;
 };
 

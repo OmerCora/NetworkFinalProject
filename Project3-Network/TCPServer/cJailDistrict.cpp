@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-cJailDistrict::cJailDistrict()
+cJailDistrict::cJailDistrict(int districtID)
+	:cDistrict(districtID)
 {
 }
 
@@ -11,8 +12,8 @@ cJailDistrict::cJailDistrict()
 cJailDistrict::~cJailDistrict()
 {
 }
-bool cJailDistrict::Actioon()
+bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cJailDistrict::Actioon()" << std::endl;
+	std::cout << "cJailDistrict::Action()" << std::endl;
 	return true;
 }

@@ -117,3 +117,12 @@ void cRoomManager::SerializeRoomList(sProtocolHeader::ePacketID packetID, cBuffe
 
 	std::cout << "\tserialize length: " << buffer.getLength() << " original size: " << m_headerBuff.packet_length << std::endl;
 }
+
+
+void cRoomManager::UpdateGameLoop()
+{
+	for (int i = 0; i < (int)m_rooms.size(); ++i)
+	{
+		m_rooms[i]->UpdateGameLoop();
+	}
+}

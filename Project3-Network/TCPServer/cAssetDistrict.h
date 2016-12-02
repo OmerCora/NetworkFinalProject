@@ -5,12 +5,9 @@
 class cAssetDistrict : public cDistrict
 {
 public:
-	cAssetDistrict();
+	cAssetDistrict(int districtID);
 	virtual ~cAssetDistrict();
 
-	// begin of iDistrict
-	virtual bool Actioon();
-	// end of iDistrict
 
 	// begin of cAssetDistrict
 	virtual bool SetSold();
@@ -19,7 +16,7 @@ public:
 	// begin of cAssetDistrict
 
 protected:
-	iUser* m_owner;
+	iPlayer* m_owner;
 
 };
 

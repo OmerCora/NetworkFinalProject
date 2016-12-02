@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-cTaxDistrict::cTaxDistrict(eTaxDistrictType taxtype)
-	:m_taxtype(taxtype)
+cTaxDistrict::cTaxDistrict(int districtID, eTaxDistrictType taxtype)
+	:cDistrict(districtID)
+	, m_taxtype(taxtype)
 {
 }
 
@@ -11,7 +12,7 @@ cTaxDistrict::cTaxDistrict(eTaxDistrictType taxtype)
 cTaxDistrict::~cTaxDistrict()
 {
 }
-bool cTaxDistrict::Actioon()
+bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 
 	if (this->m_taxtype == e_Normal)

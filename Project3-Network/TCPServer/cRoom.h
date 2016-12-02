@@ -46,6 +46,7 @@ public:
 	//void GetUsers(std::vector<std::string>& usernames);
 	//void GetChatHistory(const std::string& userName, std::vector<std::string>& chatHistory);
 
+	virtual void UpdateGameLoop();
 
 private:
 	void InsertBroadcastPacketID(sProtocolHeader::ePacketID packetID);

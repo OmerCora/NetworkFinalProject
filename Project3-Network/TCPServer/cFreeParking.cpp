@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-cFreeParking::cFreeParking()
+cFreeParking::cFreeParking(int districtID)
+	:cDistrict(districtID)
 {
 }
 
@@ -11,8 +12,8 @@ cFreeParking::cFreeParking()
 cFreeParking::~cFreeParking()
 {
 }
-bool cFreeParking::Actioon()
+bool cFreeParking::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cFreeParking::Actioon()" << std::endl;
+	std::cout << "cFreeParking::Action()" << std::endl;
 	return true;
 }

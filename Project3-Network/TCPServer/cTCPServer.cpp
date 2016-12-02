@@ -196,6 +196,10 @@ bool cTCPServer::RunServer()
 			this->ProcessReceivedDataFromUsers();
 		}
 
+		// update game loop
+		{
+			cRoomManager::GetInstance().UpdateGameLoop();
+		}
 
 		//if (m_receiveBuffer.getWriteIndex() > 0)
 		//	break;

@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-cStartDistrict::cStartDistrict()
+cStartDistrict::cStartDistrict(int districtID)
+	:cDistrict(districtID)
 {
 }
 
@@ -10,8 +11,8 @@ cStartDistrict::cStartDistrict()
 cStartDistrict::~cStartDistrict()
 {
 }
-bool cStartDistrict::Actioon()
+bool cStartDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cStartDistrict::Actioon()" << std::endl;
+	std::cout << "cStartDistrict::Action()" << std::endl;
 	return true;
 }
