@@ -111,9 +111,6 @@
     <ClCompile Include="cStartDistrict.cpp">
       <Filter>MonopolyLogic\Districts</Filter>
     </ClCompile>
-    <ClCompile Include="cBank.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cUser.h">
@@ -211,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="cStartDistrict.h">
       <Filter>MonopolyLogic\Districts</Filter>
-    </ClInclude>
-    <ClInclude Include="cBank.h">
-      <Filter>MonopolyLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
