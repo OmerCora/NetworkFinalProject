@@ -26,8 +26,8 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	}
 	else if (this->m_type == e_Chance)
 	{
-		//ask the manager to let the player pick one card from chance cards pile
-
+		//ask the manager to make the player pick one card from chance cards pile
+		logic.openChanceCardTo(player);
 	}
 	
 	std::cout << "\t cCardDistrict::Action()" << std::endl;

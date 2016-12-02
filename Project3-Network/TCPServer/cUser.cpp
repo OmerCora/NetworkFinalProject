@@ -13,7 +13,7 @@ cUser::cUser(const sUserInfo& userInfo)
 cUser::~cUser()
 {
 }
-bool cUser::Compaire(iUser* user)
+bool cUser::Compare(iUser* user)
 {
 	cUser* castUser = dynamic_cast<cUser*>(user);
 	return (this->m_userInfo.email == castUser->m_userInfo.email);

@@ -23,7 +23,7 @@ public:
 	~cUser();
 
 	// begin of iUser
-	virtual bool Compaire(iUser* user);
+	virtual bool Compare(iUser* user);
 	virtual SOCKET SocketID();
 	virtual bool IsLoggedIn();
 	virtual DWORD ConnectionTime();

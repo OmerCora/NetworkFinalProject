@@ -26,7 +26,7 @@ public:
 	virtual ~iUser() {}
 
 	// begin of iUser
-	virtual bool Compaire(iUser* user) = 0;
+	virtual bool Compare(iUser* user) = 0;
 	virtual SOCKET SocketID() = 0;
 	virtual bool IsLoggedIn() = 0;
 	virtual DWORD ConnectionTime() = 0;

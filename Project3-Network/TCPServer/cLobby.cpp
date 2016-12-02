@@ -16,7 +16,7 @@ bool cLobby::JoinLobby(iUser* user)
 {
 	for (unsigned int i = 0; i < m_users.size(); ++i)
 	{
-		if (m_users[i]->Compaire(user))
+		if (m_users[i]->Compare(user))
 		{
 			std::cout << "\tERROR: already joined user socket: " << user->SocketID() << std::endl;
 			return false;

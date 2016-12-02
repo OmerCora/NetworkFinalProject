@@ -8,12 +8,18 @@ public:
 	virtual ~iPlayer() {}
 
 	virtual bool IsBankrupty() = 0;
-	virtual bool Debit(unsigned int money) = 0;
+	virtual bool Deposit(unsigned int money) = 0;
 	virtual bool Withdraw(unsigned int money) = 0;
 
 	virtual void CurrentLocation(int location) = 0;
 	virtual int CurrentLocation() = 0;
 	virtual bool HasChanceToThrowDice() = 0;
 	virtual void TakeChanceToThrowDice() = 0;
+
+	virtual void SetEnjailCount(int numOfTurns) = 0;
+	virtual int getEnjailCount() = 0;
+	virtual bool getbCanThrowDice() = 0;
+	virtual void setbCanThrowDice(bool bChance) = 0;
+	
 };
 

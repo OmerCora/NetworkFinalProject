@@ -32,6 +32,7 @@ public:
 	virtual bool IsGameOver();
 	virtual void BringToStart(iPlayer* player);
 	virtual void openCommunityCardTo(iPlayer* player);
+	virtual void openChanceCardTo(iPlayer* player);
 
 	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 
@@ -49,6 +50,7 @@ private:
 	iCardStorage* m_communityStorage;
 	iCardStorage* m_chanceStorage;
 
+	const int m_jailDistrictID = 10;
 	std::vector<iDistrict*> m_districts;
 
 	enum ePlayState
