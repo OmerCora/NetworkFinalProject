@@ -88,6 +88,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cAssetDistrict.cpp" />
+    <ClCompile Include="cBank.cpp" />
     <ClCompile Include="cBuildingDistrict.cpp" />
     <ClCompile Include="cCardDistrict.cpp" />
     <ClCompile Include="cCardStorageChance.cpp" />
@@ -114,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cAssetDistrict.h" />
+    <ClInclude Include="cBank.h" />
     <ClInclude Include="cBuildingDistrict.h" />
     <ClInclude Include="cCardDistrict.h" />
     <ClInclude Include="cCardStorageChance.h" />
