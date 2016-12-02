@@ -19,6 +19,8 @@
 #include "iUser.h"
 #include "iRoom.h"
 
+#include "iLogicMonopoly.h"
+
 struct sRoomUserInfo
 {
 	iUser* user;
@@ -66,6 +68,9 @@ private:
 	sProtocolResponseRoomInfo m_roomInfoBuff;
 	sProtocolResponseChatHistory m_chatHistoryBuff;
 	sRoomUserInfo m_infoBuff;
+
+
+	iLogicMonopoly* m_logicMonopoly;
 };
 
 #endif

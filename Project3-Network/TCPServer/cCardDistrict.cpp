@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-cCardDistrict::cCardDistrict()
+cCardDistrict::cCardDistrict(eCardDistrictType type)
+	:m_type(type)
 {
 }
 

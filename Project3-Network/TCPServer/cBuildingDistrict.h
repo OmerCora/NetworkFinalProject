@@ -6,6 +6,6 @@ class cBuildingDistrict : public cAssetDistrict
 {
 public:
 	cBuildingDistrict();
-	~cBuildingDistrict();
+	virtual ~cBuildingDistrict();
 };
 

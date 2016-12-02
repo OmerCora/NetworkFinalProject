@@ -6,6 +6,6 @@ class cStationDistrict : public cAssetDistrict
 {
 public:
 	cStationDistrict();
-	~cStationDistrict();
+	virtual ~cStationDistrict();
 };
 

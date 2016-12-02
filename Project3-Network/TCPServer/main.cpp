@@ -8,8 +8,25 @@
 
 //#include "AuthenticationDef.pb.h"
 
+#include "cUser.h"
+#include "cLogicMonoPoly.h"
+
+
 int main()
 {
+	// TODO: this is test code for logic implementation
+	{
+		sUserInfo info;
+		cUser* userA = new cUser(info);
+		cUser* userB = new cUser(info);
+		cLogicMonoPoly* logic = new cLogicMonoPoly();
+		logic->PlayGame(userA, userB);
+		delete userA;
+		delete userB;
+		delete logic;
+	}
+
+#if 0
 	if (!cTCPAuthenticationClient::GetInstance().StartClient())
 		exit(EXIT_FAILURE);
 
@@ -37,7 +54,7 @@ int main()
 	//Keep the window open
 	std::cout << "\nwaiting on exit";
 	//system("pause");
-
+#endif
 
 	exit(EXIT_SUCCESS);
 }

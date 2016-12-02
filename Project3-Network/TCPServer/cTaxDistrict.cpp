@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-cTaxDistrict::cTaxDistrict()
+cTaxDistrict::cTaxDistrict(eTaxDistrictType taxtype)
+	:m_taxtype(taxtype)
 {
 }
 

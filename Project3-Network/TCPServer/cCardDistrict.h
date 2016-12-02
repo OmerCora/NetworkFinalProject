@@ -5,11 +5,20 @@
 class cCardDistrict : public cDistrict
 {
 public:
-	cCardDistrict();
-	~cCardDistrict();
+	enum eCardDistrictType
+	{
+		e_Community,
+		e_Chance,
+	};
+
+	cCardDistrict(eCardDistrictType type);
+	virtual ~cCardDistrict();
 
 	// begin of iDistrict
 	virtual bool Actioon();
 	// end of iDistrict
+
+private:
+	eCardDistrictType m_type;
 };
 

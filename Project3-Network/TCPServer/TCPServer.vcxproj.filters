@@ -31,6 +31,12 @@
     <Filter Include="MonopolyLogic\Asset">
       <UniqueIdentifier>{4b1915c6-cf1a-4e3e-a299-9c994a4608b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MonopolyLogic\Districts">
+      <UniqueIdentifier>{6063ad37-4b40-45a8-b485-c50fdc0b264b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MonopolyLogic\CardStorage">
+      <UniqueIdentifier>{df2d0f10-a683-43dc-af9f-bb347ed4b124}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,24 +63,6 @@
     <ClCompile Include="cTCPAuthenticationClient.cpp">
       <Filter>Authenticate</Filter>
     </ClCompile>
-    <ClCompile Include="cAssetDistrict.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="cCardDistrict.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="cFreeParking.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="cGotoJailDistrict.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="cJailDistrict.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
-    <ClCompile Include="cTaxDistrict.cpp">
-      <Filter>MonopolyLogic</Filter>
-    </ClCompile>
     <ClCompile Include="cBuildingDistrict.cpp">
       <Filter>MonopolyLogic\Asset</Filter>
     </ClCompile>
@@ -84,8 +72,44 @@
     <ClCompile Include="cUtilityDistrict.cpp">
       <Filter>MonopolyLogic\Asset</Filter>
     </ClCompile>
-    <ClCompile Include="cDistrict.cpp">
+    <ClCompile Include="cLogicMonoPoly.cpp">
       <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cAssetDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cCardDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cFreeParking.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cGotoJailDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cJailDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cTaxDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClCompile>
+    <ClCompile Include="cCardStorageCommunity.cpp">
+      <Filter>MonopolyLogic\CardStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="cCardStorageChance.cpp">
+      <Filter>MonopolyLogic\CardStorage</Filter>
+    </ClCompile>
+    <ClCompile Include="cDice.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
+    <ClCompile Include="cStartDistrict.cpp">
+      <Filter>MonopolyLogic\Districts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,29 +143,8 @@
     <ClInclude Include="cTCPAuthenticationClient.h">
       <Filter>Authenticate</Filter>
     </ClInclude>
-    <ClInclude Include="iDistrict.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>User</Filter>
-    </ClInclude>
-    <ClInclude Include="cAssetDistrict.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="cCardDistrict.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="cFreeParking.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="cGotoJailDistrict.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="cJailDistrict.h">
-      <Filter>MonopolyLogic</Filter>
-    </ClInclude>
-    <ClInclude Include="cTaxDistrict.h">
-      <Filter>MonopolyLogic</Filter>
     </ClInclude>
     <ClInclude Include="cBuildingDistrict.h">
       <Filter>MonopolyLogic\Asset</Filter>
@@ -152,8 +155,59 @@
     <ClInclude Include="cUtilityDistrict.h">
       <Filter>MonopolyLogic\Asset</Filter>
     </ClInclude>
-    <ClInclude Include="cDistrict.h">
+    <ClInclude Include="iLogicMonopoly.h">
       <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cLogicMonoPoly.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="iPlayer.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cAssetDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cCardDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cFreeParking.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cGotoJailDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cJailDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="iDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="iCardStorage.h">
+      <Filter>MonopolyLogic\CardStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="cCardStorageChance.h">
+      <Filter>MonopolyLogic\CardStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="cCardStorageCommunity.h">
+      <Filter>MonopolyLogic\CardStorage</Filter>
+    </ClInclude>
+    <ClInclude Include="cDice.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="iDice.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cTaxDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
+    </ClInclude>
+    <ClInclude Include="cStartDistrict.h">
+      <Filter>MonopolyLogic\Districts</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -2,11 +2,11 @@
 
 #include "cDistrict.h"
 
-class cFreeParking : public cDistrict
+class cStartDistrict : public cDistrict
 {
 public:
-	cFreeParking();
-	virtual ~cFreeParking();
+	cStartDistrict();
+	~cStartDistrict();
 
 	// begin of iDistrict
 	virtual bool Actioon();

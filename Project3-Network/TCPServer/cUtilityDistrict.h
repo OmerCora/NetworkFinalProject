@@ -6,7 +6,7 @@ class cUtilityDistrict : public cAssetDistrict
 {
 public:
 	cUtilityDistrict();
-	~cUtilityDistrict();
+	virtual ~cUtilityDistrict();
 
 };
 

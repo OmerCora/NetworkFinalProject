@@ -3,7 +3,9 @@
 #include "cErrorReport.h"
 
 #include <iostream>
-#
+#include "cLogicMonoPoly.h"
+
+#include <thread>
 
 cRoom::cRoom(const std::string& name)
 	: m_roomname(name)
@@ -140,6 +142,8 @@ bool cRoom::Join(iUser* user, const std::string& username)
 {
 	if (GetUser(username) != 0)
 		return false;
+	if (this->GetNumUsers() == 2)
+		return false;
 
 	m_infoBuff.user = user;
 	m_infoBuff.username = username;
@@ -148,6 +152,13 @@ bool cRoom::Join(iUser* user, const std::string& username)
 	m_users.push_back(m_infoBuff);
 
 	this->InsertBroadcastPacketID(sProtocolHeader::ePacketID::e_ResponseRoomInfo);
+
+	// create game logic
+	if (this->GetNumUsers() == 2)
+	{
+		m_logicMonopoly = new cLogicMonoPoly();
+		m_logicMonopoly->PlayGame(m_users[0].user, m_users[1].user);
+	}
 
 	return true;
 }

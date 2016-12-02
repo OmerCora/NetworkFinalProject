@@ -6,7 +6,7 @@ class cJailDistrict : public cDistrict
 {
 public:
 	cJailDistrict();
-	~cJailDistrict();
+	virtual ~cJailDistrict();
 
 	// begin of iDistrict
 	virtual bool Actioon();

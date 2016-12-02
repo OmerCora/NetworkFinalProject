@@ -6,7 +6,7 @@ class cAssetDistrict : public cDistrict
 {
 public:
 	cAssetDistrict();
-	~cAssetDistrict();
+	virtual ~cAssetDistrict();
 
 	// begin of iDistrict
 	virtual bool Actioon();
