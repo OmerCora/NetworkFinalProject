@@ -1,3 +1,4 @@
+#include "MonopolyGlobal.h"
 #include "cDice.h"
 
 #include <conio.h>

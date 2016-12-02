@@ -1,3 +1,4 @@
+#include "MonopolyGlobal.h"
 #include "cCardDistrict.h"
 
 #include <conio.h>
@@ -30,8 +31,9 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "\t cCardDistrict::Actioon()" << std::endl;
 
 	std::cout << "\t Press Any Key to Continue" << std::endl;
+#ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
-
+#endif
 
 
 	return true;
@@ -41,8 +43,9 @@ bool cCardDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cCardDistrict::Response()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;
+#ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
-
+#endif
 	return true;
 }
 

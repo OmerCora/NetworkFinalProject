@@ -1,3 +1,4 @@
+#include "MonopolyGlobal.h"
 #include "cBank.h"
 
 #include <conio.h>

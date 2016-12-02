@@ -1,3 +1,5 @@
+#include "MonopolyGlobal.h"
+
 #include "cPlayer.h"
 
 

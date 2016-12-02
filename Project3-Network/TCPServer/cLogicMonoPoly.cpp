@@ -1,3 +1,4 @@
+#include "MonopolyGlobal.h"
 #include "cLogicMonoPoly.h"
 
 #include "cPlayer.h"
@@ -136,7 +137,9 @@ bool cLogicMonoPoly::UpdateGameLoop()
 	if (this->IsCurrentState(ePlayState::e_Wait))
 	{
 		std::cout << "ePlayState::e_Wait (Press Any Key to Continue...)" << std::endl;
+#ifdef _LOGIC_DEBUG_TEST
 		char anyKey = _getch();
+#endif
 
 		if (this->IsPriorState(ePlayState::e_ThrowDice))
 		{
