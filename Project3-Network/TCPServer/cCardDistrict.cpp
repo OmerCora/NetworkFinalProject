@@ -18,6 +18,8 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	if (this->m_type == e_Community)
 	{
 		//ask the manager to let the player pick one card from community chest cards pile
+		logic.openCommunityCardTo(player);
+
 
 	}
 	else if (this->m_type == e_Chance)

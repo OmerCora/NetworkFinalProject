@@ -19,6 +19,7 @@ public:
 	virtual bool UpdateGameLoop();
 	virtual bool IsGameOver();
 	virtual void BringToStart(iPlayer* player);
+	virtual void openCommunityCardTo(iPlayer* player);
 
 private:
 	//std::thread GameLoopThread();
