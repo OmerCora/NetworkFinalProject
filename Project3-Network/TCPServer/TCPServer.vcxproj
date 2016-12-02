@@ -147,6 +147,7 @@
     <ClInclude Include="iPlayer.h" />
     <ClInclude Include="iRoom.h" />
     <ClInclude Include="iUser.h" />
+    <ClInclude Include="MonopolyGlobal.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

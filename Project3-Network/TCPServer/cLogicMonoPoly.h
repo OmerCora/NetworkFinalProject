@@ -9,6 +9,7 @@
 #include <vector>
 #include <thread>
 
+
 class cLogicMonoPoly : public iLogicMonopoly, public iLogicMonopolyMediator
 {
 public:

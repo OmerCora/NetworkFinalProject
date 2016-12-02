@@ -1,3 +1,4 @@
+#include "MonopolyGlobal.h"
 #include "cAssetDistrict.h"
 
 #include <conio.h>
