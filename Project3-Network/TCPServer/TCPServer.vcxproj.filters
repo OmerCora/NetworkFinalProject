@@ -114,6 +114,9 @@
     <ClCompile Include="cBank.cpp">
       <Filter>MonopolyLogic</Filter>
     </ClCompile>
+    <ClCompile Include="cPacketProcedureMonopoly.cpp">
+      <Filter>MonopolyLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cUser.h">
@@ -219,6 +222,12 @@
       <Filter>MonopolyLogic</Filter>
     </ClInclude>
     <ClInclude Include="MonopolyGlobal.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="cPacketProcedureMonopoly.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="iPacketProcedureMonopoly.h">
       <Filter>MonopolyLogic</Filter>
     </ClInclude>
   </ItemGroup>

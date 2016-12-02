@@ -111,6 +111,7 @@
     <ClInclude Include="cTCPModuleServer.h" />
     <ClInclude Include="iBuffer.h" />
     <ClInclude Include="sProtocols.h" />
+    <ClInclude Include="sProtocolsMonopoly.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AuthenticationDef.proto" />

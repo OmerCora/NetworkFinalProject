@@ -17,8 +17,12 @@
 #include "cStationDistrict.h"
 #include "cUtilityDistrict.h"
 
+#include "cPacketProcedureMonopoly.h"
+
 #include <conio.h>
 #include <iostream>
+
+#define _LOGIC_DEBUG_TEST
 
 cLogicMonoPoly::cLogicMonoPoly()
 	:m_playState(ePlayState::e_Wait)
@@ -27,6 +31,7 @@ cLogicMonoPoly::cLogicMonoPoly()
 	, m_chanceStorage(0)
 	, m_currentPlayerIndex(0)
 	, m_nextLocation(0)
+	, m_packetProcedure(0)
 {
 	m_players[0] = 0;
 	m_players[1] = 0;
@@ -38,6 +43,9 @@ cLogicMonoPoly::~cLogicMonoPoly()
 
 bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 {
+	m_packetProcedure = new cPacketProcedureMonopoly(*this);
+
+
 	m_dice = new cDice();
 
 	m_players[0] = new cPlayer(userA);
@@ -109,19 +117,19 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	m_districts[0]->AddPlayer(m_players[0], *this);
 	m_districts[0]->AddPlayer(m_players[1], *this);
 
-	// 0. trun start of the player
-	//m_playerLocations[0] = 0;
-	//m_playerLocations[1] = 0;
-
 	// decide the first player with a dice
 	m_currentPlayerIndex = m_dice->Throw() % 2;
 
 	// TODO: send a packet
 	{
 		// confirm to throw a dice
+		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
+		sProtocolResponseStart protocol;
+		m_packetProcedure->AppendProtocol(protocol);
+		m_packetProcedure->SendData();
 	}
 
-	this->SetState(ePlayState::e_ThrowDice);
+	this->SetState(ePlayState::e_Wait);
 
 	return true;
 }
@@ -148,7 +156,11 @@ bool cLogicMonoPoly::UpdateGameLoop()
 		char anyKey = _getch();
 #endif
 
-		if (this->IsPriorState(ePlayState::e_ThrowDice))
+		if (this->IsPriorState(ePlayState::e_Start))
+		{
+			this->SetState(ePlayState::e_ThrowDice);
+		}
+		else if (this->IsPriorState(ePlayState::e_ThrowDice))
 		{
 			this->SetState(ePlayState::e_Action);
 		}
@@ -255,6 +267,8 @@ void cLogicMonoPoly::SetState(ePlayState state)
 
 bool cLogicMonoPoly::CleanUp()
 {
+	delete m_packetProcedure;
+
 	delete m_dice;
 
 	delete m_players[0];
@@ -280,4 +294,12 @@ bool cLogicMonoPoly::CleanUp()
 bool cLogicMonoPoly::IsGameOver()
 {
 	return this->IsCurrentState(ePlayState::e_GameOver);
+}
+
+
+void cLogicMonoPoly::ProcessReceivedPlayData(cBuffer& receiveBuffer)
+{
+	std::cout << "cLogicMonoPoly::ProcessReceivedPlayData" << std::endl;
+
+	m_packetProcedure->ProcessReceiveData(receiveBuffer);
 }

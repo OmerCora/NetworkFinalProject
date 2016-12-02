@@ -99,6 +99,7 @@
     <ClCompile Include="cGotoJailDistrict.cpp" />
     <ClCompile Include="cJailDistrict.cpp" />
     <ClCompile Include="cLogicMonoPoly.cpp" />
+    <ClCompile Include="cPacketProcedureMonopoly.cpp" />
     <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cStartDistrict.cpp" />
     <ClCompile Include="cStationDistrict.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="cGotoJailDistrict.h" />
     <ClInclude Include="cJailDistrict.h" />
     <ClInclude Include="cLogicMonoPoly.h" />
+    <ClInclude Include="cPacketProcedureMonopoly.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cStartDistrict.h" />
     <ClInclude Include="cStationDistrict.h" />
@@ -144,6 +146,7 @@
     <ClInclude Include="iLobby.h" />
     <ClInclude Include="iLogicMonopoly.h" />
     <ClInclude Include="iLogicMonopolyMediator.h" />
+    <ClInclude Include="iPacketProcedureMonopoly.h" />
     <ClInclude Include="iPlayer.h" />
     <ClInclude Include="iRoom.h" />
     <ClInclude Include="iUser.h" />

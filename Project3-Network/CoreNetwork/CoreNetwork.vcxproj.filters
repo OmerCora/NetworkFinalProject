@@ -74,6 +74,9 @@
     <ClInclude Include="cBuffer.h">
       <Filter>Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="sProtocolsMonopoly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="AuthenticationDef.proto">

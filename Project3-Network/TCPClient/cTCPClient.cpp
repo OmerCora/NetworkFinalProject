@@ -17,7 +17,8 @@
 
 #include "cTCPClient.h"
 #include "cErrorReport.h"
-
+#include "cConsolTool.h"
+#include "cClientPacketProcedureMonopoly.h"
 
 const char* cTCPClient::mc_DEFAULT_PORT = "27015";
 const char* cTCPClient::mc_DEFAULT_IPADDRESS = "127.0.0.1";
@@ -27,9 +28,9 @@ cTCPClient::cTCPClient()
 	, m_isConnected(false)
 	, m_connectedSocket(INVALID_SOCKET)
 	, m_menuState(eChatMenuState::e_Connect)
+	, m_gameMonopolyState(eGameMonopolyState::e_GM_Wait)
 	, m_isDebug(false)
-	, m_isPrinting(false)
-	, m_inputCursorPos({ 0,0 })
+
 {
 }
 
@@ -76,146 +77,72 @@ bool cTCPClient::StartClient()
 	return true;
 }
 
-void cTCPClient::SetCursorPos(short x, short y)
-{
-	if (m_isDebug)
-		return;
-	COORD cursorPos = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPos);
-}
-void cTCPClient::StartPrinting()
-{
-	while (m_isPrinting)
-	{
-		Sleep(5);
-	}
-	m_isPrinting = true;
-}
-void cTCPClient::EndPrinting(bool isInput)
-{
-	if (isInput)
-	{
-		CONSOLE_SCREEN_BUFFER_INFO SBInfo;
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &SBInfo);
-		m_inputCursorPos = SBInfo.dwCursorPosition;
-	}
-	else
-	{
-		SetCursorPos(m_inputCursorPos.X, m_inputCursorPos.Y);
-	}
-
-	m_isPrinting = false;
-}
-
-void cTCPClient::DrawRectangle(short x, short y, short width, short height)
-{
-	if (m_isDebug)
-		return;
-	static const char* lineHT = "/-\\";
-	static const char* lineV =  "| |";
-	static const char* lineHB = "\\-/";
-
-	SetCursorPos(x, y);
-	printf("%c", lineHT[0]);
-	for (int w = 0; w < width; ++w)
-	{
-		printf("%c", lineHT[1]);
-	}
-	printf("%c", lineHT[2]);
-
-	for (int h = 1; h < height-1; ++h)
-	{
-		SetCursorPos(x, y+h);
-		printf("%c", lineV[0]);
-		for (int w = 0; w < width; ++w)
-		{
-			printf("%c", lineV[1]);
-		}
-		printf("%c", lineV[2]);
-	}
-
-	SetCursorPos(x, y+ height-1);
-	printf("%c", lineHB[0]);
-	for (int w = 0; w < width; ++w)
-	{
-		printf("%c", lineHB[1]);
-	}
-	printf("%c", lineHB[2]);
-}
-
-
-void cTCPClient::PrintPos(short x, short y, const char* txt)
-{
-	if (!m_isDebug)
-		SetCursorPos(x, y);
-	std::cout << txt;
-}
 
 void cTCPClient::PrintTitlePage(const std::string& title)
 {
-	this->StartPrinting();
-	DrawRectangle(5, 2, 100, 5);
-	this->PrintPos((short)(55 - title.size() / 2), 4, title.c_str());
-	DrawRectangle(5, 7, 100, 20);
-	this->EndPrinting(false);
+	cConsolTool::Reference().StartPrinting();
+	cConsolTool::Reference().DrawRectangle(5, 2, 100, 5);
+	cConsolTool::Reference().PrintPos((short)(55 - title.size() / 2), 4, title.c_str());
+	cConsolTool::Reference().DrawRectangle(5, 7, 100, 20);
+	cConsolTool::Reference().EndPrinting(false);
 }
 void cTCPClient::PrintLobbyUsers()
 {
-	this->StartPrinting();
+	cConsolTool::Reference().StartPrinting();
 	// lobby users
-	DrawRectangle(89, 2, 16, 25);
+	cConsolTool::Reference().DrawRectangle(89, 2, 16, 25);
 
-	SetCursorPos(91, 3);
+	cConsolTool::Reference().SetCursorPos(91, 3);
 	printf("Lobby Users(%d)", m_lobbyUsers.numberOfUsers);
 	for (int i = 0; i < m_lobbyUsers.numberOfUsers; ++i)
 	{
-		SetCursorPos(91, i+4);
+		cConsolTool::Reference().SetCursorPos(91, i+4);
 		printf("%s", m_lobbyUsers.users[i].username.c_str());
 	}
-	this->EndPrinting(false);
+	cConsolTool::Reference().EndPrinting(false);
 }
 void cTCPClient::PrintRoomList()
 {
-	this->StartPrinting();
+	cConsolTool::Reference().StartPrinting();
 	// room list
-	DrawRectangle(5, 10, 82, 17);
+	cConsolTool::Reference().DrawRectangle(5, 10, 82, 17);
 
-	SetCursorPos(7, 11);
+	cConsolTool::Reference().SetCursorPos(7, 11);
 	std::cout << "[Room List]";
 	for (int i = 0; i < m_roomList.numberOfRooms; ++i)
 	{
 		SetCursorPos(7, 12+i);
 		std::cout << (i+1) << ": " << m_roomList.rooms[i].roomname << " (" << m_roomList.user_counts[i] << " Users)";
 	}
-	this->EndPrinting(false);
+	cConsolTool::Reference().EndPrinting(false);
 }
 void cTCPClient::PrintCurrentRoomUsers()
 {
-	this->StartPrinting();
+	cConsolTool::Reference().StartPrinting();
 
 	// room users
-	DrawRectangle(5, 10, 82, 4);
+	cConsolTool::Reference().DrawRectangle(5, 10, 82, 4);
 
-	SetCursorPos(7, 11);
-	PrintPos(7, 11, "[Users] ");
+	cConsolTool::Reference().SetCursorPos(7, 11);
+	cConsolTool::Reference().PrintPos(7, 11, "[Users] ");
 	if (m_currentRoomInfo.users.size() > 0)
 	{
-		PrintPos(7, 12, m_currentRoomInfo.users[0].username.c_str());
+		cConsolTool::Reference().PrintPos(7, 12, m_currentRoomInfo.users[0].username.c_str());
 		for (int i = 1; i < m_currentRoomInfo.numberOfUsers; ++i)
 		{
 			std::cout << ", " << m_currentRoomInfo.users[i].username;
 		}
 	}
-	this->EndPrinting(false);
+	cConsolTool::Reference().EndPrinting(false);
 }
 void cTCPClient::PrintChatHistory()
 {
-	this->StartPrinting();
+	cConsolTool::Reference().StartPrinting();
 
 	// chat history
-	DrawRectangle(5, 14, 82, 13);
+	cConsolTool::Reference().DrawRectangle(5, 14, 82, 13);
 
-	SetCursorPos(7, 15);
+	cConsolTool::Reference().SetCursorPos(7, 15);
 	std::cout << "\t[Chat History]\n";
 	int startIndex = 0;
 	if (m_chatHistory.numberOfMessages > 10)
@@ -234,19 +161,8 @@ void cTCPClient::PrintChatHistory()
 		}
 	}
 	std::cout << "\n\n";
-	this->EndPrinting(false);
+	cConsolTool::Reference().EndPrinting(false);
 }
-//void cTCPClient::RequestRoomList()
-//{
-//	sProtocolHeader header;
-//	header.packet_id = sProtocolHeader::ePacketID::e_RequestRoomList;
-//	header.packet_length = sizeof(sProtocolHeader);
-//
-//	m_sendBuffer.CheckBufferSize(header.packet_length);
-//	m_sendBuffer.Serialize(header);
-//
-//	this->SendData(m_connectedSocket, m_sendBuffer);
-//}
 
 
 void cTCPClient::RequestLogout()
@@ -277,163 +193,10 @@ void cTCPClient::RequestDisconnect()
 	}
 }
 
-bool cTCPClient::InputNumber(int& outNumber)
-{
-	const char ESCAPE = 27;
-	char c = _getch();
-	if (c == ESCAPE)
-		return false;
-	outNumber = c - 48;// '0' = ascii 48
-	return true;
-}
 
 
-struct sPreventionChars
-{
-	//const char HTAB = 11;
-	//const char VTAB = 11;
-	const char SPACE = 32;
-	//const char DBLQUART = 34;
-	//const char SNGQUART = 39;
-	//const char COMMA = 44;
-
-	//const char SEMICOLON = 59;
-	//const char LESSTH = 60;
-	//const char EQUAL = 61;
-	//const char GRATERTH = 62;
-	//const char QUESTION = 63;
-
-	const char BKSHASH = 92;
-	const char GRAVACC = 96;
-	//const char BRACOP = 123;
-	//const char VERTBAR = 124;
-	//const char BRACCL = 125;
-
-	//const char INV = 126;
-	const char DEL = 127;
-
-	static sPreventionChars preventionChars;
-	static std::set<char> preventionCharsVec;
-	static void Init()
-	{
-		//preventionCharsVec.reserve(17);
-
-		for (int i = 0; i < 5; ++i)
-		{
-			const char c = ((const char*)&preventionChars)[i];
-			preventionCharsVec.insert(c);
-		}
-	}
-	static bool ContainChar(char ch, char exceptCh = 0)
-	{
-		return (ch != exceptCh && (ch < preventionChars.SPACE || ch >= preventionChars.DEL));
-		//return (ch != exceptCh && preventionCharsVec.find(ch) != preventionCharsVec.end());
-	}
-};
-sPreventionChars sPreventionChars::preventionChars;
-std::set<char> sPreventionChars::preventionCharsVec;
-
-bool cTCPClient::InputName(const std::string& title, unsigned int maximum_chars, std::string& outString, short CurX, short CurY, char exceptCh/*=0*/)
-{
-	this->StartPrinting();
-	this->SetCursorPos(CurX, CurY);
-	std::cout << "[" << title << ":  ] ";
-	this->SetCursorPos(CurX+ title.size() + 3, CurY);
-	this->EndPrinting(true);
-
-	char ch;
-	const char ESCAPE = 27;
-	const char ENTER = 13;
-	const char BACKSPACE = 8;
-	outString.clear();
-	while (ch = _getch())
-	{
-		if (ch == ESCAPE)
-		{
-			return false;
-		}
-		if (ch == ENTER)
-			break;
-		if (ch == BACKSPACE)
-		{
-			if (outString.size()>0)
-				outString.pop_back();
-		}
-		else if (sPreventionChars::ContainChar(ch, exceptCh))
-		{
-			continue;
-		}
-		else if (outString.size() < maximum_chars)
-		{
-			outString += ch;
-		}
-
-		//this->PrintPos(40, 13, "[User e-mail: ");
-		this->StartPrinting();
-		this->SetCursorPos(CurX, CurY);
-		std::cout << "[" << title << ": " << outString << " ] ";
-		this->SetCursorPos(CurX + title.size() + 3 + outString.size(), CurY);
-		this->EndPrinting(true);
-	}
-
-	return true;
-}
-
-bool cTCPClient::InputPassword(const std::string& title, unsigned int maximum_chars, std::string& outString, short CurX, short CurY)
-{
-	this->StartPrinting();
-	this->SetCursorPos(CurX, CurY);
-	std::cout << "[" << title << ":  ] ";
-	this->SetCursorPos(CurX + title.size() + 3, CurY);
-	this->EndPrinting(true);
-
-	char ch;
-	const char ESCAPE = 27;
-	const char ENTER = 13;
-	const char BACKSPACE = 8;
-	outString.clear();
-	std::string securestring;
-	while (ch = _getch())
-	{
-		if (ch == ESCAPE)
-		{
-			return false;
-		}
-		if (ch == ENTER)
-			break;
-		if (ch == BACKSPACE)
-		{
-			if (outString.size() > 0)
-			{
-				outString.pop_back();
-				securestring.pop_back();
-			}
-		}
-		else if (ch < BACKSPACE || sPreventionChars::ContainChar(ch))
-		{
-			continue;
-		}
-		else if (outString.size() < maximum_chars)
-		{
-			outString += ch;
-			securestring += "*";
-		}
-
-		//this->PrintPos(40, 13, "[User e-mail: ");
-		this->StartPrinting();
-		this->SetCursorPos(CurX, CurY);
-		std::cout << "[" << title << ": " << securestring << " ] ";
-		this->SetCursorPos(CurX + title.size() + 3 + securestring.size(), CurY);
-		this->EndPrinting(true);
-	}
-
-	return true;
-}
 void cTCPClient::UserSendThread()
 {
-	// prevention chars
-	sPreventionChars::Init();
-
 	while (!m_isStopped)
 	{
 		//if(!m_isDebug)
@@ -444,20 +207,20 @@ void cTCPClient::UserSendThread()
 
 		if (m_menuState == eChatMenuState::e_Connect)
 		{
-			this->StartPrinting();
-			DrawRectangle(5, 2, 100, 25);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().DrawRectangle(5, 2, 100, 25);
 			std::string notice = "[Connecting Server ...]";
-			this->PrintPos((short)(55 - notice.size()/2), 12, notice.c_str());
-			this->EndPrinting(false);
+			cConsolTool::Reference().PrintPos((short)(55 - notice.size()/2), 12, notice.c_str());
+			cConsolTool::Reference().EndPrinting(false);
 
 			int waitForSecound = 0;
 			while (!m_isConnected && !m_isStopped)
 			{
 				std::stringstream msg;
 				msg << notice << "(" << waitForSecound << ")";
-				this->StartPrinting();
-				this->PrintPos((short)(55 - msg.str().size() / 2), 12, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().StartPrinting();
+				cConsolTool::Reference().PrintPos((short)(55 - msg.str().size() / 2), 12, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 				waitForSecound++;
 			}
@@ -467,15 +230,15 @@ void cTCPClient::UserSendThread()
 			PrintTitlePage("[Sign-in / Log-in]");
 
 			int selectedItem = -1;
-			this->StartPrinting();
-			this->PrintPos(40, 10, "ESC. Quit");
-			this->PrintPos(40, 11, "1. Sign-in");
-			this->PrintPos(40, 12, "2. Log-in");
-			this->PrintPos(40, 14, "Select:                        ");
-			this->SetCursorPos(49, 14);
-			this->EndPrinting(true);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 10, "ESC. Quit");
+			cConsolTool::Reference().PrintPos(40, 11, "1. Sign-in");
+			cConsolTool::Reference().PrintPos(40, 12, "2. Log-in");
+			cConsolTool::Reference().PrintPos(40, 14, "Select:                        ");
+			cConsolTool::Reference().SetCursorPos(49, 14);
+			cConsolTool::Reference().EndPrinting(true);
 
-			if (!this->InputNumber(selectedItem))
+			if (!cConsolTool::Reference().InputNumber(selectedItem))
 			{
 				this->RequestDisconnect();
 				while (m_menuState == eChatMenuState::e_StartMenu)
@@ -500,19 +263,19 @@ void cTCPClient::UserSendThread()
 		{
 			// request signin
 			PrintTitlePage("[Sign-in]");
-			this->StartPrinting();
+			cConsolTool::Reference().StartPrinting();
 
 			// input new room name
-			this->PrintPos(40, 11, "Press ESC key to exit");
-			this->PrintPos(40, 13, "[User e-mail: ]");
-			this->PrintPos(40, 14, "[Password   : ]");
-			this->PrintPos(40, 15, "[Password-Re: ]");
-			this->SetCursorPos(54, 13);
-			this->EndPrinting(true);
+			cConsolTool::Reference().PrintPos(40, 11, "Press ESC key to exit");
+			cConsolTool::Reference().PrintPos(40, 13, "[User e-mail: ]");
+			cConsolTool::Reference().PrintPos(40, 14, "[Password   : ]");
+			cConsolTool::Reference().PrintPos(40, 15, "[Password-Re: ]");
+			cConsolTool::Reference().SetCursorPos(54, 13);
+			cConsolTool::Reference().EndPrinting(true);
 
 			const int MAXIMUM_EMAIL_PASS = 32;
 			sProtocolAccount signinInfo;
-			if (!InputName("User e-mail", MAXIMUM_EMAIL_PASS, signinInfo.username, 40, 13))
+			if (!cConsolTool::Reference().InputName("User e-mail", MAXIMUM_EMAIL_PASS, signinInfo.username, 40, 13))
 			{
 				m_menuState = eChatMenuState::e_StartMenu;
 			}
@@ -524,7 +287,7 @@ void cTCPClient::UserSendThread()
 			else
 			{
 				// password
-				if (!InputPassword("Password   ", MAXIMUM_EMAIL_PASS, signinInfo.password, 40, 14))
+				if (!cConsolTool::Reference().InputPassword("Password   ", MAXIMUM_EMAIL_PASS, signinInfo.password, 40, 14))
 				{
 					m_menuState = eChatMenuState::e_StartMenu;
 				}
@@ -536,7 +299,7 @@ void cTCPClient::UserSendThread()
 				{
 					// password-re
 					std::string password_re;
-					if (!InputPassword("Password-Re", MAXIMUM_EMAIL_PASS, password_re, 40, 15))
+					if (!cConsolTool::Reference().InputPassword("Password-Re", MAXIMUM_EMAIL_PASS, password_re, 40, 15))
 					{
 						m_menuState = eChatMenuState::e_StartMenu;
 					}
@@ -571,9 +334,9 @@ void cTCPClient::UserSendThread()
 		{
 			PrintTitlePage("[Sign-in]");
 
-			this->StartPrinting();
-			this->PrintPos(40, 13, "Sign-in Success.");
-			this->EndPrinting(false);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 13, "Sign-in Success.");
+			cConsolTool::Reference().EndPrinting(false);
 
 			m_menuState = eChatMenuState::e_MainMenu;
 		}
@@ -585,11 +348,11 @@ void cTCPClient::UserSendThread()
 			while (waitsec != 0)
 			{
 				waitsec--;
-				this->StartPrinting();
+				cConsolTool::Reference().StartPrinting();
 				std::stringstream msg;
 				msg << "Sign-in failed. Try again...(" << waitsec << ")";
-				this->PrintPos(40, 13, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().PrintPos(40, 13, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 			}
 
@@ -600,17 +363,17 @@ void cTCPClient::UserSendThread()
 			// request login
 			PrintTitlePage("[Log-in]");
 
-			this->StartPrinting();
+			cConsolTool::Reference().StartPrinting();
 			// input new room name
 			sProtocolAccount loginInfo;
-			this->PrintPos(40, 11, "Press ESC key to exit");
-			this->PrintPos(40, 13, "[User e-mail: ]");
-			this->PrintPos(40, 14, "[Password   : ]");
-			this->SetCursorPos(54, 13);
-			this->EndPrinting(true);
+			cConsolTool::Reference().PrintPos(40, 11, "Press ESC key to exit");
+			cConsolTool::Reference().PrintPos(40, 13, "[User e-mail: ]");
+			cConsolTool::Reference().PrintPos(40, 14, "[Password   : ]");
+			cConsolTool::Reference().SetCursorPos(54, 13);
+			cConsolTool::Reference().EndPrinting(true);
 
 			const int MAXIMUM_EMAIL_PASS = 32;
-			if (!InputName("User e-mail", MAXIMUM_EMAIL_PASS, loginInfo.username, 40, 13))
+			if (!cConsolTool::Reference().InputName("User e-mail", MAXIMUM_EMAIL_PASS, loginInfo.username, 40, 13))
 			{
 				m_menuState = eChatMenuState::e_StartMenu;
 			}
@@ -622,7 +385,7 @@ void cTCPClient::UserSendThread()
 			else
 			{
 				// user name
-				if (!InputPassword("Password   ", MAXIMUM_EMAIL_PASS, loginInfo.password, 40, 14))
+				if (!cConsolTool::Reference().InputPassword("Password   ", MAXIMUM_EMAIL_PASS, loginInfo.password, 40, 14))
 				{
 					m_menuState = eChatMenuState::e_StartMenu;
 				}
@@ -656,9 +419,9 @@ void cTCPClient::UserSendThread()
 		{
 			PrintTitlePage("[Log-in]");
 
-			this->StartPrinting();
-			this->PrintPos(40, 13, "Log-in Success.");
-			this->EndPrinting(false);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 13, "Log-in Success.");
+			cConsolTool::Reference().EndPrinting(false);
 
 			m_menuState = eChatMenuState::e_MainMenu;
 		}
@@ -670,11 +433,11 @@ void cTCPClient::UserSendThread()
 			while (waitsec != 0)
 			{
 				waitsec--;
-				this->StartPrinting();
+				cConsolTool::Reference().StartPrinting();
 				std::stringstream msg;
 				msg << "Log-in failed. Try again...(" << waitsec << ")";
-				this->PrintPos(40, 13, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().PrintPos(40, 13, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 			}
 
@@ -688,17 +451,17 @@ void cTCPClient::UserSendThread()
 			this->PrintRoomList();
 			this->PrintLobbyUsers();
 
-			this->StartPrinting();
-			DrawRectangle(5, 2, 82, 8);
-			this->PrintPos(7, 3, "[Main Menu]");
-			this->PrintPos(7, 4, "ESC. Log-out");
-			this->PrintPos(7, 5, "1. Create Room");
-			this->PrintPos(7, 6, "2. Join Room");
-			this->PrintPos(7, 8, "Select Menu: ");
-			this->EndPrinting(true);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().DrawRectangle(5, 2, 82, 8);
+			cConsolTool::Reference().PrintPos(7, 3, "[Main Menu]");
+			cConsolTool::Reference().PrintPos(7, 4, "ESC. Log-out");
+			cConsolTool::Reference().PrintPos(7, 5, "1. Create Room");
+			cConsolTool::Reference().PrintPos(7, 6, "2. Join Room");
+			cConsolTool::Reference().PrintPos(7, 8, "Select Menu: ");
+			cConsolTool::Reference().EndPrinting(true);
 
 			int selectionMenu = -1;
-			if (!this->InputNumber(selectionMenu))
+			if (!cConsolTool::Reference().InputNumber(selectionMenu))
 			{
 				this->RequestLogout();
 
@@ -724,19 +487,19 @@ void cTCPClient::UserSendThread()
 			this->PrintRoomList();
 			this->PrintLobbyUsers();
 
-			this->StartPrinting();
-			DrawRectangle(5, 2, 82, 8);
-			this->PrintPos(7, 3, "[Create Room]");
-			this->PrintPos(7, 4, "ESC. Return to Main Menu");
-			this->PrintPos(7, 7, "[Room Name: ]");
-			this->PrintPos(7, 8, "[Nick Name: ]");
-			this->EndPrinting(true);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().DrawRectangle(5, 2, 82, 8);
+			cConsolTool::Reference().PrintPos(7, 3, "[Create Room]");
+			cConsolTool::Reference().PrintPos(7, 4, "ESC. Return to Main Menu");
+			cConsolTool::Reference().PrintPos(7, 7, "[Room Name: ]");
+			cConsolTool::Reference().PrintPos(7, 8, "[Nick Name: ]");
+			cConsolTool::Reference().EndPrinting(true);
 
 			// input new room name
 			const int MAXIMUM_ROOM_NAME = 32;
 			const char SPACE = 32;
 			std::string newName;
-			if (!InputName("Room Name", MAXIMUM_ROOM_NAME, newName, 7, 7, SPACE))
+			if (!cConsolTool::Reference().InputName("Room Name", MAXIMUM_ROOM_NAME, newName, 7, 7, SPACE))
 			{
 				m_menuState = eChatMenuState::e_MainMenu;
 			}
@@ -758,7 +521,7 @@ void cTCPClient::UserSendThread()
 
 				if (!isExistRoom)
 				{
-					if (!InputName("Nick Name", MAXIMUM_ROOM_NAME, m_userName, 7, 8, SPACE))
+					if (!cConsolTool::Reference().InputName("Nick Name", MAXIMUM_ROOM_NAME, m_userName, 7, 8, SPACE))
 					{
 					}
 					else if (m_userName.empty())
@@ -795,9 +558,9 @@ void cTCPClient::UserSendThread()
 		{
 			PrintTitlePage("[Creating a room]");
 
-			this->StartPrinting();
-			this->PrintPos(40, 13, "Creating a room Success.");
-			this->EndPrinting(false);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 13, "Creating a room Success.");
+			cConsolTool::Reference().EndPrinting(false);
 
 			m_menuState = eChatMenuState::e_ChatRoom;
 		}
@@ -809,11 +572,11 @@ void cTCPClient::UserSendThread()
 			while (waitsec != 0)
 			{
 				waitsec--;
-				this->StartPrinting();
+				cConsolTool::Reference().StartPrinting();
 				std::stringstream msg;
 				msg << "Creating a room failed. Try again...(" << waitsec << ")";
-				this->PrintPos(40, 13, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().PrintPos(40, 13, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 			}
 
@@ -827,21 +590,21 @@ void cTCPClient::UserSendThread()
 			this->PrintRoomList();
 			this->PrintLobbyUsers();
 
-			this->StartPrinting();
-			DrawRectangle(5, 2, 82, 8);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().DrawRectangle(5, 2, 82, 8);
 
-			this->PrintPos(7, 3, "[Join Room]");
-			this->PrintPos(7, 4, "ESC. Return to Main Menu");
+			cConsolTool::Reference().PrintPos(7, 3, "[Join Room]");
+			cConsolTool::Reference().PrintPos(7, 4, "ESC. Return to Main Menu");
 
 
 			// select a room
-			this->PrintPos(7, 7, "[Select a Room Number:  ]");
-			this->PrintPos(7, 8, "[Nick Name: ]");
-			this->SetCursorPos(30, 7);
-			this->EndPrinting(true);
+			cConsolTool::Reference().PrintPos(7, 7, "[Select a Room Number:  ]");
+			cConsolTool::Reference().PrintPos(7, 8, "[Nick Name: ]");
+			cConsolTool::Reference().SetCursorPos(30, 7);
+			cConsolTool::Reference().EndPrinting(true);
 
 			int selectIndex = -1;
-			if (!this->InputNumber(selectIndex))
+			if (!cConsolTool::Reference().InputNumber(selectIndex))
 			{
 				m_menuState = eChatMenuState::e_MainMenu;
 			}
@@ -854,7 +617,7 @@ void cTCPClient::UserSendThread()
 				const int MAXIMUM_ROOM_NAME = 32;
 				const char SPACE = 32;
 				// user name
-				if (!InputName("Nick Name", MAXIMUM_ROOM_NAME, m_userName, 7, 8, SPACE))
+				if (!cConsolTool::Reference().InputName("Nick Name", MAXIMUM_ROOM_NAME, m_userName, 7, 8, SPACE))
 				{
 				}
 				else if (m_userName.empty())
@@ -891,9 +654,9 @@ void cTCPClient::UserSendThread()
 		{
 			PrintTitlePage("[Joining a room]");
 
-			this->StartPrinting();
-			this->PrintPos(40, 13, "Joining a room Success.");
-			this->EndPrinting(false);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 13, "Joining a room Success.");
+			cConsolTool::Reference().EndPrinting(false);
 
 			m_menuState = eChatMenuState::e_ChatRoom;
 		}
@@ -905,11 +668,11 @@ void cTCPClient::UserSendThread()
 			while (waitsec != 0)
 			{
 				waitsec--;
-				this->StartPrinting();
+				cConsolTool::Reference().StartPrinting();
 				std::stringstream msg;
 				msg << "Joining a room failed. Try again...(" << waitsec << ")";
-				this->PrintPos(40, 13, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().PrintPos(40, 13, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 			}
 			m_menuState = eChatMenuState::e_JoinRoom;
@@ -922,20 +685,20 @@ void cTCPClient::UserSendThread()
 			this->PrintChatHistory();
 			this->PrintLobbyUsers();
 
-			this->StartPrinting();
-			DrawRectangle(5, 2, 82, 8);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().DrawRectangle(5, 2, 82, 8);
 
-			this->PrintPos(7, 3, ("[Room(" + m_currentRoomInfo.roomname+ ") Menu]").c_str());
-			this->PrintPos(7, 4, "Press ESC to Exit Room");
+			cConsolTool::Reference().PrintPos(7, 3, ("[Room(" + m_currentRoomInfo.roomname+ ") Menu]").c_str());
+			cConsolTool::Reference().PrintPos(7, 4, "Press ESC to Exit Room");
 
 			// chat message
-			this->PrintPos(7, 7, (m_userName + "'s Message: ").c_str());
-			this->EndPrinting(true);
+			cConsolTool::Reference().PrintPos(7, 7, (m_userName + "'s Message: ").c_str());
+			cConsolTool::Reference().EndPrinting(true);
 			std::string message;
 			//std::cin >> message;
 			const int MAXIMUM_MESSAGE_LENGTH = 512;
 			const char SPACE = 32;
-			if (!InputName(m_userName + "'s Message", MAXIMUM_MESSAGE_LENGTH, message, 7, 7, SPACE))
+			if (!cConsolTool::Reference().InputName(m_userName + "'s Message", MAXIMUM_MESSAGE_LENGTH, message, 7, 7, SPACE))
 			{
 				message.clear();
 
@@ -996,9 +759,9 @@ void cTCPClient::UserSendThread()
 		{
 			PrintTitlePage("[Leaving a room]");
 
-			this->StartPrinting();
-			this->PrintPos(40, 13, "Leaving a room Success.");
-			this->EndPrinting(false);
+			cConsolTool::Reference().StartPrinting();
+			cConsolTool::Reference().PrintPos(40, 13, "Leaving a room Success.");
+			cConsolTool::Reference().EndPrinting(false);
 
 			m_menuState = eChatMenuState::e_JoinRoom;
 		}
@@ -1010,11 +773,11 @@ void cTCPClient::UserSendThread()
 			while (waitsec != 0)
 			{
 				waitsec--;
-				this->StartPrinting();
+				cConsolTool::Reference().StartPrinting();
 				std::stringstream msg;
 				msg << "Leaving a room failed. Try again...(" << waitsec << ")";
-				this->PrintPos(40, 13, msg.str().c_str());
-				this->EndPrinting(false);
+				cConsolTool::Reference().PrintPos(40, 13, msg.str().c_str());
+				cConsolTool::Reference().EndPrinting(false);
 				Sleep(1000);
 			}
 			m_menuState = eChatMenuState::e_JoinRoom;
@@ -1066,32 +829,161 @@ void cTCPClient::ClientReceiveTherad()
 	//}
 	//std::cout << "end of FreeConsole" << std::endl;
 }
-std::thread cTCPClient::GetSenderThread()
+
+
+void cTCPClient::PlayMonopolySendThread()
 {
+	std::cout << "cTCPClient::PlayMonopolySendThread()" << std::endl;
+
+	while (!m_isStopped)
+	{
+
+		switch(m_gameMonopolyState)
+		{
+		case eGameMonopolyState::e_GM_Wait:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_Wait" << std::endl;
+
+			//char anyKey = _getch();
+
+			break;
+		}
+		case eGameMonopolyState::e_GM_Start:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ThrowDice:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ThrowDice" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_MoveDistrict:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_MoveDistrict" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictStart:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictStart" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictTax:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictTax" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictBuilding:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictBuilding" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictStation:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictStation" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictUtility:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictUtility" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictCard:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictCard" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictFreeParking:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictFreeParking" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictGotoJail:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictGotoJail" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_DistrictJail:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_DistrictJail" << std::endl;
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_Finish:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_Finish" << std::endl;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+
+			break;
+		}
+		default:
+		{
+			std::cout << "\t Unknown packet" << std::endl;
+			break;
+		}
+		}
+
+
+		Sleep(1);
+	}
+}
+
+std::thread cTCPClient::GetChatSenderThread()
+{
+	// chating thread
 	return std::thread([this] { UserSendThread(); });
+}
+std::thread cTCPClient::GetPlayMonopolySenderThread()
+{
+	// monopoly thread
+	return std::thread([this] { PlayMonopolySendThread(); });
 }
 std::thread cTCPClient::GetReceiverThread()
 {
 	return std::thread([this] { ClientReceiveTherad(); });
 }
 
+
+
+
+
+
 bool cTCPClient::RunClient()
 {
+	m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly();
+
 	system("cls");
 
 	std::thread recvthread = this->GetReceiverThread();
-	std::thread sendthread = this->GetSenderThread();
+	std::thread sendthread = this->GetChatSenderThread();
+	std::thread gamethread = this->GetPlayMonopolySenderThread();
 
 	recvthread.join();
 	//sendthread.join();
 
 	std::cout << "try to detach thread" << std::endl;
 	sendthread.detach();
+	gamethread.detach();
 
 	// sender thread
 	//senderThread.join();
 	std::cout << "detached thread" << std::endl;
 
+	delete m_gameMonopolyPacketProcedure;
+	m_gameMonopolyPacketProcedure = 0;
 
 	return true;
 }
@@ -1330,6 +1222,15 @@ bool cTCPClient::PacketProcedure(SOCKET& connectedSocket)
 
 		switch (header.packet_id)
 		{
+		case sProtocolHeader::ePacketID::e_PlayMonopoly:
+		{
+			if (m_isDebug)
+				std::cout << "e_PlayMonopoly" << std::endl;
+
+			m_gameMonopolyPacketProcedure->ProcessReceiveData(m_receiveBuffer);
+
+			break;
+		}
 			case sProtocolHeader::ePacketID::e_ResponseSigninSuccess:
 			{
 				if (m_isDebug)

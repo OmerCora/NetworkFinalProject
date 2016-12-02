@@ -14,7 +14,7 @@
 
 int main()
 {
-#ifdef _LOGIC_DEBUG_TEST
+#if 1
 	// TODO: this is test code for logic implementation
 	{
 		sUserInfo info;
