@@ -18,12 +18,20 @@ public:
 	virtual int CurrentLocation();
 	virtual bool HasChanceToThrowDice();
 	virtual void TakeChanceToThrowDice();
+	virtual void SetEnjailCount(int numOfTurns);
+	virtual int getEnjailCount(); 
+	virtual bool getbCanThrowDice();
+	virtual void setbCanThrowDice(bool bChance);
 
 private:
 	unsigned int m_money;
+	unsigned int m_enjailedCount;
+
 	bool m_isReady;
 
 	bool m_chanceToThrowDice;
+	bool m_CanThrowDice;
+	bool m_bJustCameInJail;
 	int m_currentLocation;
 	iUser* m_user;
 };

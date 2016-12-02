@@ -5,8 +5,9 @@
 #include <iostream>
 
 
-cGotoJailDistrict::cGotoJailDistrict(int districtID)
+cGotoJailDistrict::cGotoJailDistrict(int districtID, iDistrict& jail)
 	:cDistrict(districtID)
+	, m_jail(jail)
 {
 }
 
@@ -14,13 +15,18 @@ cGotoJailDistrict::cGotoJailDistrict(int districtID)
 cGotoJailDistrict::~cGotoJailDistrict()
 {
 }
+
 bool cGotoJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
+	this->RemovePlayer(player, logic);
+	m_jail.AddPlayer(player, logic);
+
 	std::cout << "\t cGotoJailDistrict::Action()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif
+
 	return true;
 }
 bool cGotoJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)

@@ -12,6 +12,7 @@ cPlayer::cPlayer(iUser* user)
 	, m_user(user)
 	, m_chanceToThrowDice(false)
 	, m_currentLocation(-1)
+	, m_enjailedCount(0)
 {
 }
 
@@ -60,3 +61,23 @@ void cPlayer::TakeChanceToThrowDice()
 	m_chanceToThrowDice = true;
 
 }
+
+void cPlayer::SetEnjailCount(int numOfTurns)
+{
+	this->m_enjailedCount = numOfTurns;
+}
+
+int cPlayer::getEnjailCount()
+{
+	return this->m_enjailedCount;
+}
+
+bool cPlayer::getbCanThrowDice()
+{
+	return false;
+}
+
+void cPlayer::setbCanThrowDice(bool bChance)
+{
+}
+

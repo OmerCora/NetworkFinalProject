@@ -15,5 +15,11 @@ public:
 	virtual int CurrentLocation() = 0;
 	virtual bool HasChanceToThrowDice() = 0;
 	virtual void TakeChanceToThrowDice() = 0;
+
+	virtual void SetEnjailCount(int numOfTurns) = 0;
+	virtual int getEnjailCount() = 0;
+	virtual bool getbCanThrowDice() = 0;
+	virtual void setbCanThrowDice(bool bChance) = 0;
+	
 };
 

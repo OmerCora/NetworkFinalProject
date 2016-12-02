@@ -90,7 +90,7 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	}
 	// right line
 	{
-		m_districts.push_back(new cGotoJailDistrict(districtID++));
+		m_districts.push_back(new cGotoJailDistrict(districtID++, *m_districts[m_jailDistrictID]));
 		m_districts.push_back(new cBuildingDistrict(districtID++));
 		m_districts.push_back(new cBuildingDistrict(districtID++));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Community));
@@ -131,6 +131,7 @@ void cLogicMonoPoly::BringToStart(iPlayer* player)
 	m_districts[0]->AddPlayer(player, *this);
 }
 
+
 void cLogicMonoPoly::openCommunityCardTo(iPlayer * player)
 {
 	int enumIndex = rand() % 16;
@@ -149,10 +150,6 @@ void cLogicMonoPoly::openChanceCardTo(iPlayer * player)
 
 }
 
-void cLogicMonoPoly::takeMoneyFrom(int moneyAmount, iPlayer * player)
-{
-	player->Withdraw(moneyAmount);
-}
 
 bool cLogicMonoPoly::UpdateGameLoop()
 {
@@ -187,21 +184,24 @@ bool cLogicMonoPoly::UpdateGameLoop()
 	{
 		std::cout << "ePlayState::e_ThrowDice" << std::endl;
 
+
 		// 1. throw dice
-		m_nextLocation = m_dice->Throw() + m_players[m_currentPlayerIndex]->CurrentLocation();
-		if (m_nextLocation >= (int)m_districts.size())
-			m_nextLocation = 0;
 
-		// TODO: send packet of dice number
 		{
+			m_nextLocation = m_dice->Throw() + m_players[m_currentPlayerIndex]->CurrentLocation();
+			if (m_nextLocation >= (int)m_districts.size())
+				m_nextLocation = 0;
+
+			// TODO: send packet of dice number
+			{
+			}
+
+			// 2. remove the player from prior district
+			// in the remove and add methods, packet will sended
+			m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->RemovePlayer(m_players[m_currentPlayerIndex], *this);
+			// 3. add into a distict
+			m_districts[m_nextLocation]->AddPlayer(m_players[m_currentPlayerIndex], *this);
 		}
-
-		// 2. remove the player from prior district
-		// in the remove and add methods, packet will sended
-		m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->RemovePlayer(m_players[m_currentPlayerIndex], *this);
-		// 3. add into a distict
-		m_districts[m_nextLocation]->AddPlayer(m_players[m_currentPlayerIndex], *this);
-
 		this->SetState(ePlayState::e_Wait);
 	}
 	else if (this->IsCurrentState(ePlayState::e_Action))

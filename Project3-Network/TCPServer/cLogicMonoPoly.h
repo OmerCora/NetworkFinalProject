@@ -22,7 +22,6 @@ public:
 	virtual void BringToStart(iPlayer* player);
 	virtual void openCommunityCardTo(iPlayer* player);
 	virtual void openChanceCardTo(iPlayer* player);
-	virtual void takeMoneyFrom(int moneyAmount, iPlayer* player);
 
 private:
 	//std::thread GameLoopThread();
@@ -38,6 +37,7 @@ private:
 	iCardStorage* m_communityStorage;
 	iCardStorage* m_chanceStorage;
 
+	const int m_jailDistrictID = 10;
 	std::vector<iDistrict*> m_districts;
 
 	enum ePlayState

@@ -310,7 +310,7 @@ bool cTCPAuthenticationClient::ProcessReceivePackets(SOCKET socket, cBuffer& rec
 
 			//receiverBuffer.Deserialize(m_loginInfoRecvBuff);
 
-			// TODO: access db to compaire account information (id & passsword)
+			// TODO: access db to compare account information (id & passsword)
 
 			// TODO: record login time
 

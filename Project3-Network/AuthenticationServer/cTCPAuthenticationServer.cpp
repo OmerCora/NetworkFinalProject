@@ -111,7 +111,7 @@ bool cTCPAuthenticationServer::ProcessReceivePackets(SOCKET socket, cBuffer& rec
 				break;
 			}
 
-			// compaire account information (id & passsword)
+			// compare account information (id & passsword)
 			if (m_authenticationDB.UserExist(signinProtocol.email()))
 			{
 				std::cout << "\tCreateAccountWebFailure_e_Reason_ACCOUNT_ALREADY_EXISTS" << std::endl;
@@ -169,7 +169,7 @@ bool cTCPAuthenticationServer::ProcessReceivePackets(SOCKET socket, cBuffer& rec
 				break;
 			}
 
-			// compaire account information (id & passsword)
+			// compare account information (id & passsword)
 			if (!m_authenticationDB.UserExist(loginProtocol.email()))
 			{
 				std::cout << "\tAuthenticateWebFailure_e_Reason_INVALID_CREDENTIALS" << std::endl;

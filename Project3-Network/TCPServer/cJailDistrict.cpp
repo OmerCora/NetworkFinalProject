@@ -14,8 +14,26 @@ cJailDistrict::cJailDistrict(int districtID)
 cJailDistrict::~cJailDistrict()
 {
 }
+
 bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
+	int tempCount = player->getEnjailCount();
+	player->SetEnjailCount(--tempCount);
+	if (player->getEnjailCount() < 0)
+	{
+		player->SetEnjailCount(3);
+		player->setbChanceToThrowDice(false);
+	}
+	else if (player->getEnjailCount() <= 3 && player->getEnjailCount() >= 1)
+	{
+		player->setbChanceToThrowDice(false);
+	}
+	else if (player->getEnjailCount() == 0)
+	{
+		player->setbChanceToThrowDice(true);
+	}
+
+
 	std::cout << "\t cJailDistrict::Action()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
@@ -23,6 +41,7 @@ bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 #endif
 	return true;
 }
+
 bool cJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cJailDistrict::Response()" << std::endl;
