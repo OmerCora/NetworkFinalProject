@@ -11,6 +11,7 @@ public:
 
 	// begin of iDistrict
 	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
+	virtual bool Response(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 
 };

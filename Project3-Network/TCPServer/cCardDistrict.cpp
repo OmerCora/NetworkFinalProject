@@ -33,3 +33,10 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 	return true;
 }
+
+bool cCardDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "cCardDistrict::Response()" << std::endl;
+	return true;
+}
+

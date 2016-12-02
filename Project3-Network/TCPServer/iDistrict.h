@@ -15,6 +15,7 @@ public:
 	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
 	virtual bool RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
 	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
+	virtual bool Response(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
 	// end of iDistrict
 
 };

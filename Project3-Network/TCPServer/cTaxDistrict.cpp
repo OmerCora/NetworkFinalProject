@@ -31,3 +31,8 @@ bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "cTaxDistrict::Actioon()" << std::endl;
 	return true;
 }
+bool cTaxDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "cTaxDistrict::Response()" << std::endl;
+	return true;
+}

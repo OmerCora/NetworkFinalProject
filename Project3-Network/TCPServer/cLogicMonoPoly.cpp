@@ -104,7 +104,7 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 
 	// add to start district
 	m_districts[0]->AddPlayer(m_players[0], *this);
-	m_districts[0]->AddPlayer(m_players[1], *this);
+	//m_districts[0]->AddPlayer(m_players[1], *this);
 
 	// 0. trun start of the player
 	//m_playerLocations[0] = 0;

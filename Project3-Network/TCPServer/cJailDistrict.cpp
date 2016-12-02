@@ -17,3 +17,8 @@ bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "cJailDistrict::Action()" << std::endl;
 	return true;
 }
+bool cJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "cJailDistrict::Response()" << std::endl;
+	return true;
+}

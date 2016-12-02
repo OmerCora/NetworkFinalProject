@@ -13,6 +13,12 @@ cUtilityDistrict::~cUtilityDistrict()
 }
 bool cUtilityDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cAssetDistrict::Action()" << std::endl;
+	std::cout << "cUtilityDistrict::Action()" << std::endl;
 	return true;
 }
+bool cUtilityDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "cUtilityDistrict::Response()" << std::endl;
+	return true;
+}
+

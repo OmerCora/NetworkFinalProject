@@ -17,3 +17,9 @@ bool cFreeParking::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "cFreeParking::Action()" << std::endl;
 	return true;
 }
+bool cFreeParking::Response(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "cFreeParking::Response()" << std::endl;
+	return true;
+}
+
