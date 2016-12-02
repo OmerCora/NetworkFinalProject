@@ -131,6 +131,13 @@ void cLogicMonoPoly::BringToStart(iPlayer* player)
 	m_districts[0]->AddPlayer(player, *this);
 }
 
+void cLogicMonoPoly::openCommunityCardTo(iPlayer * player)
+{
+	int enumIndex = rand() % 16;
+	cCardStorageCommunity::eCommunityCards m = (cCardStorageCommunity::eCommunityCards)enumIndex;
+
+}
+
 bool cLogicMonoPoly::UpdateGameLoop()
 {
 #if 1 // this is hard coding for test
