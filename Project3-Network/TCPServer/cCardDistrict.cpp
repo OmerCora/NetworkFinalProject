@@ -1,5 +1,6 @@
 #include "cCardDistrict.h"
 
+#include <conio.h>
 #include <iostream>
 
 
@@ -28,8 +29,10 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 	}
 	
-	std::cout << "cCardDistrict::Actioon()" << std::endl;
+	std::cout << "\t cCardDistrict::Actioon()" << std::endl;
 
+	std::cout << "\t Press Any Key to Continue" << std::endl;
+	char anyKey = _getch();
 
 
 
@@ -38,7 +41,10 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 bool cCardDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cCardDistrict::Response()" << std::endl;
+	std::cout << "\t cCardDistrict::Response()" << std::endl;
+	std::cout << "\t Press Any Key to Continue" << std::endl;
+	char anyKey = _getch();
+
 	return true;
 }
 

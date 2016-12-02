@@ -1,5 +1,6 @@
 #include "cTaxDistrict.h"
 
+#include <conio.h>
 #include <iostream>
 
 cTaxDistrict::cTaxDistrict(int districtID, eTaxDistrictType taxtype)
@@ -28,11 +29,11 @@ bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	}
 
 
-	std::cout << "cTaxDistrict::Actioon()" << std::endl;
+	std::cout << "\t cTaxDistrict::Actioon()" << std::endl;
 	return true;
 }
 bool cTaxDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cTaxDistrict::Response()" << std::endl;
+	std::cout << "\t cTaxDistrict::Response()" << std::endl;
 	return true;
 }

@@ -39,16 +39,20 @@ private:
 
 	enum ePlayState
 	{
-		e_Stop,
-		e_Ready,
+		e_Wait,
 		e_Start,
 		e_ThrowDice,
-		e_UpdateDistrict,
+		e_Action,
+		e_Response,
 		e_ChangeTurn,
 		e_Finish,
 		e_GameOver,
 	};
 
+	bool IsCurrentState(ePlayState state);
+	bool IsPriorState(ePlayState state);
+	void SetState(ePlayState state);
 	ePlayState m_playState;
+	ePlayState m_priorState;
 };
 
