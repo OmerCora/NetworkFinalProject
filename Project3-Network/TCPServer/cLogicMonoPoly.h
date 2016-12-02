@@ -20,6 +20,8 @@ public:
 	virtual bool IsGameOver();
 	virtual void BringToStart(iPlayer* player);
 	virtual void openCommunityCardTo(iPlayer* player);
+	virtual void openChanceCardTo(iPlayer* player);
+	virtual void takeMoneyFrom(int moneyAmount, iPlayer* player);
 
 private:
 	//std::thread GameLoopThread();

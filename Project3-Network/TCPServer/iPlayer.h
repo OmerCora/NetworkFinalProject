@@ -8,7 +8,7 @@ public:
 	virtual ~iPlayer() {}
 
 	virtual bool IsBankrupty() = 0;
-	virtual bool Debit(unsigned int money) = 0;
+	virtual bool Deposit(unsigned int money) = 0;
 	virtual bool Withdraw(unsigned int money) = 0;
 
 	virtual void CurrentLocation(int location) = 0;

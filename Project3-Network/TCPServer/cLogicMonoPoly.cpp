@@ -133,8 +133,24 @@ void cLogicMonoPoly::BringToStart(iPlayer* player)
 void cLogicMonoPoly::openCommunityCardTo(iPlayer * player)
 {
 	int enumIndex = rand() % 16;
-	cCardStorageCommunity::eCommunityCards m = (cCardStorageCommunity::eCommunityCards)enumIndex;
+	cCardStorageCommunity::eCommunityCards eCommCard = (cCardStorageCommunity::eCommunityCards)enumIndex;
 
+	std::cout << "Community card action to the player" << std::endl;
+
+}
+
+void cLogicMonoPoly::openChanceCardTo(iPlayer * player)
+{
+	int enumIndex = rand() % 1;
+	cCardStorageChance::eChanceCards eChanceCard = (cCardStorageChance::eChanceCards)enumIndex;
+
+	std::cout << "Chance card action to the player" << std::endl;
+
+}
+
+void cLogicMonoPoly::takeMoneyFrom(int moneyAmount, iPlayer * player)
+{
+	player->Withdraw(moneyAmount);
 }
 
 bool cLogicMonoPoly::UpdateGameLoop()

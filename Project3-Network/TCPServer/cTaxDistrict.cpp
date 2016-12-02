@@ -18,14 +18,13 @@ bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 	if (this->m_taxtype == e_Normal)
 	{
-		//ask the manager to let the player pay $100 to the bank
-		//                or just -100 from the playe
-
+		//ask the manager to take 100 from the player
+		logic.takeMoneyFrom(100, player);
 	}
 	else if (this->m_taxtype == e_Luxury)
 	{
-		//ask the manager to to let the player pay $200 to the bank
-
+		//ask the manager to to take 200 from the player
+		logic.takeMoneyFrom(200, player);
 	}
 
 

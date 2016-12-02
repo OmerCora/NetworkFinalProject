@@ -24,7 +24,7 @@ bool cPlayer::IsReadyToPlay()
 }
 
 bool cPlayer::IsBankrupty() { return (m_money<=0); }
-bool cPlayer::Debit(unsigned int money)
+bool cPlayer::Deposit(unsigned int money)
 {
 	if (IsBankrupty()) return false;
 	m_money += money;

@@ -12,7 +12,7 @@ public:
 	virtual bool IsReadyToPlay();
 
 	virtual bool IsBankrupty();
-	virtual bool Debit(unsigned int money);
+	virtual bool Deposit(unsigned int money);
 	virtual bool Withdraw(unsigned int money);
 	virtual void CurrentLocation(int location);
 	virtual int CurrentLocation();
