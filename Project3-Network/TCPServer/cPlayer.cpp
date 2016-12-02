@@ -1,12 +1,15 @@
 #include "cPlayer.h"
 
 
+#include <conio.h>
+#include <iostream>
 
 cPlayer::cPlayer(iUser* user)
-	:m_money(0)
+	:m_money(1500)
 	, m_isReady(true)
 	, m_user(user)
 	, m_chanceToThrowDice(false)
+	, m_currentLocation(-1)
 {
 }
 

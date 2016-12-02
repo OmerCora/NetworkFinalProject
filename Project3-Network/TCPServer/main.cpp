@@ -14,6 +14,7 @@
 
 int main()
 {
+#if 1
 	// TODO: this is test code for logic implementation
 	{
 		sUserInfo info;
@@ -21,12 +22,20 @@ int main()
 		cUser* userB = new cUser(info);
 		cLogicMonoPoly* logic = new cLogicMonoPoly();
 		logic->PlayGame(userA, userB);
+
+		while (!logic->IsGameOver())
+		{
+			logic->UpdateGameLoop();
+			Sleep(1);
+		}
+
 		delete userA;
 		delete userB;
 		delete logic;
-	}
 
-#if 0
+		system("pause");
+	}
+#else
 	if (!cTCPAuthenticationClient::GetInstance().StartClient())
 		exit(EXIT_FAILURE);
 
