@@ -5,7 +5,12 @@
 class cStationDistrict : public cAssetDistrict
 {
 public:
-	cStationDistrict();
+	cStationDistrict(int districtID);
 	virtual ~cStationDistrict();
+
+
+	// begin of iDistrict
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
+	// end of iDistrict
 };
 

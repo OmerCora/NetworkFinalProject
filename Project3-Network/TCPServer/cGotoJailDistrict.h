@@ -5,11 +5,11 @@
 class cGotoJailDistrict : public cDistrict
 {
 public:
-	cGotoJailDistrict();
+	cGotoJailDistrict(int districtID);
 	virtual ~cGotoJailDistrict();
 
 	// begin of iDistrict
-	virtual bool Actioon();
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 };
 

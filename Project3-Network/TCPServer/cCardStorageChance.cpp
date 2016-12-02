@@ -1,5 +1,6 @@
 #include "cCardStorageChance.h"
 
+#include <iostream>
 
 
 cCardStorageChance::cCardStorageChance()

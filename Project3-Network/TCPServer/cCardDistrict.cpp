@@ -3,8 +3,9 @@
 #include <iostream>
 
 
-cCardDistrict::cCardDistrict(eCardDistrictType type)
-	:m_type(type)
+cCardDistrict::cCardDistrict(int districtID, eCardDistrictType type)
+	:cDistrict(districtID)
+	,m_type(type)
 {
 }
 
@@ -12,8 +13,8 @@ cCardDistrict::cCardDistrict(eCardDistrictType type)
 cCardDistrict::~cCardDistrict()
 {
 }
-bool cCardDistrict::Actioon()
+bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cCardDistrict::Actioon()" << std::endl;
+	std::cout << "cCardDistrict::Action()" << std::endl;
 	return true;
 }

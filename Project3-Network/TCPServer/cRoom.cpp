@@ -9,6 +9,7 @@
 
 cRoom::cRoom(const std::string& name)
 	: m_roomname(name)
+	, m_logicMonopoly(0)
 {
 	m_users.reserve(m_MAXIMUM_USERS);
 	m_chatHistory.reserve(m_MAXIMUM_USERS);
@@ -19,6 +20,8 @@ cRoom::cRoom(const std::string& name)
 
 cRoom::~cRoom()
 {
+	if (m_logicMonopoly)
+		delete m_logicMonopoly;
 }
 
 const std::string& cRoom::Name()
@@ -230,4 +233,17 @@ bool cRoom::SendData()
 	}
 
 	return true;
+}
+
+void cRoom::UpdateGameLoop()
+{
+	if (m_logicMonopoly)
+	{
+		m_logicMonopoly->UpdateGameLoop();
+		if (m_logicMonopoly->IsGameOver())
+		{
+			delete m_logicMonopoly;
+			m_logicMonopoly = 0;
+		}
+	}
 }

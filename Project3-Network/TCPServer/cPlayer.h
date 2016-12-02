@@ -14,11 +14,17 @@ public:
 	virtual bool IsBankrupty();
 	virtual bool Debit(unsigned int money);
 	virtual bool Withdraw(unsigned int money);
+	virtual void CurrentLocation(int location);
+	virtual int CurrentLocation();
+	virtual bool HasChanceToThrowDice();
+	virtual void TakeChanceToThrowDice();
 
 private:
 	unsigned int m_money;
 	bool m_isReady;
 
+	bool m_chanceToThrowDice;
+	int m_currentLocation;
 	iUser* m_user;
 };
 

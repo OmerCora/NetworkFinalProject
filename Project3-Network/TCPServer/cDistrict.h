@@ -6,15 +6,16 @@
 class cDistrict : public iDistrict
 {
 public:
-	cDistrict();
+	cDistrict(int districtID);
 	virtual ~cDistrict();
 
 	// begin of iDistrict
-	virtual bool AddPlayer(iPlayer* user);
-	virtual bool RemovePlayer(iPlayer* user);
+	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic);
+	virtual bool RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 
 protected:
-	std::vector<iPlayer*> m_currentPlayers;
+	int m_districtID;
+	iPlayer* m_currentPlayers;
 };
 

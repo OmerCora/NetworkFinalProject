@@ -2,8 +2,9 @@
 
 #include <iostream>
 
-cTaxDistrict::cTaxDistrict(eTaxDistrictType taxtype)
-	:m_taxtype(taxtype)
+cTaxDistrict::cTaxDistrict(int districtID, eTaxDistrictType taxtype)
+	:cDistrict(districtID)
+	, m_taxtype(taxtype)
 {
 }
 
@@ -11,8 +12,8 @@ cTaxDistrict::cTaxDistrict(eTaxDistrictType taxtype)
 cTaxDistrict::~cTaxDistrict()
 {
 }
-bool cTaxDistrict::Actioon()
+bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	std::cout << "cTaxDistrict::Actioon()" << std::endl;
+	std::cout << "cTaxDistrict::Action()" << std::endl;
 	return true;
 }

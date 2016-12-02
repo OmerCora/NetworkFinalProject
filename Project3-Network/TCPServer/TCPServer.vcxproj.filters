@@ -209,6 +209,9 @@
     <ClInclude Include="cStartDistrict.h">
       <Filter>MonopolyLogic\Districts</Filter>
     </ClInclude>
+    <ClInclude Include="iLogicMonopolyMediator.h">
+      <Filter>MonopolyLogic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TCPServer.rc">

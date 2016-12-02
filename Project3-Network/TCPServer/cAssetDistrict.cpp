@@ -3,7 +3,8 @@
 #include <iostream>
 
 
-cAssetDistrict::cAssetDistrict()
+cAssetDistrict::cAssetDistrict(int districtID)
+	:cDistrict(districtID)
 {
 }
 
@@ -11,11 +12,7 @@ cAssetDistrict::cAssetDistrict()
 cAssetDistrict::~cAssetDistrict()
 {
 }
-bool cAssetDistrict::Actioon()
-{
-	std::cout << "cAssetDistrict::Actioon()" << std::endl;
-	return true;
-}
+
 bool cAssetDistrict::SetSold()
 {
 	std::cout << "cAssetDistrict::SetSold()" << std::endl;

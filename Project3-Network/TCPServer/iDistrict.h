@@ -2,6 +2,7 @@
 #define _iDistrict_HG_
 
 #include "iPlayer.h"
+#include "iLogicMonopolyMediator.h"
 #include <sProtocols.h>
 #include <set>
 
@@ -11,9 +12,9 @@ public:
 	virtual ~iDistrict() {}
 
 	// begin of iDistrict
-	virtual bool AddPlayer(iPlayer* user) = 0;
-	virtual bool RemovePlayer(iPlayer* user) = 0;
-	virtual bool Actioon() = 0;
+	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
+	virtual bool RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
 	// end of iDistrict
 
 };

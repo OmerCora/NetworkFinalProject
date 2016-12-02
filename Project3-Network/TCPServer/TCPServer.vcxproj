@@ -141,6 +141,7 @@
     <ClInclude Include="iDistrict.h" />
     <ClInclude Include="iLobby.h" />
     <ClInclude Include="iLogicMonopoly.h" />
+    <ClInclude Include="iLogicMonopolyMediator.h" />
     <ClInclude Include="iPlayer.h" />
     <ClInclude Include="iRoom.h" />
     <ClInclude Include="iUser.h" />

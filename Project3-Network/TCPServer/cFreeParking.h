@@ -5,11 +5,11 @@
 class cFreeParking : public cDistrict
 {
 public:
-	cFreeParking();
+	cFreeParking(int districtID);
 	virtual ~cFreeParking();
 
 	// begin of iDistrict
-	virtual bool Actioon();
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 };
 

@@ -11,11 +11,11 @@ public:
 		e_Chance,
 	};
 
-	cCardDistrict(eCardDistrictType type);
+	cCardDistrict(int districtID, eCardDistrictType type);
 	virtual ~cCardDistrict();
 
 	// begin of iDistrict
-	virtual bool Actioon();
+	virtual bool Action(iPlayer* player, iLogicMonopolyMediator& logic);
 	// end of iDistrict
 
 private:

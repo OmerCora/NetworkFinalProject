@@ -32,6 +32,9 @@ public:
 	virtual bool BroadcastData() = 0;
 
 	virtual void AddChat(const std::string& username, const std::string& message) = 0;
+
+	virtual void UpdateGameLoop() = 0;
+
 };
 
 
