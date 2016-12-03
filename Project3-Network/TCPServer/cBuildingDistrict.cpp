@@ -5,8 +5,7 @@
 #include <conio.h>
 #include <iostream>
 
-cBuildingDistrict::cBuildingDistrict(int districtID)
-	:cAssetDistrict(districtID)
+	:cAssetDistrict(districtID, price)
 {
 	m_isRequiredAnswer = true;
 }

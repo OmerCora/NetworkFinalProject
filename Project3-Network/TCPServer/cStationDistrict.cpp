@@ -5,8 +5,8 @@
 #include <iostream>
 
 
-cStationDistrict::cStationDistrict(int districtID)
-	:cAssetDistrict(districtID)
+cStationDistrict::cStationDistrict(int districtID, unsigned int price)
+	:cAssetDistrict(districtID, price)
 {
 	m_isRequiredAnswer = true;
 }

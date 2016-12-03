@@ -5,7 +5,7 @@
 class cStationDistrict : public cAssetDistrict
 {
 public:
-	cStationDistrict(int districtID);
+	cStationDistrict(int districtID, unsigned int price);
 	virtual ~cStationDistrict();
 
 

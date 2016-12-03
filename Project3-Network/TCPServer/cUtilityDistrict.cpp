@@ -4,8 +4,8 @@
 #include <conio.h>
 #include <iostream>
 
-cUtilityDistrict::cUtilityDistrict(int districtID)
-	:cAssetDistrict(districtID)
+cUtilityDistrict::cUtilityDistrict(int districtID, int price)
+	:cAssetDistrict(districtID, price)
 {
 	m_isRequiredAnswer = true;
 }
@@ -30,6 +30,7 @@ bool cUtilityDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 		sProtocolResponsePlayAction protocol;
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
+		
 		logic.PacketProcedure().AppendProtocol(protocol);
 
 		logic.PacketProcedure().SendData(player->User()->SocketID());

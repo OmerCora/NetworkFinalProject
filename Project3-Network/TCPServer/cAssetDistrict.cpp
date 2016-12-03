@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-cAssetDistrict::cAssetDistrict(int districtID)
+	this->m_price = price;
 	:cDistrict(districtID)
 {
 }
