@@ -132,9 +132,11 @@ struct sProtocolAskAssetAction : public iProtocol
 		: districtType(-1)
 	{}
 	short districtType;
+	int districtID;
+	int price;
 	unsigned int Size()
 	{
-		return sizeof(districtType);
+		return sizeof(districtType) + sizeof(districtID) + sizeof(price);
 	}
 };
 struct sProtocolAnswerAssetAction : public iProtocol
@@ -143,9 +145,10 @@ struct sProtocolAnswerAssetAction : public iProtocol
 		: yesOrNo(1)
 	{}
 	char yesOrNo;
+	int districtID;
 	unsigned int Size()
 	{
-		return sizeof(yesOrNo);
+		return sizeof(yesOrNo) + sizeof(districtID);
 	}
 };
 struct sProtocolResponsePlayTurnChange : public iProtocol
