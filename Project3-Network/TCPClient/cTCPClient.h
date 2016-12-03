@@ -15,11 +15,13 @@
 #include "cBuffer.h"
 #include "sProtocols.h"
 #include "iClientPacketProcedure.h"
+#include "iTCPClient.h"
 
-class cTCPClient
+class cTCPClient : public iTCPClient
 {
 	cTCPClient();
 	~cTCPClient();
+
 
 	static cTCPClient* m_instance;
 public:
@@ -33,6 +35,11 @@ public:
 	//Cleanup
 	bool ShutDown();
 
+
+	// begin of iTCPClient
+	virtual void SetState(eGameMonopolyState state);
+	virtual void SetNextLocation(short nextLocation);
+	// end of iTCPClient
 
 private:
 
@@ -60,26 +67,10 @@ private:
 	};
 	eChatMenuState m_menuState;
 
-	enum eGameMonopolyState
-	{
-		e_GM_Wait = 0,
-		e_GM_Start,
-		e_GM_ThrowDice,
-		e_GM_MoveDistrict,
 
-		e_GM_DistrictStart,
-		e_GM_DistrictTax,
-		e_GM_DistrictBuilding,
-		e_GM_DistrictStation,
-		e_GM_DistrictUtility,
-		e_GM_DistrictCard,
-		e_GM_DistrictFreeParking,
-		e_GM_DistrictGotoJail,
-		e_GM_DistrictJail,
-
-		e_GM_Finish,
-	};
 	eGameMonopolyState m_gameMonopolyState;
+	short m_nextLocation;
+
 	iClientPacketProcedure* m_gameMonopolyPacketProcedure;
 
 	void UserSendThread();

@@ -21,6 +21,9 @@ cPlayer::~cPlayer()
 {
 }
 
+iUser* cPlayer::User() { return m_user; }
+
+
 bool cPlayer::IsReadyToPlay()
 {
 	return m_isReady;

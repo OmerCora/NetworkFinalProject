@@ -9,6 +9,8 @@ public:
 	cPlayer(iUser* user);
 	virtual ~cPlayer();
 
+	virtual iUser* User();
+
 	virtual bool IsReadyToPlay();
 
 	virtual bool IsBankrupty();

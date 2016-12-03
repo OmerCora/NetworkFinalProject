@@ -7,6 +7,8 @@ class iPlayer
 public:
 	virtual ~iPlayer() {}
 
+	virtual iUser* User() = 0;
+
 	virtual bool IsBankrupty() = 0;
 	virtual bool Deposit(unsigned int money) = 0;
 	virtual bool Withdraw(unsigned int money) = 0;

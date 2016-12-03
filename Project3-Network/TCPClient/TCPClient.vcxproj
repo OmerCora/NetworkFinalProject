@@ -98,6 +98,7 @@
     <ClInclude Include="cConsolTool.h" />
     <ClInclude Include="cTCPClient.h" />
     <ClInclude Include="iClientPacketProcedure.h" />
+    <ClInclude Include="iTCPClient.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

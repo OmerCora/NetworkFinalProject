@@ -27,9 +27,11 @@ cTCPClient::cTCPClient()
 	: m_isStopped(false)
 	, m_isConnected(false)
 	, m_connectedSocket(INVALID_SOCKET)
-	, m_menuState(eChatMenuState::e_Connect)
 	, m_gameMonopolyState(eGameMonopolyState::e_GM_Wait)
 	, m_isDebug(false)
+
+	, m_menuState(eChatMenuState::e_Connect)
+	, m_nextLocation(0)
 
 {
 }
@@ -830,14 +832,29 @@ void cTCPClient::ClientReceiveTherad()
 	//std::cout << "end of FreeConsole" << std::endl;
 }
 
-
+void cTCPClient::SetState(eGameMonopolyState state) { m_gameMonopolyState = state; }
+void cTCPClient::SetNextLocation(short nextLocation) { m_nextLocation = nextLocation; }
 void cTCPClient::PlayMonopolySendThread()
 {
 	std::cout << "cTCPClient::PlayMonopolySendThread()" << std::endl;
 
+	//*****************************************
+	// TODO: require a timer for animation
+	double deltaTime = 1.0/60;
+
+	float durationOfDiceAnimationDuration = 1.0f;
+	float diceAnimation = 0.0f;
+
+	float pieceLocation = 0.0f;
+	float moveSpeed = 2.0f;
+
+
+	//*****************************************
+
+
+
 	while (!m_isStopped)
 	{
-
 		switch(m_gameMonopolyState)
 		{
 		case eGameMonopolyState::e_GM_Wait:
@@ -846,11 +863,28 @@ void cTCPClient::PlayMonopolySendThread()
 
 			//char anyKey = _getch();
 
+			while (m_gameMonopolyState == eGameMonopolyState::e_GM_Wait)
+			{
+				// wait 1/20 sec
+				Sleep(50);
+			}
+
 			break;
 		}
 		case eGameMonopolyState::e_GM_Start:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
+			std::cout << "\t eGameMonopolyState::e_GM_Start (Press Any Key to Throw Dice)" << std::endl;
+
+			char anyKey = _getch();
+
+			// request throw dice
+			{
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayThrowDice);
+				sProtocolRequestPlayThrowDice data;
+				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+			}
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -858,68 +892,208 @@ void cTCPClient::PlayMonopolySendThread()
 		case eGameMonopolyState::e_GM_ThrowDice:
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ThrowDice" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+
+			std::cout << "\t NextLocation: " << m_nextLocation << std::endl;
+
+			diceAnimation = 0.0f;
+			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationThrowDice;
 			break;
 		}
-		case eGameMonopolyState::e_GM_MoveDistrict:
+		case eGameMonopolyState::e_GM_AnimationThrowDice:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_MoveDistrict" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			while (diceAnimation < durationOfDiceAnimationDuration)
+			{
+				diceAnimation += (float)deltaTime;
+			}
+			
+			m_gameMonopolyState = eGameMonopolyState::e_GM_MovePiece;
 			break;
 		}
-		case eGameMonopolyState::e_GM_DistrictStart:
+		case eGameMonopolyState::e_GM_MovePiece:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictStart" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			std::cout << "\t eGameMonopolyState::e_GM_MovePiece" << std::endl;
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationMovePiece;
 			break;
 		}
-		case eGameMonopolyState::e_GM_DistrictTax:
+		case eGameMonopolyState::e_GM_AnimationMovePiece:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictTax" << std::endl;
+			while (pieceLocation < m_nextLocation)
+			{
+				pieceLocation += (float)(deltaTime * moveSpeed);
+			}
+
+			// request play action
+			{
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_RequestPlayAction);
+				sProtocolRequestPlayAction data;
+				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+			}
+				
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+
 			break;
 		}
-		case eGameMonopolyState::e_GM_DistrictBuilding:
+		case eGameMonopolyState::e_GM_ActionDistrictStart:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictBuilding" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictStation:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictStation" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictUtility:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictUtility" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictCard:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictCard" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictFreeParking:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictFreeParking" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictGotoJail:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictGotoJail" << std::endl;
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
-			break;
-		}
-		case eGameMonopolyState::e_GM_DistrictJail:
-		{
-			std::cout << "\t eGameMonopolyState::e_GM_DistrictJail" << std::endl;
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStart" << std::endl;
+
+			char anyKey = _getch();
+
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictTax:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictTax" << std::endl;
+
+			char anyKey = _getch();
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictCard:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictCard" << std::endl;
+
+			char anyKey = _getch();
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictFreeParking:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictFreeParking" << std::endl;
+
+			char anyKey = _getch();
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictGotoJail:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictGotoJail" << std::endl;
+
+			char anyKey = _getch();
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictJail:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictJail" << std::endl;
+
+			char anyKey = _getch();
+
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictBuilding:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictBuilding" << std::endl;
+
+			char anyKey = _getch();
+
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictStation:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStation" << std::endl;
+
+			char anyKey = _getch();
+
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_ActionDistrictUtility:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictUtility" << std::endl;
+
+			char anyKey = _getch();
+
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_AskDistrictBuilding:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictBuilding" << std::endl;
+
+
+			char anyKey = _getch();
+
+			// request asking
+			{
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
+				sProtocolAnswerAssetAction data;
+				data.yesOrNo = 1;
+				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+			}
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_AskDistrictStation:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictStation" << std::endl;
+
+			char anyKey = _getch();
+
+			// request asking
+			{
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
+				sProtocolAnswerAssetAction data;
+				data.yesOrNo = 1;
+				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+			}
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_AskDistrictUtility:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictUtility" << std::endl;
+
+			char anyKey = _getch();
+
+			// request asking
+			{
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
+				sProtocolAnswerAssetAction data;
+				data.yesOrNo = 1;
+				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+			}
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			break;
+		}
+		case eGameMonopolyState::e_GM_TurnChange:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_TurnChange" << std::endl;
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
+
+			break;
+		}
+		case eGameMonopolyState::e_GM_TurnKeep:
+		{
+			std::cout << "\t eGameMonopolyState::e_GM_TurnKeep" << std::endl;
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
+
 			break;
 		}
 		case eGameMonopolyState::e_GM_Finish:
@@ -963,7 +1137,7 @@ std::thread cTCPClient::GetReceiverThread()
 
 bool cTCPClient::RunClient()
 {
-	m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly();
+	m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly(*this);
 
 	system("cls");
 

@@ -63,31 +63,7 @@ void cBuffer::flushBuffer()
 //Translate buffer to const char* for send function
 const char* cBuffer::toCharArray()
 {
-	//_bufferString.resize(this->getLength(), ' ');
-	//_bufferString = "";
-	//for (int i = 0; i < this->getLength(); i++)
-	//{
-	//	_bufferString.append(1, _buffer[readIndex + i]);
-	//	//_bufferString[i] = _buffer[readIndex + i];
-	//}
-	//return _bufferString.c_str();
 	return (const char*)&_buffer[readIndex];
-
-
-	////Reset the place holder
-	//sendingString = "";
-
-	//int currentBufferLength = writeIndex - readIndex;
-
-	////Add each byte in the buffer to a string for easy conversion to char*
-	//for (int i = 0; i < currentBufferLength; i++)
-	//{
-	//	char temp = _buffer[readIndex + i];
-	//	sendingString.append(1, temp);
-	//}
-
-	////return a char* for the string
-	//return sendingString.c_str();
 }
 
 
@@ -368,8 +344,82 @@ void cBuffer::Deserialize(sProtocolMonopolyHeader& data)
 	data.packet_id = (sProtocolMonopolyHeader::ePacketID)this->readInt32BE();
 	this->flushBuffer();
 }
-
-
+void cBuffer::Serialize(const sProtocolResponseGameStart& data)
+{
+	this->writeChar(data.isMyTurn);
+}
+void cBuffer::Deserialize(sProtocolResponseGameStart& data)
+{
+	data.isMyTurn = this->readChar();
+}
+void cBuffer::Serialize(const sProtocolRequestPlayThrowDice& data)
+{
+}
+void cBuffer::Deserialize(sProtocolRequestPlayThrowDice& data)
+{
+}
+void cBuffer::Serialize(const sProtocolResponsePlayThrowDice& data)
+{
+	this->writeInt16BE(data.nextLocation);
+}
+void cBuffer::Deserialize(sProtocolResponsePlayThrowDice& data)
+{
+	data.nextLocation = this->readInt16BE();
+}
+void cBuffer::Serialize(const sProtocolRequestPlayAction& data)
+{
+}
+void cBuffer::Deserialize(sProtocolRequestPlayAction& data)
+{
+}
+void cBuffer::Serialize(const sProtocolResponsePlayAction& data)
+{
+	this->writeInt16BE(data.districtType);
+}
+void cBuffer::Deserialize(sProtocolResponsePlayAction& data)
+{
+	data.districtType = this->readInt16BE();
+}
+void cBuffer::Serialize(const sProtocolAskAssetAction& data)
+{
+	this->writeInt16BE(data.districtType);
+}
+void cBuffer::Deserialize(sProtocolAskAssetAction& data)
+{
+	data.districtType = this->readInt16BE();
+}
+void cBuffer::Serialize(const sProtocolAnswerAssetAction& data)
+{
+	this->writeChar(data.yesOrNo);
+}
+void cBuffer::Deserialize(sProtocolAnswerAssetAction& data)
+{
+	data.yesOrNo = this->readChar();
+}
+void cBuffer::Serialize(const sProtocolResponsePlayTurnChange& data)
+{
+}
+void cBuffer::Deserialize(sProtocolResponsePlayTurnChange& data)
+{
+}
+void cBuffer::Serialize(const sProtocolResponsePlayTurnKeep& data)
+{
+}
+void cBuffer::Deserialize(sProtocolResponsePlayTurnKeep& data)
+{
+}
+void cBuffer::Serialize(const sProtocolResponseGameFinish& data)
+{
+}
+void cBuffer::Deserialize(sProtocolResponseGameFinish& data)
+{
+}
+void cBuffer::Serialize(const sProtocolResponseGameOver& data)
+{
+}
+void cBuffer::Deserialize(sProtocolResponseGameOver& data)
+{
+}
 
 //////////////////////////////////////////////////
 // functions

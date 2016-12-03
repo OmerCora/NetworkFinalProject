@@ -72,6 +72,28 @@ public:
 	************************************************/
 	void Serialize(const sProtocolMonopolyHeader& data);
 	void Deserialize(sProtocolMonopolyHeader& data);
+	void Serialize(const sProtocolResponseGameStart& data);
+	void Deserialize(sProtocolResponseGameStart& data);
+	void Serialize(const sProtocolRequestPlayThrowDice& data);
+	void Deserialize(sProtocolRequestPlayThrowDice& data);
+	void Serialize(const sProtocolResponsePlayThrowDice& data);
+	void Deserialize(sProtocolResponsePlayThrowDice& data);
+	void Serialize(const sProtocolRequestPlayAction& data);
+	void Deserialize(sProtocolRequestPlayAction& data);
+	void Serialize(const sProtocolResponsePlayAction& data);
+	void Deserialize(sProtocolResponsePlayAction& data);
+	void Serialize(const sProtocolAskAssetAction& data);
+	void Deserialize(sProtocolAskAssetAction& data);
+	void Serialize(const sProtocolAnswerAssetAction& data);
+	void Deserialize(sProtocolAnswerAssetAction& data);
+	void Serialize(const sProtocolResponsePlayTurnChange& data);
+	void Deserialize(sProtocolResponsePlayTurnChange& data);
+	void Serialize(const sProtocolResponsePlayTurnKeep& data);
+	void Deserialize(sProtocolResponsePlayTurnKeep& data);
+	void Serialize(const sProtocolResponseGameFinish& data);
+	void Deserialize(sProtocolResponseGameFinish& data);
+	void Serialize(const sProtocolResponseGameOver& data);
+	void Deserialize(sProtocolResponseGameOver& data);
 
 	void writeChar(char value);
 	char readChar();

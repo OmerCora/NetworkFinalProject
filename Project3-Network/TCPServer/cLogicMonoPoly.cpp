@@ -22,7 +22,6 @@
 #include <conio.h>
 #include <iostream>
 
-#define _LOGIC_DEBUG_TEST
 
 cLogicMonoPoly::cLogicMonoPoly()
 	:m_playState(ePlayState::e_Wait)
@@ -120,13 +119,14 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	// decide the first player with a dice
 	m_currentPlayerIndex = m_dice->Throw() % 2;
 
-	// TODO: send a packet
+	// send a packet to notice starting game
 	{
-		// confirm to throw a dice
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
-		sProtocolResponseStart protocol;
+		sProtocolResponseGameStart protocol;
 		m_packetProcedure->AppendProtocol(protocol);
-		m_packetProcedure->SendData();
+
+		m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+		m_packetProcedure->SendData(m_players[1]->User()->SocketID());
 	}
 
 	this->SetState(ePlayState::e_Wait);
@@ -158,16 +158,15 @@ void cLogicMonoPoly::openChanceCardTo(iPlayer * player)
 
 }
 
-
 bool cLogicMonoPoly::UpdateGameLoop()
 {
-#if 1 // this is hard coding for test
 	if (this->IsCurrentState(ePlayState::e_Wait))
 	{
-		std::cout << "ePlayState::e_Wait (Press Any Key to Continue...)" << std::endl;
+		std::cout << "ePlayState::e_Wait" << std::endl;
+
 #ifdef _LOGIC_DEBUG_TEST
+		std::cout << "(Press Any Key to Continue...)" << std::endl;
 		char anyKey = _getch();
-#endif
 
 		if (this->IsPriorState(ePlayState::e_Start))
 		{
@@ -189,10 +188,9 @@ bool cLogicMonoPoly::UpdateGameLoop()
 		{
 			this->SetState(ePlayState::e_ThrowDice);
 		}
-	}
-	else
 #endif
-		if (this->IsCurrentState(ePlayState::e_ThrowDice))
+	}
+	else if (this->IsCurrentState(ePlayState::e_ThrowDice))
 	{
 		std::cout << "ePlayState::e_ThrowDice" << std::endl;
 
@@ -214,21 +212,53 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			// 3. add into a distict
 			m_districts[m_nextLocation]->AddPlayer(m_players[m_currentPlayerIndex], *this);
 		}
+
+		// TODO: it will vary two different protocol(1. Throw Dice, 2. Pass)
+		// send dice result
+		{
+			m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayThrowDice);
+			sProtocolResponsePlayThrowDice protocol;
+			protocol.nextLocation = m_nextLocation;
+			m_packetProcedure->AppendProtocol(protocol);
+
+			m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+			m_packetProcedure->SendData(m_players[1]->User()->SocketID());
+		}
+
+
 		this->SetState(ePlayState::e_Wait);
 	}
 	else if (this->IsCurrentState(ePlayState::e_Action))
 	{
 		std::cout << "ePlayState::e_Action" << std::endl;
 
+		// response each action state at the each district action
 		m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->Action(m_players[m_currentPlayerIndex], *this);
-		this->SetState(ePlayState::e_Wait);
+
+		if (m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->IsRequiredAnswer())
+		{
+			this->SetState(ePlayState::e_Wait);
+		}
+		else
+		{
+			this->SetState(ePlayState::e_Response);
+		}
+	}
+	else if (this->IsCurrentState(ePlayState::e_ReceiveAnswer))
+	{
+		std::cout << "ePlayState::e_ReceiveAnswer" << std::endl;
+
+		// response each action state at the each district action
+		m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->ReceiveAnswer(m_players[m_currentPlayerIndex], *this);
+
+		this->SetState(ePlayState::e_Response);
 	}
 	else if (this->IsCurrentState(ePlayState::e_Response))
 	{
 		std::cout << "ePlayState::e_Response" << std::endl;
 
 		m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->Response(m_players[m_currentPlayerIndex], *this);
-		this->SetState(ePlayState::e_Wait);
+		this->SetState(ePlayState::e_ChangeTurn);
 	}
 	else if (this->IsCurrentState(ePlayState::e_ChangeTurn))
 	{
@@ -236,14 +266,35 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 		if (!m_players[m_currentPlayerIndex]->HasChanceToThrowDice())
 		{
+			this->SetState(ePlayState::e_Wait);
+
+
 			// 4. turn end of the player
 			m_currentPlayerIndex = m_currentPlayerIndex == 0 ? 1 : 0;
 
-			this->SetState(ePlayState::e_Wait);
+			// send turn change information
+			{
+				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnChange);
+				sProtocolResponsePlayTurnChange protocol;
+				m_packetProcedure->AppendProtocol(protocol);
+
+				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+				m_packetProcedure->SendData(m_players[1]->User()->SocketID());
+			}
 		}
 		else
 		{
-			this->SetState(ePlayState::e_ThrowDice);
+			this->SetState(ePlayState::e_Wait);
+
+			// send turn keep information
+			{
+				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnKeep);
+				sProtocolResponsePlayTurnChange protocol;
+				m_packetProcedure->AppendProtocol(protocol);
+
+				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+				m_packetProcedure->SendData(m_players[1]->User()->SocketID());
+			}
 		}
 	}
 
@@ -256,8 +307,18 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 			this->SetState(ePlayState::e_Finish);
 
-			// TODO send result to the rating server
+			// TODO: record rate of current play
 			{
+			}
+
+			// send result to the rating server
+			{
+				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameFinish);
+				sProtocolResponseGameFinish protocol;
+				m_packetProcedure->AppendProtocol(protocol);
+
+				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+				m_packetProcedure->SendData(m_players[1]->User()->SocketID());
 			}
 
 			this->CleanUp();
@@ -275,6 +336,9 @@ bool cLogicMonoPoly::IsPriorState(ePlayState state)
 {
 	return (m_priorState == state);
 }
+iPacketProcedureMonopoly& cLogicMonoPoly::PacketProcedure() { return *m_packetProcedure; }
+iPlayer& cLogicMonoPoly::PlayerA() { return *m_players[0]; }
+iPlayer& cLogicMonoPoly::PlayerB() { return *m_players[1]; }
 void cLogicMonoPoly::SetState(ePlayState state)
 {
 	m_priorState = m_playState;
@@ -303,6 +367,13 @@ bool cLogicMonoPoly::CleanUp()
 
 	this->SetState(ePlayState::e_GameOver);
 	std::cout << "ePlayState::e_GameOver" << std::endl;
+
+	m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameOver);
+	sProtocolResponseGameOver protocol;
+	m_packetProcedure->AppendProtocol(protocol);
+
+	m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+	m_packetProcedure->SendData(m_players[1]->User()->SocketID());
 
 	return true;
 }

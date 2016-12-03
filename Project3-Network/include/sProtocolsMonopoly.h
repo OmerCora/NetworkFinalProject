@@ -13,31 +13,35 @@ struct iProtocol
 	virtual ~iProtocol() {}
 	virtual unsigned int Size() = 0;
 };
-struct sProtocolResponseStart : public iProtocol
+struct sProtocolResponseGameStart : public iProtocol
 {
-	sProtocolResponseStart()
+	sProtocolResponseGameStart()
+		:isMyTurn(0)
+	{}
+	char isMyTurn;
+	unsigned int Size()
+	{
+		return sizeof(isMyTurn);
+	}
+};
+struct sProtocolRequestPlayThrowDice : public iProtocol
+{
+	sProtocolRequestPlayThrowDice()
 	{}
 	unsigned int Size()
 	{
 		return 0;
 	}
 };
-struct sProtocolRequestPlayDiceThrow : public iProtocol
+struct sProtocolResponsePlayThrowDice : public iProtocol
 {
-	sProtocolRequestPlayDiceThrow()
+	sProtocolResponsePlayThrowDice()
+		:nextLocation(0)
 	{}
+	short nextLocation;
 	unsigned int Size()
 	{
-		return 0;
-	}
-};
-struct sProtocolResponsePlayDiceThrow : public iProtocol
-{
-	sProtocolResponsePlayDiceThrow()
-	{}
-	unsigned int Size()
-	{
-		return 0;
+		return sizeof(nextLocation);
 	}
 };
 struct sProtocolRequestPlayAction : public iProtocol
@@ -52,15 +56,48 @@ struct sProtocolRequestPlayAction : public iProtocol
 struct sProtocolResponsePlayAction : public iProtocol
 {
 	sProtocolResponsePlayAction()
+		: districtType(-1)
+	{}
+	short districtType;
+	unsigned int Size()
+	{
+		return sizeof(districtType);
+	}
+};
+struct sProtocolAskAssetAction : public iProtocol
+{
+	sProtocolAskAssetAction()
+		: districtType(-1)
+	{}
+	short districtType;
+	unsigned int Size()
+	{
+		return sizeof(districtType);
+	}
+};
+struct sProtocolAnswerAssetAction : public iProtocol
+{
+	sProtocolAnswerAssetAction()
+		: yesOrNo(1)
+	{}
+	char yesOrNo;
+	unsigned int Size()
+	{
+		return sizeof(yesOrNo);
+	}
+};
+struct sProtocolResponsePlayTurnChange : public iProtocol
+{
+	sProtocolResponsePlayTurnChange()
 	{}
 	unsigned int Size()
 	{
 		return 0;
 	}
 };
-struct sProtocolResponsePlayTurnChange : public iProtocol
+struct sProtocolResponsePlayTurnKeep : public iProtocol
 {
-	sProtocolResponsePlayTurnChange()
+	sProtocolResponsePlayTurnKeep()
 	{}
 	unsigned int Size()
 	{
@@ -76,7 +113,15 @@ struct sProtocolResponseGameFinish : public iProtocol
 		return 0;
 	}
 };
-
+struct sProtocolResponseGameOver : public iProtocol
+{
+	sProtocolResponseGameOver()
+	{}
+	unsigned int Size()
+	{
+		return 0;
+	}
+};
 struct sProtocolResponsePlayFailure : public iProtocol
 {
 	sProtocolResponsePlayFailure()
@@ -184,15 +229,34 @@ struct sProtocolMonopolyHeader : public iProtocol
 		e_None = 0,
 		e_ResponseGameStart,
 
-		e_RequestPlayDiceThrow,
-		e_ResponsePlayDiceThrow,
+		e_RequestPlayThrowDice,
+		e_ResponsePlayThrowDice,
 
 		e_RequestPlayAction,
 		e_ResponsePlayAction,
 
+		e_AskAssetAction,
+		e_AnswerAssetAction,
+
 		e_ResponsePlayTurnChange,
+		e_ResponsePlayTurnKeep,
 
 		e_ResponseGameFinish,
+		e_ResponseGameOver,
+	};
+
+
+	enum eDistrictType : int
+	{
+		e_Card = 0,
+		e_FreeParking,
+		e_GotoJail,
+		e_Jail,
+		e_Start,
+		e_Tax,
+		e_Building,
+		e_Station,
+		e_Utility,
 	};
 
 	sProtocolMonopolyHeader()
@@ -206,74 +270,67 @@ struct sProtocolMonopolyHeader : public iProtocol
 	{
 		return packet_length;
 	}
-	void SetProtocol(iProtocol& data)
+	void SetProtocol(ePacketID packetID, sProtocolResponsePlayFailure& data)
 	{
-		packet_id = e_None;
+		packet_id = packetID;
 		packet_length += data.Size();
 	}
 
-	//void SetProtocol(sProtocolResponseStart& data)
-	//{
-	//	packet_id = e_ResponseGameStart;
-	//	packet_length += data.Size();
-	//	//packet_length += sizeof(data.username_length) + sizeof(data.password_length) + sizeof(sProtocolHeader);
-	//}
-	//void SetProtocol(sProtocolRequestPlayDiceThrow& data)
-	//{
-	//	packet_id = e_RequestPlayDiceThrow;
-	//	packet_length += data.Size();
-	//	//packet_length = sizeof(data.numberOfUsers) + sizeof(sProtocolHeader);
-	//	//for (unsigned int i = 0; i < data.users.size(); ++i)
-	//	//{
-	//	//	packet_length += sizeof(data.users[i].username_length);
-	//	//}
-	//}
-	//void SetProtocol(sProtocolResponsePlayDiceThrow& data)
-	//{
-	//	packet_id = e_ResponsePlayDiceThrow;
-	//	packet_length += data.Size();
-	//	//packet_length = data.username_length + data.roomname_length;
-	//	//packet_length += sizeof(data.username_length) + sizeof(data.roomname_length) + sizeof(sProtocolHeader);
-	//}
-	//void SetProtocol(sProtocolRequestPlayAction& data)
-	//{
-	//	packet_id = e_RequestPlayAction;
-	//	packet_length += data.Size();
-	//	//packet_length = data.roomname_length + data.username_length;
-	//	//packet_length += sizeof(data.roomname_length) + sizeof(data.username_length) + sizeof(sProtocolHeader);
-	//}
-	//void SetProtocol(sProtocolResponsePlayAction& data)
-	//{
-	//	packet_id = e_ResponsePlayAction;
-	//	packet_length += data.Size();
-	//	//packet_length = sizeof(data.numberOfRooms) + sizeof(sProtocolHeader);
-	//	//for (int i = 0; i < data.numberOfRooms; ++i)
-	//	//{
-	//	//	packet_length += data.rooms[i].roomname_length;
-	//	//	packet_length += sizeof(data.rooms[i].roomname_length);
-	//	//	packet_length += sizeof(data.user_counts[i]);
-	//	//}
-	//}
-	//void SetProtocol(sProtocolResponsePlayTurnChange& data)
-	//{
-	//	packet_id = e_ResponsePlayTurnChange;
-	//	packet_length += data.Size();
-	//	//packet_length = data.roomname_length;
-	//	//packet_length += sizeof(data.roomname_length) + sizeof(data.numberOfUsers) + sizeof(sProtocolHeader);
-	//	//for (int i = 0; i < data.numberOfUsers; ++i)
-	//	//{
-	//	//	packet_length += data.users[i].username_length;
-	//	//	packet_length += sizeof(data.users[i].username_length);
-	//	//}
-	//}
-	//void SetProtocol(sProtocolResponseGameFinish& data)
-	//{
-	//	packet_id = e_ResponseGameFinish;
-	//	packet_length += data.Size();
-	//	//packet_length = data.roomname_length + data.username_length;
-	//	//packet_length += sizeof(data.roomname_length) + sizeof(data.username_length) + sizeof(sProtocolHeader);
-	//}
-
+	void SetProtocol(sProtocolResponseGameStart& data)
+	{
+		packet_id = e_ResponseGameStart;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolRequestPlayThrowDice& data)
+	{
+		packet_id = e_RequestPlayThrowDice;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponsePlayThrowDice& data)
+	{
+		packet_id = e_ResponsePlayThrowDice;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolRequestPlayAction& data)
+	{
+		packet_id = e_RequestPlayAction;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponsePlayAction& data)
+	{
+		packet_id = e_ResponsePlayAction;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolAskAssetAction& data)
+	{
+		packet_id = e_AskAssetAction;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolAnswerAssetAction& data)
+	{
+		packet_id = e_AnswerAssetAction;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponsePlayTurnChange& data)
+	{
+		packet_id = e_ResponsePlayTurnChange;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponsePlayTurnKeep& data)
+	{
+		packet_id = e_ResponsePlayTurnChange;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponseGameFinish& data)
+	{
+		packet_id = e_ResponseGameFinish;
+		packet_length += data.Size();
+	}
+	void SetProtocol(sProtocolResponseGameOver& data)
+	{
+		packet_id = e_ResponseGameOver;
+		packet_length += data.Size();
+	}
 };
 
 

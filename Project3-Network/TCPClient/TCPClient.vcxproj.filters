@@ -29,17 +29,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cTCPClient.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cClientPacketProcedureMonopoly.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="cConsolTool.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="cClientPacketProcedureMonopoly.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="cTCPClient.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="iClientPacketProcedure.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iTCPClient.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

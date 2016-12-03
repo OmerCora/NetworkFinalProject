@@ -14,18 +14,20 @@ cTaxDistrict::cTaxDistrict(int districtID, eTaxDistrictType taxtype)
 cTaxDistrict::~cTaxDistrict()
 {
 }
+sProtocolMonopolyHeader::eDistrictType cTaxDistrict::DistrictType() { return sProtocolMonopolyHeader::e_Tax; }
 bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
+	// implement content here
 
 	if (this->m_taxtype == e_Normal)
 	{
 		//ask the manager to take 100 from the player
-		logic.takeMoneyFrom(100, player);
+		//logic.takeMoneyFrom(100, player);
 	}
 	else if (this->m_taxtype == e_Luxury)
 	{
 		//ask the manager to to take 200 from the player
-		logic.takeMoneyFrom(200, player);
+		//logic.takeMoneyFrom(200, player);
 	}
 
 
@@ -35,5 +37,18 @@ bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 bool cTaxDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cTaxDistrict::Response()" << std::endl;
+
+
+	// TODO: send details to client
+	{
+		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
+		sProtocolResponsePlayAction protocol;
+		protocol.districtType = this->DistrictType();
+		// TODO: add details into the protocol here
+		logic.PacketProcedure().AppendProtocol(protocol);
+
+		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
+		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
+	}
 	return true;
 }

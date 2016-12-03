@@ -8,12 +8,14 @@
 cDistrict::cDistrict(int districtID)
 	:m_districtID(districtID)
 	, m_currentPlayers(0)
+	, m_isRequiredAnswer(false)
 {
 }
 
 cDistrict::~cDistrict()
 {
 }
+bool cDistrict::IsRequiredAnswer() { return m_isRequiredAnswer;/*it should be a member variable*/ }
 bool cDistrict::AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cDistrict::AddPlayer() m_districtID: " << m_districtID << std::endl;
@@ -41,3 +43,13 @@ bool cDistrict::RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic)
 
 	return true;
 }
+bool cDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& logic)
+{
+	std::cout << "\t cDistrict::ReceiveAnswer() m_districtID: " << m_districtID << std::endl;
+
+	
+
+	return true;
+}
+
+

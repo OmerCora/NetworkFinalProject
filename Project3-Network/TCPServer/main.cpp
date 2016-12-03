@@ -10,11 +10,11 @@
 
 #include "cUser.h"
 #include "cLogicMonoPoly.h"
-
+#include "MonopolyGlobal.h"
 
 int main()
 {
-#if 1
+#ifdef _LOGIC_DEBUG_TEST
 	// TODO: this is test code for logic implementation
 	{
 		sUserInfo info;
