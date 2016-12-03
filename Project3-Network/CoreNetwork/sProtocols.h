@@ -251,7 +251,7 @@ struct sProtocolHeader
 	void SetProtocol(sProtocolMonopolyHeader& data)
 	{
 		packet_id = e_PlayMonopoly;
-		packet_length = data.Size();
+		packet_length = data.packet_length + sizeof(sProtocolHeader);
 	}
 };
 

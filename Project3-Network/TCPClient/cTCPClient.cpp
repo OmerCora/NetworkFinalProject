@@ -388,6 +388,25 @@ void cTCPClient::UserSendThread()
 		}
 		else if (m_menuState == eChatMenuState::e_Login)
 		{
+			// TODO: this is for debug
+#if 1
+			sProtocolHeader header;
+			sProtocolAccount loginInfo;
+			header.SetProtocol(loginInfo);
+			header.packet_id = sProtocolHeader::e_RequestLogin;
+
+			m_sendBuffer.CheckBufferSize(header.packet_length);
+			m_sendBuffer.Serialize(header);
+			m_sendBuffer.Serialize(loginInfo);
+
+			this->SendData(m_connectedSocket, m_sendBuffer);
+
+			while (m_menuState == eChatMenuState::e_Login)
+			{
+				Sleep(10);
+			}
+#else
+
 			// request login
 			PrintTitlePage("[Log-in]");
 
@@ -442,6 +461,7 @@ void cTCPClient::UserSendThread()
 					}
 				}
 			}
+#endif
 		}
 		else if (m_menuState == eChatMenuState::e_LoginSuccess)
 		{

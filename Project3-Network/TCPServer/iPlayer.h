@@ -1,6 +1,7 @@
 #pragma once
 
 #include "iUser.h"
+#include <sProtocolsMonopoly.h>
 
 class iPlayer
 {
@@ -23,6 +24,8 @@ public:
 
 	virtual bool getbCanThrowDice() = 0;
 	virtual void setbCanThrowDice(bool bChance) = 0;
+
+	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo) = 0;
 	
 };
 

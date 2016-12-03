@@ -34,7 +34,7 @@ struct sProtocolPlayerInfo : public iProtocol
 		, money(0)
 		, location(0)
 	{}
-	char id;
+	int id;
 	sProtocolNameInfo nick;
 	char isMyTurn;
 	int money;
@@ -83,20 +83,20 @@ struct sProtocolResponseGameStart : public iProtocol
 {
 	sProtocolResponseGameStart()
 	{}
-	sProtocolPlayerInfo playerInfo;
+	sProtocolPlayerInfo playerA;
+	sProtocolPlayerInfo playerB;
 	unsigned int Size()
 	{
-		return playerInfo.Size();
+		return playerA.Size() + playerB.Size();
 	}
 };
 struct sProtocolRequestPlayThrowDice : public iProtocol
 {
 	sProtocolRequestPlayThrowDice()
 	{}
-	sProtocolPlayerInfo playerInfo;
 	unsigned int Size()
 	{
-		return playerInfo.Size();
+		return 0;
 	}
 };
 struct sProtocolResponsePlayThrowDice : public iProtocol
@@ -104,21 +104,19 @@ struct sProtocolResponsePlayThrowDice : public iProtocol
 	sProtocolResponsePlayThrowDice()
 		:nextLocation(0)
 	{}
-	sProtocolPlayerInfo playerInfo;
 	short nextLocation;
 	unsigned int Size()
 	{
-		return playerInfo.Size() + sizeof(nextLocation);
+		return sizeof(nextLocation);
 	}
 };
 struct sProtocolRequestPlayAction : public iProtocol
 {
 	sProtocolRequestPlayAction()
 	{}
-	sProtocolPlayerInfo playerInfo;
 	unsigned int Size()
 	{
-		return playerInfo.Size();
+		return 0;
 	}
 };
 struct sProtocolResponsePlayAction : public iProtocol
@@ -328,7 +326,7 @@ struct sProtocolMonopolyHeader : public iProtocol
 	};
 
 	sProtocolMonopolyHeader()
-		: packet_length(sizeof(sProtocolMonopolyHeader))
+		: packet_length(0)
 		, packet_id(ePacketID::e_None)
 	{}
 	int packet_length;
@@ -336,82 +334,82 @@ struct sProtocolMonopolyHeader : public iProtocol
 
 	unsigned int Size()
 	{
-		return packet_length;
+		return sizeof(packet_length) + sizeof(packet_id);
 	}
 	void SetProtocol(ePacketID packetID, sProtocolResponsePlayFailure& data)
 	{
 		packet_id = packetID;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(ePacketID packetID, sProtocolPlayerInfo& data)
 	{
 		packet_id = packetID;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(ePacketID packetID, sProtocolDistrictInfo& data)
 	{
 		packet_id = packetID;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(ePacketID packetID, sProtocolBoardInfo& data)
 	{
 		packet_id = packetID;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponseGameStart& data)
 	{
 		packet_id = e_ResponseGameStart;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolRequestPlayThrowDice& data)
 	{
 		packet_id = e_RequestPlayThrowDice;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponsePlayThrowDice& data)
 	{
 		packet_id = e_ResponsePlayThrowDice;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolRequestPlayAction& data)
 	{
 		packet_id = e_RequestPlayAction;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponsePlayAction& data)
 	{
 		packet_id = e_ResponsePlayAction;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolAskAssetAction& data)
 	{
 		packet_id = e_AskAssetAction;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolAnswerAssetAction& data)
 	{
 		packet_id = e_AnswerAssetAction;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponsePlayTurnChange& data)
 	{
 		packet_id = e_ResponsePlayTurnChange;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponsePlayTurnKeep& data)
 	{
 		packet_id = e_ResponsePlayTurnChange;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponseGameFinish& data)
 	{
 		packet_id = e_ResponseGameFinish;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponseGameOver& data)
 	{
 		packet_id = e_ResponseGameOver;
-		packet_length += data.Size();
+		packet_length = data.Size() + this->Size();
 	}
 };
 

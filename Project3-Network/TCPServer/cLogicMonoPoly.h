@@ -33,6 +33,9 @@ private:
 	//std::thread GameLoopThread();
 	bool CleanUp();
 
+	void GetPlayersInfo(sProtocolResponseGameStart& outInfo);
+
+
 	iDice* m_dice;
 
 	iPlayer* m_players[2];

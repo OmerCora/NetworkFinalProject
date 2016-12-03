@@ -30,6 +30,7 @@ public:
 	bool getbJustCameInJail();
 	void setbJustCameInJail(bool bFirstTime);
 
+	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo);
 
 
 private:

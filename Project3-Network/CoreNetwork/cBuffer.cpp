@@ -41,7 +41,9 @@ void cBuffer::loadBuffer(const char* recvbuf, size_t size)
 }
 void cBuffer::Append(cBuffer& buffer)
 {
-	this->loadBuffer(buffer.toCharArray(), buffer.getLength());
+	const char* data = buffer.toCharArray();
+	int length = buffer.getLength();
+	this->loadBuffer(data, length);
 }
 
 void cBuffer::flushBuffer()
@@ -350,7 +352,7 @@ void cBuffer::Deserialize(sProtocolNameInfo& data)
 }
 void cBuffer::Serialize(const sProtocolPlayerInfo& data)
 {
-	this->writeChar(data.id);
+	this->writeInt32BE(data.id);
 	this->Serialize(data.nick);
 	this->writeChar(data.isMyTurn);
 	this->writeInt32BE(data.money);
@@ -358,7 +360,7 @@ void cBuffer::Serialize(const sProtocolPlayerInfo& data)
 }
 void cBuffer::Deserialize(sProtocolPlayerInfo& data)
 {
-	data.id = this->readChar();
+	data.id = this->readInt32BE();
 	this->Deserialize(data.nick);
 	data.isMyTurn = this->readChar();
 	data.money = this->readInt32BE();
@@ -427,11 +429,9 @@ void cBuffer::Deserialize(sProtocolResponseGameStart& data)
 
 void cBuffer::Serialize(const sProtocolRequestPlayThrowDice& data)
 {
-	this->Serialize(data.playerInfo);
 }
 void cBuffer::Deserialize(sProtocolRequestPlayThrowDice& data)
 {
-	this->Deserialize(data.playerInfo);
 }
 
 void cBuffer::Serialize(const sProtocolResponsePlayThrowDice& data)
@@ -471,12 +471,12 @@ void cBuffer::Deserialize(sProtocolAskAssetAction& data)
 void cBuffer::Serialize(const sProtocolAnswerAssetAction& data)
 {
 	this->writeChar(data.yesOrNo);
-	this->writeInt16BE(data.districtID);
+	this->writeInt32BE(data.districtID);
 }
 void cBuffer::Deserialize(sProtocolAnswerAssetAction& data)
 {
 	data.yesOrNo = this->readChar();
-	data.districtID = this->readInt16BE();
+	data.districtID = this->readInt32BE();
 }
 
 void cBuffer::Serialize(const sProtocolResponsePlayTurnChange& data)
@@ -516,8 +516,7 @@ void cBuffer::writeChar(char value)
 }
 char cBuffer::readChar()
 {
-	return _buffer[readIndex];
-	readIndex++;
+	return _buffer[readIndex++];
 }
 
 void cBuffer::writeStringBE(const std::string& value)

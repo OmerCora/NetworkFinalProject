@@ -96,3 +96,10 @@ void cPlayer::setbJustCameInJail(bool bFirstTime)
 	this->m_bJustCameInJail = bFirstTime;
 }
 
+void cPlayer::GetPlayerInfo(sProtocolPlayerInfo& outInfo)
+{
+	outInfo.id = m_user->SocketID();
+	outInfo.nick.name = m_user->Email();
+	outInfo.money = m_money;
+	outInfo.location = m_currentLocation;
+}

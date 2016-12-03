@@ -123,8 +123,7 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	{
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
 		sProtocolResponseGameStart protocol;
-		protocol_playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
-		protocol_playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
+		this->GetPlayersInfo(protocol);
 		m_packetProcedure->AppendProtocol(protocol);
 
 		m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -136,11 +135,14 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	return true;
 }
 
-sProtocolResponseGameStart cLogicMonoPoly::GetPlayersInfo()
+void cLogicMonoPoly::GetPlayersInfo(sProtocolResponseGameStart& outInfo)
 {
-	sProtocolResponseGameStart protocol;
-	protocol.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
-	protocol.playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
+	outInfo.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
+	outInfo.playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
+
+	m_players[0]->GetPlayerInfo(outInfo.playerA);
+	m_players[1]->GetPlayerInfo(outInfo.playerB);
+
 }
 void cLogicMonoPoly::BringToStart(iPlayer* player)
 {
