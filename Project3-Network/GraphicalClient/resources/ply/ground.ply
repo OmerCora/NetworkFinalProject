@@ -1,0 +1,20 @@
+ply
+format ascii 1.0
+comment i used this to deduce how tolerant meshlab is
+obj_info any data, in one line of free form text
+element vertex 4
+property float x
+property float y
+property float z
+property float red
+property float green
+property float blue
+element face 2
+property list uchar int vertex_indices
+end_header
+-40 -0.8 -40 0.33 0.33 0.33
+ 40 -0.8 -40 0.33 0.33 0.33
+-40 -0.8  40 0.33 0.33 0.33
+ 40 -0.8  40 0.33 0.33 0.33
+3 2 3 1
+3 2 1 0

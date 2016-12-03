@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Game Managers">
+      <UniqueIdentifier>{d7dd7c82-1ea0-4043-a601-0db081cd9581}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interfaces">
+      <UniqueIdentifier>{d542a7ef-646f-4163-8a70-428c34d66dfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Containers">
+      <UniqueIdentifier>{3c8ca581-3ae4-44a4-b902-b9ba6cb82e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Managers">
+      <UniqueIdentifier>{fb355aff-5758-4a95-a774-0b76f002f7f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Containers">
+      <UniqueIdentifier>{45091263-475e-4c16-9e97-564e4923c2f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Header Only Files">
+      <UniqueIdentifier>{1b211ae7-9d83-4d52-a7b3-fdff51010de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Builders/Factories">
+      <UniqueIdentifier>{fa93aba4-c230-4743-ab70-8145ac03192f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Builders/Factories">
+      <UniqueIdentifier>{54a55f40-9651-4fcb-a017-396cb0360ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{cc450a5b-6a9e-4d8a-8bb5-9c75c5cb1d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Game Object">
+      <UniqueIdentifier>{d7e49690-f568-4edf-b0e0-0c1f37944d60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{5e1316d8-e99b-4a0d-94b3-0977f6466ccb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Game Object">
+      <UniqueIdentifier>{b9f41c1a-0a4f-48f9-8250-6337699c00d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Game Files">
+      <UniqueIdentifier>{9eda984b-9d9b-455f-b55e-4c38d7f5a10e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{644ea7bf-5173-43d5-959e-8b6abf3b1830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Game Object\world">
+      <UniqueIdentifier>{d07c2563-d85a-4e4f-a483-8c230ef76731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Game Object\world">
+      <UniqueIdentifier>{138e5286-ebce-4810-a0d9-a36dabb30528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Managers\Main">
+      <UniqueIdentifier>{2e1eedd4-2493-44aa-b931-a56d3e28f14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Managers\Main">
+      <UniqueIdentifier>{baff65dc-7f2f-4e5e-9982-7a64ce142241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Texture">
+      <UniqueIdentifier>{fd281ae2-4253-4e3b-9ae1-cc6736dbf4d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Texture">
+      <UniqueIdentifier>{b4535dec-2142-4766-8f63-38c109ce4034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entities\Command">
+      <UniqueIdentifier>{b9a70bbb-fb3d-40c5-974a-3e2c97a8b632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities\Command">
+      <UniqueIdentifier>{ca8430e1-8313-4bb6-a055-8574b1e700f8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelCameraManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelObjectManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelMeshManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelRenderManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelObjectFactory.cpp">
+      <Filter>Source Files\Builders/Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="gelShaderManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cSeeker.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="gelSoundManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="cGLColourHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OCHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="gelLightManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="cLightSource.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="gelWorldManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="cAnimal.cpp">
+      <Filter>Source Files\Entities\Game Object\world</Filter>
+    </ClCompile>
+    <ClCompile Include="gelObjectBuilder.cpp">
+      <Filter>Source Files\Builders/Factories</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlant.cpp">
+      <Filter>Source Files\Entities\Game Object\world</Filter>
+    </ClCompile>
+    <ClCompile Include="FloraInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="FaunaInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="GelsenizeCore.cpp">
+      <Filter>Source Files\Game Managers\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cParticleEmitter.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cParticle.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CTextureFromBMP.cpp">
+      <Filter>Source Files\Entities\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="C24BitBMPpixel.cpp">
+      <Filter>Source Files\Entities\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="GelTextureManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCommand.cpp">
+      <Filter>Source Files\Entities\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="cCommandGroup.cpp">
+      <Filter>Source Files\Entities\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="cMoveCommand.cpp">
+      <Filter>Source Files\Entities\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionInfo.cpp">
+      <Filter>Source Files\Game Containers</Filter>
+    </ClCompile>
+    <ClCompile Include="GelCollisionManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GelCommandManager.cpp">
+      <Filter>Source Files\Game Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="cApproachVelocityCommand.cpp">
+      <Filter>Source Files\Entities\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="cFlock.cpp">
+      <Filter>Source Files\Entities\Game Object</Filter>
+    </ClCompile>
+    <ClCompile Include="cAABB.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="managers.h">
+      <Filter>Header Files\Header Only Files</Filter>
+    </ClInclude>
+    <ClInclude Include="externals.h">
+      <Filter>Header Files\Header Only Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="infos.h">
+      <Filter>Header Files\Header Only Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iManager.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="GelStructures.h">
+      <Filter>Header Files\Header Only Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iGameObject.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="gelObjectFactory.h">
+      <Filter>Header Files\Builders/Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="gelCameraManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelMeshManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelObjectManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelRenderManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelShaderManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="cContact.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cSeeker.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="gelSoundManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelLightManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="LightInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="OCHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cLightSource.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="gelWorldManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="gelObjectBuilder.h">
+      <Filter>Header Files\Builders/Factories</Filter>
+    </ClInclude>
+    <ClInclude Include="cAnimal.h">
+      <Filter>Header Files\Entities\Game Object\world</Filter>
+    </ClInclude>
+    <ClInclude Include="iWorldObject.h">
+      <Filter>Header Files\Entities\Game Object\world</Filter>
+    </ClInclude>
+    <ClInclude Include="iWorldObjectAssign.h">
+      <Filter>Header Files\Entities\Game Object\world</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlant.h">
+      <Filter>Header Files\Entities\Game Object\world</Filter>
+    </ClInclude>
+    <ClInclude Include="FloraInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="FaunaInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="GelsenizeCore.h">
+      <Filter>Header Files\Game Managers\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="iGameObjectAssign.h">
+      <Filter>Header Files\Entities\Game Object\world</Filter>
+    </ClInclude>
+    <ClInclude Include="cAABB.h">
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticle.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="C24BitBMPpixel.h">
+      <Filter>Header Files\Entities\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="cGLColourHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTextureFromBMP.h">
+      <Filter>Header Files\Entities\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="GelTextureManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="cParticleEmitter.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+    <ClInclude Include="iCommand.h">
+      <Filter>Header Files\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="cCommand.h">
+      <Filter>Header Files\Entities\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="cCommandGroup.h">
+      <Filter>Header Files\Entities\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="cMoveCommand.h">
+      <Filter>Header Files\Entities\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionInfo.h">
+      <Filter>Header Files\Game Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="GelCollisionManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="GelCommandManager.h">
+      <Filter>Header Files\Game Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="commands.h">
+      <Filter>Header Files\Header Only Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cApproachVelocityCommand.h">
+      <Filter>Header Files\Entities\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="cFlock.h">
+      <Filter>Header Files\Entities\Game Object</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\phongFrag.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="resources\shaders\phongVert.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="resources\shaders\Shader.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="resources\shaders\Shader.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="resources\gameFile\gameFile.json">
+      <Filter>Resource Files\Game Files</Filter>
+    </None>
+    <None Include="resources\shaders\blinn_phongFrag.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="resources\shaders\blinn_phongVert.glsl">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="resources\gameFile\gameFile.txt">
+      <Filter>Resource Files\Game Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
