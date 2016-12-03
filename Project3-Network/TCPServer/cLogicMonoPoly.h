@@ -25,8 +25,6 @@ public:
 	virtual bool UpdateGameLoop();
 	virtual bool IsGameOver();
 	virtual void BringToStart(iPlayer* player);
-	virtual void openCommunityCardTo(iPlayer* player);
-	virtual void openChanceCardTo(iPlayer* player);
 
 	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 	virtual void ProcessReceiveData(cBuffer& receiveBuffer);
