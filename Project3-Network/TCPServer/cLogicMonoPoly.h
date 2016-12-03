@@ -29,6 +29,9 @@ public:
 	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 	virtual void ProcessReceiveData(cBuffer& receiveBuffer);
 
+	virtual void SetLastReceivedProtocol(iProtocol* protocol);
+	virtual iProtocol* GetLastReceivedProtocol();
+
 private:
 	//std::thread GameLoopThread();
 	bool CleanUp();
@@ -56,5 +59,6 @@ private:
 	ePlayState m_priorState;
 
 	iPacketProcedureMonopoly* m_packetProcedure;
+	iProtocol* m_lastReceivedData;
 };
 
