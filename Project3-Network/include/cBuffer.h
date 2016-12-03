@@ -72,6 +72,15 @@ public:
 	/************************************************
 	// Protocols for Game Monopoly
 	************************************************/
+	void Serialize(const sProtocolNameInfo& data);
+	void Deserialize(sProtocolNameInfo& data);
+	void Serialize(const sProtocolPlayerInfo& data);
+	void Deserialize(sProtocolPlayerInfo& data);
+	void Serialize(const sProtocolDistrictInfo& data);
+	void Deserialize(sProtocolDistrictInfo& data);
+	void Serialize(const sProtocolBoardInfo& data);
+	void Deserialize(sProtocolBoardInfo& data);
+
 	void Serialize(const sProtocolMonopolyHeader& data);
 	void Deserialize(sProtocolMonopolyHeader& data);
 	void Serialize(const sProtocolResponseGameStart& data);

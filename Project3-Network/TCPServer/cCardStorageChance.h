@@ -27,5 +27,7 @@ public:
 
 	cCardStorageChance();
 	virtual ~cCardStorageChance();
+
+	virtual int pickOneCard();
 };
 

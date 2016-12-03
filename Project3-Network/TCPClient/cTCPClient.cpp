@@ -884,7 +884,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
 
-			if(
+			//if(
 			std::cout << "\t Press any key to throw dice" << std::endl;
 
 			char anyKey = _getch();

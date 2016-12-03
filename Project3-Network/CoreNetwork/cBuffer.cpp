@@ -368,12 +368,14 @@ void cBuffer::Deserialize(sProtocolPlayerInfo& data)
 void cBuffer::Serialize(const sProtocolDistrictInfo& data)
 {
 	this->writeInt32BE(data.price);
+	this->writeChar(data.districtType);
 	this->writeChar(data.district_id);
 	this->writeChar(data.owner_id);
 }
 void cBuffer::Deserialize(sProtocolDistrictInfo& data)
 {
 	data.price = this->readInt32BE();
+	data.districtType = this->readChar();
 	data.district_id = this->readChar();
 	data.owner_id = this->readChar();
 	this->flushBuffer();
@@ -414,20 +416,22 @@ void cBuffer::Deserialize(sProtocolMonopolyHeader& data)
 
 void cBuffer::Serialize(const sProtocolResponseGameStart& data)
 {
-	this->Serialize((const sProtocolPlayerInfo&)data);
+	this->Serialize(data.playerA);
+	this->Serialize(data.playerB);
 }
 void cBuffer::Deserialize(sProtocolResponseGameStart& data)
 {
-	this->Deserialize((sProtocolPlayerInfo&)data);
+	this->Deserialize(data.playerA);
+	this->Deserialize(data.playerB);
 }
 
 void cBuffer::Serialize(const sProtocolRequestPlayThrowDice& data)
 {
-	this->Serialize((const sProtocolPlayerInfo&)data);
+	this->Serialize(data.playerInfo);
 }
 void cBuffer::Deserialize(sProtocolRequestPlayThrowDice& data)
 {
-	this->Deserialize((sProtocolPlayerInfo&)data);
+	this->Deserialize(data.playerInfo);
 }
 
 void cBuffer::Serialize(const sProtocolResponsePlayThrowDice& data)
@@ -457,15 +461,11 @@ void cBuffer::Deserialize(sProtocolResponsePlayAction& data)
 
 void cBuffer::Serialize(const sProtocolAskAssetAction& data)
 {
-	this->writeInt16BE(data.districtType);
-	this->writeInt16BE(data.districtID);
-	this->writeInt16BE(data.price);
+	this->Serialize(data.districtInfo);
 }
 void cBuffer::Deserialize(sProtocolAskAssetAction& data)
 {
-	data.districtType = this->readInt16BE();
-	data.districtID = this->readInt16BE();
-	data.price = this->readInt16BE();
+	this->Deserialize(data.districtInfo);
 }
 
 void cBuffer::Serialize(const sProtocolAnswerAssetAction& data)

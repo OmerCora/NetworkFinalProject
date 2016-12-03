@@ -28,5 +28,10 @@ public:
 
 	cCardStorageCommunity();
 	virtual ~cCardStorageCommunity();
+
+	virtual int pickOneCard();
+
+
+
 };
 
