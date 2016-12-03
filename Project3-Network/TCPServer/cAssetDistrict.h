@@ -13,6 +13,7 @@ public:
 	virtual bool SetSold();
 	virtual bool SetOwner(iPlayer* player);
 	virtual unsigned int GetPrice();
+	virtual void GetDistrictInfo(sProtocolDistrictInfo& outInfo);
 	// begin of cAssetDistrict
 
 protected:

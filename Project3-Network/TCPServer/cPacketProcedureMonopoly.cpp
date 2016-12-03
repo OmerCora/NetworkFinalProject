@@ -76,7 +76,11 @@ void cPacketProcedureMonopoly::AppendProtocol(sProtocolResponseGameOver& protoco
 	m_header.SetProtocol(protocol);
 	m_temporaryBuffer.Serialize(protocol);
 }
-
+void cPacketProcedureMonopoly::AppendProtocol(sProtocolBoardInfo& protocol)
+{
+	m_header.SetProtocol(protocol);
+	m_temporaryBuffer.Serialize(protocol);
+}
 bool cPacketProcedureMonopoly::SendData(SOCKET client)
 {
 	m_sendBuffer.clear();

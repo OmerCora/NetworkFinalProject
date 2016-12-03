@@ -7,9 +7,9 @@
 
 cAssetDistrict::cAssetDistrict(int districtID, unsigned int price)
 	:cDistrict(districtID)
+	, m_price(price)
+	, m_owner(0)
 {
-	this->m_price = price;
-	this->m_owner = 0;
 }
 
 
@@ -30,4 +30,12 @@ bool cAssetDistrict::SetOwner(iPlayer* player)
 unsigned int cAssetDistrict::GetPrice()
 {
 	return this->m_price;
+}
+void cAssetDistrict::GetDistrictInfo(sProtocolDistrictInfo& outInfo)
+{
+	outInfo.districtType = this->DistrictType();
+	outInfo.district_id = this->m_districtID;
+	if(m_owner)
+		outInfo.owner_id = m_owner->PlayerID();
+	outInfo.price = m_price;
 }

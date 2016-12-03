@@ -6,10 +6,11 @@
 class cPlayer : public iPlayer
 {
 public:
-	cPlayer(iUser* user);
+	cPlayer(iUser* user, char playerID);
 	virtual ~cPlayer();
 
 	virtual iUser* User();
+	virtual char PlayerID();
 
 	virtual bool IsReadyToPlay();
 
@@ -34,6 +35,8 @@ public:
 
 
 private:
+	char m_playerID;
+
 	unsigned int m_money;
 	unsigned int m_enjailedCount;
 

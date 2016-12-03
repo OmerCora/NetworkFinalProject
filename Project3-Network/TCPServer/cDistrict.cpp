@@ -15,6 +15,14 @@ cDistrict::cDistrict(int districtID)
 cDistrict::~cDistrict()
 {
 }
+void cDistrict::GetDistrictInfo(sProtocolDistrictInfo& outInfo)
+{
+	outInfo.districtType = this->DistrictType();
+	outInfo.district_id = this->m_districtID;
+	outInfo.owner_id = 0;
+	outInfo.price = 0;
+}
+
 bool cDistrict::IsRequiredAnswer() { return m_isRequiredAnswer;/*it should be a member variable*/ }
 bool cDistrict::AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic)
 {

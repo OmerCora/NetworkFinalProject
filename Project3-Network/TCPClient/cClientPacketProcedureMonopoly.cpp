@@ -109,6 +109,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameStart:
 	{
 		system("cls");
+		SetCursorPos(0, 0);
 
 		std::cout << "e_ResponseGameStart" << std::endl;
 
@@ -128,7 +129,13 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayThrowDice data;
 		receiveBuffer.Deserialize(data);
 
-		m_client.SetNextLocation(data.nextLocation);
+
+		// check this packet is for me or not
+		if (m_client.GetSocketID() == data.player.id)
+		{
+			m_client.SetNextLocation(data.player.location);
+		}
+
 		m_client.SetState(iTCPClient::e_GM_ThrowDice);
 
 		break;
@@ -205,7 +212,8 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 		std::cout << "e_ResponsePlayTurnChange" << std::endl;
 
-		sProtocolResponsePlayTurnChange data;
+		//sProtocolResponsePlayTurnChange data;
+		sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
 
 		m_client.SetState(iTCPClient::e_GM_TurnChange);
@@ -216,7 +224,8 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 		std::cout << "e_ResponsePlayTurnKeep" << std::endl;
 
-		sProtocolResponsePlayTurnKeep data;
+		//sProtocolResponsePlayTurnKeep data;
+		sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
 
 

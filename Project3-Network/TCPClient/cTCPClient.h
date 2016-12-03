@@ -36,6 +36,7 @@ public:
 
 
 	// begin of iTCPClient
+	virtual SOCKET GetSocketID();
 	virtual void SetState(eGameMonopolyState state);
 	virtual void SetNextLocation(short nextLocation);
 	// end of iTCPClient

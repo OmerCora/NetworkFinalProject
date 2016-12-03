@@ -34,6 +34,7 @@ public:
 		e_GM_Finish,
 	};
 
+	virtual SOCKET GetSocketID() = 0;
 	virtual void SetState(eGameMonopolyState state) = 0;
 	virtual void SetNextLocation(short nextLocation) = 0;
 

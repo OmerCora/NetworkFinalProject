@@ -47,8 +47,8 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 
 	m_dice = new cDice();
 
-	m_players[0] = new cPlayer(userA);
-	m_players[1] = new cPlayer(userB);
+	m_players[0] = new cPlayer(userA, 0);
+	m_players[1] = new cPlayer(userB, 1);
 
 	m_communityStorage = new cCardStorageCommunity();
 	m_chanceStorage = new cCardStorageChance();
@@ -134,7 +134,20 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 
 	return true;
 }
+void cLogicMonoPoly::GetBoardInfo(sProtocolBoardInfo& outInfo)
+{
+	outInfo.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
+	outInfo.playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
 
+	m_players[0]->GetPlayerInfo(outInfo.playerA);
+	m_players[1]->GetPlayerInfo(outInfo.playerB);
+
+	for (int i = 0; i < 40; ++i)
+	{
+		m_districts[i]->GetDistrictInfo(outInfo.districts[i]);
+	}
+
+}
 void cLogicMonoPoly::GetPlayersInfo(sProtocolResponseGameStart& outInfo)
 {
 	outInfo.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
@@ -191,7 +204,10 @@ bool cLogicMonoPoly::UpdateGameLoop()
 		// 1. throw dice
 		if(m_players[m_currentPlayerIndex]->getbCanThrowDice())
 		{
-			m_nextLocation = m_dice->Throw() + m_players[m_currentPlayerIndex]->CurrentLocation();
+			int throwValue;
+			bool doubleSame = m_dice->DoubleThrow(throwValue);
+			if (doubleSame) m_players[m_currentPlayerIndex]->TakeChanceToThrowDice();
+			m_nextLocation =  throwValue + m_players[m_currentPlayerIndex]->CurrentLocation();
 			if (m_nextLocation >= (int)m_districts.size())
 				m_nextLocation = 0;
 
@@ -211,7 +227,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 		{
 			m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayThrowDice);
 			sProtocolResponsePlayThrowDice protocol;
-			protocol.nextLocation = m_nextLocation;
+			m_players[m_currentPlayerIndex]->GetPlayerInfo(protocol.player);
 			m_packetProcedure->AppendProtocol(protocol);
 
 			m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -268,7 +284,8 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			// send turn change information
 			{
 				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnChange);
-				sProtocolResponsePlayTurnChange protocol;
+				sProtocolBoardInfo protocol;
+				this->GetBoardInfo(protocol);
 				m_packetProcedure->AppendProtocol(protocol);
 
 				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -282,7 +299,8 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			// send turn keep information
 			{
 				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnKeep);
-				sProtocolResponsePlayTurnChange protocol;
+				sProtocolBoardInfo protocol;
+				this->GetBoardInfo(protocol);
 				m_packetProcedure->AppendProtocol(protocol);
 
 				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -302,6 +320,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 			// TODO: record rate of current play
 			{
+
 			}
 
 			// send result to the rating server
@@ -418,9 +437,6 @@ void cLogicMonoPoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 		std::cout << "e_AnswerAssetAction" << std::endl;
 
-		sProtocolAnswerAssetAction data;
-		receiveBuffer.Deserialize(data);
-		
 		sProtocolAnswerAssetAction* dataPtr = new sProtocolAnswerAssetAction();
 		receiveBuffer.Deserialize(*dataPtr);
 		this->SetLastReceivedProtocol(dataPtr);

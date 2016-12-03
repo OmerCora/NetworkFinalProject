@@ -19,7 +19,7 @@ int cDice::Throw()
 	return diceNumber;
 }
 
-bool cDice::DoubleThrow(float & diceValue)
+bool cDice::DoubleThrow(int & diceValue)
 {
 	int diceNumber1 = rand() % 6 +1; //1..6
 	int diceNumber2 = rand() % 6 +1; //1..6

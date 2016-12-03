@@ -10,6 +10,7 @@ public:
 	virtual ~cDistrict();
 
 	// begin of iDistrict
+	virtual void GetDistrictInfo(sProtocolDistrictInfo& outInfo);
 	virtual bool IsRequiredAnswer();
 	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic);
 	virtual bool RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic);

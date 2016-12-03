@@ -6,6 +6,6 @@ public:
 	virtual ~iDice() {}
 
 	virtual int Throw() = 0;
-	virtual bool DoubleThrow(float &diceValue) = 0;
+	virtual bool DoubleThrow(int &diceValue) = 0;
 };
 

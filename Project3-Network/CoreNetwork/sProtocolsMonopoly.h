@@ -102,12 +102,11 @@ struct sProtocolRequestPlayThrowDice : public iProtocol
 struct sProtocolResponsePlayThrowDice : public iProtocol
 {
 	sProtocolResponsePlayThrowDice()
-		:nextLocation(0)
 	{}
-	short nextLocation;
+	sProtocolPlayerInfo player;
 	unsigned int Size()
 	{
-		return sizeof(nextLocation);
+		return player.Size();
 	}
 };
 struct sProtocolRequestPlayAction : public iProtocol
@@ -335,6 +334,10 @@ struct sProtocolMonopolyHeader : public iProtocol
 	unsigned int Size()
 	{
 		return sizeof(packet_length) + sizeof(packet_id);
+	}
+	void SetProtocol(sProtocolBoardInfo& data)
+	{
+		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(ePacketID packetID, sProtocolResponsePlayFailure& data)
 	{

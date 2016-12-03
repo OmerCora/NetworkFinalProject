@@ -233,6 +233,10 @@ void cTCPClient::UserSendThread()
 		if (m_menuState == eChatMenuState::e_PlayGame)
 		{
 			// do nothing
+			while (m_menuState == eChatMenuState::e_PlayGame)
+			{
+				Sleep(1000);
+			}
 		}
 		else if (m_menuState == eChatMenuState::e_Connect)
 		{
@@ -862,6 +866,8 @@ void cTCPClient::ClientReceiveTherad()
 	//std::cout << "end of FreeConsole" << std::endl;
 }
 
+
+SOCKET cTCPClient::GetSocketID() { return m_connectedSocket; }
 void cTCPClient::SetState(eGameMonopolyState state) { m_gameMonopolyState = state; }
 void cTCPClient::SetNextLocation(short nextLocation) { m_nextLocation = nextLocation; }
 void cTCPClient::PlayMonopolySendThread()
@@ -904,8 +910,6 @@ void cTCPClient::PlayMonopolySendThread()
 		case eGameMonopolyState::e_GM_Start:
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
-
-			//if(
 			std::cout << "\t Press any key to throw dice" << std::endl;
 
 			char anyKey = _getch();
@@ -915,7 +919,7 @@ void cTCPClient::PlayMonopolySendThread()
 
 			// request throw dice
 			{
-				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayThrowDice);
+				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_RequestPlayThrowDice);
 				sProtocolRequestPlayThrowDice data;
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
@@ -929,7 +933,6 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ThrowDice" << std::endl;
 
-			std::cout << "\t NextLocation: " << m_nextLocation << std::endl;
 
 			diceAnimation = 0.0f;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationThrowDice;
@@ -941,7 +944,9 @@ void cTCPClient::PlayMonopolySendThread()
 			{
 				diceAnimation += (float)deltaTime;
 			}
-			
+
+			std::cout << "\t Your Current Square: " << m_nextLocation << std::endl;
+
 			m_gameMonopolyState = eGameMonopolyState::e_GM_MovePiece;
 			break;
 		}
@@ -1064,12 +1069,16 @@ void cTCPClient::PlayMonopolySendThread()
 
 
 			char anyKey = _getch();
+			
 
 			// request asking
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = 1;
+				data.yesOrNo = 0;
+				if(anyKey==89 || anyKey==121)
+					data.yesOrNo = 1;
+
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);

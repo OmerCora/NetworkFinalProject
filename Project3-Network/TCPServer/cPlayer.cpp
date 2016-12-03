@@ -6,13 +6,14 @@
 #include <conio.h>
 #include <iostream>
 
-cPlayer::cPlayer(iUser* user)
+cPlayer::cPlayer(iUser* user, char playerID)
 	:m_money(1500)
 	, m_isReady(true)
 	, m_user(user)
 	, m_chanceToThrowDice(false)
 	, m_currentLocation(-1)
 	, m_enjailedCount(0)
+	, m_playerID(playerID)
 {
 }
 
@@ -22,6 +23,7 @@ cPlayer::~cPlayer()
 }
 
 iUser* cPlayer::User() { return m_user; }
+char cPlayer::PlayerID() { return m_playerID; }
 
 
 bool cPlayer::IsReadyToPlay()
@@ -62,7 +64,6 @@ bool cPlayer::HasChanceToThrowDice()
 void cPlayer::TakeChanceToThrowDice()
 {
 	m_chanceToThrowDice = true;
-
 }
 
 int cPlayer::getEnjailCount()

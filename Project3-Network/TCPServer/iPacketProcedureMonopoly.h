@@ -33,6 +33,7 @@ public:
 	virtual void AppendProtocol(sProtocolResponsePlayTurnKeep& protocol) = 0;
 	virtual void AppendProtocol(sProtocolResponseGameFinish& protocol) = 0;
 	virtual void AppendProtocol(sProtocolResponseGameOver& protocol) = 0;
+	virtual void AppendProtocol(sProtocolBoardInfo& protocol) = 0;
 	virtual bool SendData(SOCKET client) = 0;
 
 	// end of iPacketProcedureMonopoly

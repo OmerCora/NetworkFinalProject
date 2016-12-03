@@ -36,6 +36,7 @@ private:
 	//std::thread GameLoopThread();
 	bool CleanUp();
 
+	void GetBoardInfo(sProtocolBoardInfo& outInfo);
 	void GetPlayersInfo(sProtocolResponseGameStart& outInfo);
 
 

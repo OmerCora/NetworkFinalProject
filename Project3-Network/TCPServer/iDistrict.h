@@ -4,6 +4,7 @@
 #include "iPlayer.h"
 #include "iLogicMonopolyMediator.h"
 #include <sProtocols.h>
+#include <sProtocolsMonopoly.h>
 #include <set>
 
 class iDistrict
@@ -14,6 +15,7 @@ public:
 
 	// begin of iDistrict
 	virtual sProtocolMonopolyHeader::eDistrictType DistrictType() = 0;
+	virtual void GetDistrictInfo(sProtocolDistrictInfo& outInfo) = 0;
 	virtual bool IsRequiredAnswer() = 0;
 	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;
 	virtual bool RemovePlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;

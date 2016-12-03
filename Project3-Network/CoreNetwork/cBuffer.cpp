@@ -436,11 +436,11 @@ void cBuffer::Deserialize(sProtocolRequestPlayThrowDice& data)
 
 void cBuffer::Serialize(const sProtocolResponsePlayThrowDice& data)
 {
-	this->writeInt16BE(data.nextLocation);
+	this->Serialize(data.player);
 }
 void cBuffer::Deserialize(sProtocolResponsePlayThrowDice& data)
 {
-	data.nextLocation = this->readInt16BE();
+	this->Deserialize(data.player);
 }
 
 void cBuffer::Serialize(const sProtocolRequestPlayAction& data)
