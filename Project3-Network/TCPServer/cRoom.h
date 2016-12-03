@@ -46,6 +46,7 @@ public:
 	//void GetUsers(std::vector<std::string>& usernames);
 	//void GetChatHistory(const std::string& userName, std::vector<std::string>& chatHistory);
 
+	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 	virtual void UpdateGameLoop();
 
 private:

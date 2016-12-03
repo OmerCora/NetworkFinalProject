@@ -21,9 +21,24 @@
     <ClCompile Include="cTCPClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cConsolTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cClientPacketProcedureMonopoly.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cTCPClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cConsolTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cClientPacketProcedureMonopoly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="iClientPacketProcedure.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -607,6 +607,11 @@ bool cTCPServer::ProcessReceivedDataFromUsers()
 
 		switch (m_headerRecvBuff.packet_id)
 		{
+		case sProtocolHeader::ePacketID::e_PlayMonopoly:
+		{
+			cRoomManager::GetInstance().ProcessReceivedPlayData(receiveBuffer);
+			break;
+		}
 		case sProtocolHeader::ePacketID::e_RequestSignin:
 		{
 			std::cout << "e_RequestSignin" << std::endl;

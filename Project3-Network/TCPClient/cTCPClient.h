@@ -14,6 +14,7 @@
 
 #include "cBuffer.h"
 #include "sProtocols.h"
+#include "iClientPacketProcedure.h"
 
 class cTCPClient
 {
@@ -58,13 +59,36 @@ private:
 		e_ChatFailure,
 	};
 	eChatMenuState m_menuState;
-	// disaplay user interactive information
-	bool InputNumber(int& outNumber);
-	bool InputName(const std::string& title, unsigned int maximum_chars, std::string& outString, short CurX, short CurY, char exceptCh=0);
-	bool InputPassword(const std::string& title, unsigned int maximum_chars, std::string& outString, short CurX, short CurY);
+
+	enum eGameMonopolyState
+	{
+		e_GM_Wait = 0,
+		e_GM_Start,
+		e_GM_ThrowDice,
+		e_GM_MoveDistrict,
+
+		e_GM_DistrictStart,
+		e_GM_DistrictTax,
+		e_GM_DistrictBuilding,
+		e_GM_DistrictStation,
+		e_GM_DistrictUtility,
+		e_GM_DistrictCard,
+		e_GM_DistrictFreeParking,
+		e_GM_DistrictGotoJail,
+		e_GM_DistrictJail,
+
+		e_GM_Finish,
+	};
+	eGameMonopolyState m_gameMonopolyState;
+	iClientPacketProcedure* m_gameMonopolyPacketProcedure;
+
 	void UserSendThread();
 	void ClientReceiveTherad();
-	std::thread GetSenderThread();
+
+	void PlayMonopolySendThread();
+
+	std::thread GetChatSenderThread();
+	std::thread GetPlayMonopolySenderThread();
 	std::thread GetReceiverThread();
 
 	//Step 1
@@ -94,15 +118,15 @@ private:
 	// when console close event occur, it make sure the clean up every thing before console shutdown
 	static BOOL WINAPI ConsoleHandler(DWORD CEvent);
 
-	bool m_isPrinting;
-	COORD m_inputCursorPos;
-	void StartPrinting();
-	void EndPrinting(bool isInput);
+	//bool m_isPrinting;
+	//COORD m_inputCursorPos;
+	//void StartPrinting();
+	//void EndPrinting(bool isInput);
 
-	void SetCursorPos(short x, short y);
+	//void SetCursorPos(short x, short y);
 
-	void DrawRectangle(short x, short y, short width, short height);
-	void PrintPos(short x, short y, const char* txt);
+	//void DrawRectangle(short x, short y, short width, short height);
+	//void PrintPos(short x, short y, const char* txt);
 
 	void PrintTitlePage(const std::string& title);
 	void PrintLobbyUsers();

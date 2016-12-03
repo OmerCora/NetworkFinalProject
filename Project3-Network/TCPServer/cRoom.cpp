@@ -234,7 +234,11 @@ bool cRoom::SendData()
 
 	return true;
 }
-
+void cRoom::ProcessReceivedPlayData(cBuffer& receiveBuffer)
+{
+	if (m_logicMonopoly)
+		m_logicMonopoly->ProcessReceivedPlayData(receiveBuffer);
+}
 void cRoom::UpdateGameLoop()
 {
 	if (m_logicMonopoly)

@@ -128,7 +128,8 @@ void cBuffer::printInHex()
 	}
 }
 
-
+///////////////////////////////////////////////
+// begin serialize
 void cBuffer::Serialize(const sProtocolHeader& data)
 {
 	this->writeInt32BE(data.packet_length);
@@ -225,6 +226,8 @@ void cBuffer::Serialize(const sProtocolAccount& data)
 	this->Serialize((const sProtocolPassword&)data);
 }
 
+///////////////////////////////////////////////
+// begin deserialize
 void cBuffer::Deserialize(sProtocolHeader& data)
 {
 	data.packet_length = this->readInt32BE();
@@ -351,6 +354,25 @@ void cBuffer::Deserialize(sProtocolAccount& data)
 }
 
 
+/************************************************
+// Protocols for Game Monopoly
+************************************************/
+void cBuffer::Serialize(const sProtocolMonopolyHeader& data)
+{
+	this->writeInt32BE(data.packet_length);
+	this->writeInt32BE(data.packet_id);
+}
+void cBuffer::Deserialize(sProtocolMonopolyHeader& data)
+{
+	data.packet_length = this->readInt32BE();
+	data.packet_id = (sProtocolMonopolyHeader::ePacketID)this->readInt32BE();
+	this->flushBuffer();
+}
+
+
+
+//////////////////////////////////////////////////
+// functions
 void cBuffer::writeChar(char value)
 {
 	_buffer[writeIndex] = value;

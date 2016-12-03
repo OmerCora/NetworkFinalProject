@@ -5,9 +5,20 @@
 #include "iDice.h"
 #include "iPlayer.h"
 #include "iCardStorage.h"
+#include "iPacketProcedureMonopoly.h"
 
 #include <vector>
-#include <thread>
+
+#undef UNICODE
+// exclude many header files of windows.h
+#define WIN32_LEAN_AND_MEAN
+
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+
+#include "cBuffer.h"
 
 
 class cLogicMonoPoly : public iLogicMonopoly, public iLogicMonopolyMediator
@@ -22,6 +33,8 @@ public:
 	virtual void BringToStart(iPlayer* player);
 	virtual void openCommunityCardTo(iPlayer* player);
 	virtual void openChanceCardTo(iPlayer* player);
+
+	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 
 private:
 	//std::thread GameLoopThread();
@@ -57,5 +70,7 @@ private:
 	void SetState(ePlayState state);
 	ePlayState m_playState;
 	ePlayState m_priorState;
+
+	iPacketProcedureMonopoly* m_packetProcedure;
 };
 

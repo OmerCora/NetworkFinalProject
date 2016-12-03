@@ -30,7 +30,7 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 		logic.openChanceCardTo(player);
 	}
 	
-	std::cout << "\t cCardDistrict::Actioon()" << std::endl;
+	std::cout << "\t cCardDistrict::Action()" << std::endl;
 
 	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST

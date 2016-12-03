@@ -33,6 +33,7 @@ public:
 
 	virtual void AddChat(const std::string& username, const std::string& message) = 0;
 
+	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer) = 0;
 	virtual void UpdateGameLoop() = 0;
 
 };

@@ -67,6 +67,12 @@ public:
 	void Deserialize(sProtocolResponseFailure& data);
 	void Deserialize(sProtocolAccount& data);
 
+	/************************************************
+	// Protocols for Game Monopoly
+	************************************************/
+	void Serialize(const sProtocolMonopolyHeader& data);
+	void Deserialize(sProtocolMonopolyHeader& data);
+
 	void writeChar(char value);
 	char readChar();
 

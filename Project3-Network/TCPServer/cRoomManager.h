@@ -26,6 +26,7 @@ public:
 
 	void BroadcastData();
 
+	void ProcessReceivedPlayData(cBuffer& receiveBuffer);
 	void UpdateGameLoop();
 
 private:

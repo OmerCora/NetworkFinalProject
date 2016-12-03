@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "sProtocolsMonopoly.h"
 
 struct sProtocolRoom
 {
@@ -94,6 +95,11 @@ struct sProtocolChatMessage
 struct sProtocolSendChatMessage : sProtocolUser, sProtocolRoom, sProtocolChatMessage
 {
 };
+
+
+/************************************************
+// Protocols for Game Monopoly
+************************************************/
 struct sProtocolResponseChatHistory
 {
 	sProtocolResponseChatHistory()
@@ -148,14 +154,12 @@ struct sProtocolHeader
 
 		e_ResponseDisconnect,
 
-		//e_CreateAccount,
-		//e_CreateAccountSuccess,
-		//e_CreateAccountFailure,
-
-		//e_AuthenticateAccount,
-		//e_AuthenticateAccountSuccess,
-		//e_AuthenticateAccountFailure,
+		/************************************************
+		// Protocols for Game Monopoly
+		************************************************/
+		e_PlayMonopoly,
 	};
+
 
 	sProtocolHeader()
 		: packet_length(0)
@@ -248,7 +252,11 @@ struct sProtocolHeader
 		packet_length = data.message_length;
 		packet_length += sizeof(data.message_length) + sizeof(data.failureCode) + sizeof(sProtocolHeader);
 	}
-
+	void SetProtocol(sProtocolMonopolyHeader& data)
+	{
+		packet_id = e_PlayMonopoly;
+		packet_length = data.Size();
+	}
 };
 
 

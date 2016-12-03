@@ -85,6 +85,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cClientPacketProcedureMonopoly.cpp" />
+    <ClCompile Include="cConsolTool.cpp" />
     <ClCompile Include="cTCPClient.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
@@ -92,7 +94,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cClientPacketProcedureMonopoly.h" />
+    <ClInclude Include="cConsolTool.h" />
     <ClInclude Include="cTCPClient.h" />
+    <ClInclude Include="iClientPacketProcedure.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
