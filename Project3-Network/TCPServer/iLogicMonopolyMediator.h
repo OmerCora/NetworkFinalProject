@@ -14,9 +14,6 @@ public:
 
 	virtual void BringToStart(iPlayer* player) = 0;
 
-	virtual void openCommunityCardTo(iPlayer* player) = 0;
-	virtual void openChanceCardTo(iPlayer* player) = 0;
-
 	virtual iProtocol* GetLastReceivedProtocol() = 0;
 	virtual void SetLastReceivedProtocol(iProtocol* protocol) = 0;
 };

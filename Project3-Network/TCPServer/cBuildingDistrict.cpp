@@ -59,7 +59,7 @@ bool cBuildingDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& l
 	if (answerAction->yesOrNo)
 	{
 		//player said yes
-		this->SetOwner(player->User()->SocketID);
+		this->SetOwner(player);
 	}
 	else
 	{

@@ -35,6 +35,7 @@ cTCPClient::cTCPClient()
 	, m_gameStarted(false)
 
 {
+	m_instance = this;
 }
 
 
@@ -46,16 +47,16 @@ cTCPClient::~cTCPClient()
 cTCPClient* cTCPClient::m_instance = 0;
 cTCPClient& cTCPClient::GetInstance()
 {
-	if (m_instance == 0)
-		m_instance = new cTCPClient();
+	//if (m_instance == 0)
+	//	m_instance = new cTCPClient();
 	return *m_instance;
 }
-void cTCPClient::DeleteInstance()
-{
-	if (m_instance)
-		delete m_instance;
-	m_instance = 0;
-}
+//void cTCPClient::DeleteInstance()
+//{
+//	if (m_instance)
+//		delete m_instance;
+//	m_instance = 0;
+//}
 
 
 

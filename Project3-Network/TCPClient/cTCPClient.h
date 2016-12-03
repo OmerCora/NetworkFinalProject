@@ -19,14 +19,13 @@
 
 class cTCPClient : public iTCPClient
 {
+	static cTCPClient* m_instance;
+public:
 	cTCPClient();
 	~cTCPClient();
 
-
-	static cTCPClient* m_instance;
-public:
 	static cTCPClient& GetInstance();
-	static void DeleteInstance();
+//	static void DeleteInstance();
 
 	// Initialize client
 	bool StartClient();

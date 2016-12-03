@@ -5,20 +5,24 @@
 
 int main()
 {
+	cTCPClient* client = new cTCPClient();
+
 	// initialize server
-	if (!cTCPClient::GetInstance().StartClient())
+	if (!client->StartClient())
 		exit(EXIT_FAILURE);
 
 	// message loop
-	if (!cTCPClient::GetInstance().RunClient())
+	if (!client->RunClient())
 		exit(EXIT_FAILURE);
 
 	// clean up server
-	if (!cTCPClient::GetInstance().ShutDown())
+	if (!client->ShutDown())
 		exit(EXIT_FAILURE);
 
 
-	cTCPClient::DeleteInstance();
+	//cTCPClient::DeleteInstance();
+
+	delete client;
 
 	//Keep the window open
 	std::cout << "\nwaiting on exit";
