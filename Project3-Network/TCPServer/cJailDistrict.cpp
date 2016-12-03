@@ -1,5 +1,6 @@
 #include "MonopolyGlobal.h"
 #include "cJailDistrict.h"
+#include "cPlayer.h"
 
 #include <conio.h>
 #include <iostream>
@@ -18,25 +19,19 @@ cJailDistrict::~cJailDistrict()
 sProtocolMonopolyHeader::eDistrictType cJailDistrict::DistrictType() { return sProtocolMonopolyHeader::e_Jail; }
 bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
-	// implement content here
+	if (dynamic_cast<cPlayer*>(player)->getbJustCameInJail())
+	{
+		player->SetEnjailCount(3);
+		player->setbCanThrowDice(false);
+	}
 
+	else if (player->getEnjailCount() == 0)
+	{
+		player->setbCanThrowDice(true);
+	}
 
 	int tempCount = player->getEnjailCount();
 	player->SetEnjailCount(--tempCount);
-	if (player->getEnjailCount() < 0)
-	{
-		player->SetEnjailCount(3);
-		//player->setbChanceToThrowDice(false);
-	}
-	else if (player->getEnjailCount() <= 3 && player->getEnjailCount() >= 1)
-	{
-		//player->setbChanceToThrowDice(false);
-	}
-	else if (player->getEnjailCount() == 0)
-	{
-		//player->setbChanceToThrowDice(true);
-	}
-
 
 	std::cout << "\t cJailDistrict::Action()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;

@@ -65,22 +65,34 @@ void cPlayer::TakeChanceToThrowDice()
 
 }
 
-void cPlayer::SetEnjailCount(int numOfTurns)
-{
-	this->m_enjailedCount = numOfTurns;
-}
-
 int cPlayer::getEnjailCount()
 {
 	return this->m_enjailedCount;
 }
 
+void cPlayer::SetEnjailCount(int numOfTurns)
+{
+	this->m_enjailedCount = numOfTurns;
+}
+
+
 bool cPlayer::getbCanThrowDice()
 {
-	return false;
-}
+	return this->m_CanThrowDice;
+}		   
 
 void cPlayer::setbCanThrowDice(bool bChance)
 {
+	this->m_CanThrowDice = bChance;
+}
+
+bool cPlayer::getbJustCameInJail()
+{
+	return this->m_bJustCameInJail;
+}
+
+void cPlayer::setbJustCameInJail(bool bFirstTime)
+{
+	this->m_bJustCameInJail = bFirstTime;
 }
 
