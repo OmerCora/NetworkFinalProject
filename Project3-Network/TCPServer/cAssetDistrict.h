@@ -11,12 +11,12 @@ public:
 
 	// begin of cAssetDistrict
 	virtual bool SetSold();
-	virtual bool SetOwner();
+	virtual bool SetOwner(iPlayer* player);
 	virtual unsigned int GetPrice();
 	// begin of cAssetDistrict
 
 protected:
 	iPlayer* m_owner;
-
+	unsigned int price;
 };
 

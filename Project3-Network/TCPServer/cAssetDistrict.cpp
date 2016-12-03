@@ -20,13 +20,12 @@ bool cAssetDistrict::SetSold()
 	std::cout << "cAssetDistrict::SetSold()" << std::endl;
 	return true;
 }
-bool cAssetDistrict::SetOwner()
+bool cAssetDistrict::SetOwner(iPlayer* player)
 {
-	std::cout << "cAssetDistrict::SetOwner()" << std::endl;
+	this->m_owner = player;
 	return true;
 }
 unsigned int cAssetDistrict::GetPrice()
 {
-	std::cout << "cAssetDistrict::GetPrice()" << std::endl;
-	return true;
+	return this->price;
 }

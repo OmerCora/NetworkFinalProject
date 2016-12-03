@@ -9,5 +9,6 @@ public:
 	virtual ~cDice();
 
 	virtual int Throw();
+	virtual bool DoubleThrow(float &diceValue);
 };
 
