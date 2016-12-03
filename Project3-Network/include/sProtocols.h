@@ -96,10 +96,6 @@ struct sProtocolSendChatMessage : sProtocolUser, sProtocolRoom, sProtocolChatMes
 {
 };
 
-
-/************************************************
-// Protocols for Game Monopoly
-************************************************/
 struct sProtocolResponseChatHistory
 {
 	sProtocolResponseChatHistory()

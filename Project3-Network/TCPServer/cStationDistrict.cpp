@@ -36,9 +36,9 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 		//ask if the user wants to buy it
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_AskAssetAction);
 		sProtocolAskAssetAction protocol;
-		protocol.districtType = this->DistrictType();
-		protocol.districtID = this->m_districtID;
-		protocol.price = this->m_price;
+		protocol.districtInfo.districtType = this->DistrictType();
+		protocol.districtInfo.district_id = this->m_districtID;
+		protocol.districtInfo.price = this->m_price;
 		logic.PacketProcedure().AppendProtocol(protocol);
 
 		logic.PacketProcedure().SendData(player->User()->SocketID());

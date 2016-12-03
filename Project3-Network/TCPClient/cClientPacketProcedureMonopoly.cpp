@@ -115,7 +115,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponseGameStart data;
 		receiveBuffer.Deserialize(data);
 
-		m_client.Set
+		//m_client.Set
 
 		m_client.SetState(iTCPClient::e_GM_Start);
 
@@ -186,15 +186,15 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolAskAssetAction data;
 		receiveBuffer.Deserialize(data);
 
-		if (data.districtType == sProtocolMonopolyHeader::e_Building)
+		if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Building)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictBuilding);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Station)
+		else if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Station)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictStation);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Utility)
+		else if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Utility)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictUtility);
 		}
