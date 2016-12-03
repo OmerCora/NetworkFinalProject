@@ -123,6 +123,8 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	{
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
 		sProtocolResponseGameStart protocol;
+		protocol.isTurnForPlayerA = m_currentPlayerIndex == 0 ? 1 : 0;
+		protocol.isTurnForPlayerB = m_currentPlayerIndex == 1 ? 1 : 0;
 		m_packetProcedure->AppendProtocol(protocol);
 
 		m_packetProcedure->SendData(m_players[0]->User()->SocketID());
