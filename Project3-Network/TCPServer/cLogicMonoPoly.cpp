@@ -390,5 +390,52 @@ void cLogicMonoPoly::ProcessReceivedPlayData(cBuffer& receiveBuffer)
 {
 	std::cout << "cLogicMonoPoly::ProcessReceivedPlayData" << std::endl;
 
-	m_packetProcedure->ProcessReceiveData(receiveBuffer);
+	this->ProcessReceiveData(receiveBuffer);
+}
+
+void cLogicMonoPoly::ProcessReceiveData(cBuffer& receiveBuffer)
+{
+	sProtocolMonopolyHeader header;
+	receiveBuffer.Deserialize(header);
+
+	switch (header.packet_id)
+	{
+	case sProtocolMonopolyHeader::ePacketID::e_RequestPlayThrowDice:
+	{
+		std::cout << "e_RequestPlayDiceThrow" << std::endl;
+
+		sProtocolRequestPlayThrowDice data;
+		receiveBuffer.Deserialize(data);
+
+		// change state
+		this->SetState(iLogicMonopoly::e_ThrowDice);
+
+		break;
+	}
+	case sProtocolMonopolyHeader::ePacketID::e_RequestPlayAction:
+	{
+		std::cout << "e_RequestPlayAction" << std::endl;
+
+		sProtocolRequestPlayAction data;
+		receiveBuffer.Deserialize(data);
+
+		this->SetState(iLogicMonopoly::e_Action);
+
+		break;
+	}
+	case sProtocolMonopolyHeader::ePacketID::e_AnswerAssetAction:
+	{
+		std::cout << "e_AnswerAssetAction" << std::endl;
+
+		sProtocolAnswerAssetAction data;
+		receiveBuffer.Deserialize(data);
+
+		this->SetState(iLogicMonopoly::e_ReceiveAnswer);
+
+		break;
+	}
+	default:
+		break;
+	}
+
 }

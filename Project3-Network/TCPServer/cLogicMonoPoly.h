@@ -29,6 +29,7 @@ public:
 	virtual void openChanceCardTo(iPlayer* player);
 
 	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer);
+	virtual void ProcessReceiveData(cBuffer& receiveBuffer);
 
 private:
 	//std::thread GameLoopThread();
