@@ -1,5 +1,6 @@
 #include "MonopolyGlobal.h"
 #include "cGotoJailDistrict.h"
+#include "cPlayer.h"
 
 #include <conio.h>
 #include <iostream>
@@ -19,6 +20,7 @@ cGotoJailDistrict::~cGotoJailDistrict()
 bool cGotoJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	this->RemovePlayer(player, logic);
+	dynamic_cast<cPlayer*>(player)->setbJustCameInJail(true);
 	m_jail.AddPlayer(player, logic);
 
 	std::cout << "\t cGotoJailDistrict::Action()" << std::endl;

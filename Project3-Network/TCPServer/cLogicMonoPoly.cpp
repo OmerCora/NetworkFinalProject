@@ -186,7 +186,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 
 		// 1. throw dice
-
+		if(m_players[m_currentPlayerIndex]->getbCanThrowDice())
 		{
 			m_nextLocation = m_dice->Throw() + m_players[m_currentPlayerIndex]->CurrentLocation();
 			if (m_nextLocation >= (int)m_districts.size())
