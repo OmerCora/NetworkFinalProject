@@ -14,69 +14,77 @@ cClientPacketProcedureMonopoly::~cClientPacketProcedureMonopoly()
 
 void cClientPacketProcedureMonopoly::SetHeader(sProtocolMonopolyHeader::ePacketID packetID)
 {
-	m_sendBuffer.clear();
+	m_temporaryBuffer.clear();
 
+	m_rootHeader.packet_id = sProtocolHeader::e_PlayMonopoly;
 	m_header.packet_id = packetID;
-	m_sendBuffer.Serialize(m_header);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponseGameStart& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolRequestPlayThrowDice& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponsePlayThrowDice& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolRequestPlayAction& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponsePlayAction& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolAskAssetAction& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolAnswerAssetAction& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponsePlayTurnChange& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponsePlayTurnKeep& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponseGameFinish& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 void cClientPacketProcedureMonopoly::AppendProtocol(sProtocolResponseGameOver& protocol)
 {
 	m_header.SetProtocol(protocol);
-	m_sendBuffer.Serialize(protocol);
+	m_temporaryBuffer.Serialize(protocol);
 }
 
 bool cClientPacketProcedureMonopoly::SendData(SOCKET client)
 {
+	m_sendBuffer.clear();
+
+	m_rootHeader.SetProtocol(m_header);
+
+	m_sendBuffer.Serialize(m_rootHeader);
+	m_sendBuffer.Serialize(m_header);
+	m_sendBuffer.Append(m_temporaryBuffer);
+
 	const char* data = m_sendBuffer.toCharArray();
 	int length = (int)m_sendBuffer.getLength();
 	int result = send(client, data, length, 0);
@@ -100,10 +108,14 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameStart:
 	{
+		system("cls");
+
 		std::cout << "e_ResponseGameStart" << std::endl;
 
 		sProtocolResponseGameStart data;
 		receiveBuffer.Deserialize(data);
+
+		m_client.Set
 
 		m_client.SetState(iTCPClient::e_GM_Start);
 
@@ -231,7 +243,10 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		break;
 	}
 	default:
+	{
+		std::cout << "Unkown packet id: " << header.packet_id << std::endl;
 		break;
+	}
 	}
 
 }

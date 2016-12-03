@@ -39,6 +39,10 @@ void cBuffer::loadBuffer(const char* recvbuf, size_t size)
 		writeIndex++;
 	}
 }
+void cBuffer::Append(cBuffer& buffer)
+{
+	this->loadBuffer(buffer.toCharArray(), buffer.getLength());
+}
 
 void cBuffer::flushBuffer()
 {

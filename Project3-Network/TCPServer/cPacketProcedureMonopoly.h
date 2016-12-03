@@ -30,8 +30,10 @@ public:
 private:
 	iLogicMonopolyMediator& m_logic;
 
+	sProtocolHeader m_rootHeader;
 	sProtocolMonopolyHeader m_header;
 
+	cBuffer m_temporaryBuffer;
 	cBuffer m_sendBuffer;
 };
 

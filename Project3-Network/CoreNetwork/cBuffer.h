@@ -22,8 +22,10 @@ public:
 	void clear();
 	void CheckBufferSize(std::size_t size);
 	void loadBuffer(const char* recvbuf, size_t size);
+	void Append(cBuffer& buffer);
 	void flushBuffer();
 	const char* toCharArray();
+
 
 	bool isEmpty();
 	std::size_t getLength() const;

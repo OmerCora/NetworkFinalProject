@@ -32,6 +32,7 @@ cTCPClient::cTCPClient()
 
 	, m_menuState(eChatMenuState::e_Connect)
 	, m_nextLocation(0)
+	, m_gameStarted(false)
 
 {
 }
@@ -195,7 +196,28 @@ void cTCPClient::RequestDisconnect()
 	}
 }
 
+void cTCPClient::SendLeaveRoom()
+{
+	// clear chat history
+	m_chatHistory.numberOfMessages = 0;
+	m_chatHistory.chatHistory.clear();
 
+	// request leave room
+	sProtocolRequestLeaveRoom reaveRoom;
+
+	reaveRoom.username = this->m_userName;
+	reaveRoom.username_length = (short)this->m_userName.size();
+	reaveRoom.roomname = this->m_currentRoomInfo.roomname;
+	reaveRoom.roomname_length = (short)this->m_currentRoomInfo.roomname.size();
+	sProtocolHeader header;
+	header.SetProtocol(reaveRoom);
+
+	m_sendBuffer.CheckBufferSize(header.packet_length);
+	m_sendBuffer.Serialize(header);
+	m_sendBuffer.Serialize(reaveRoom);
+
+	this->SendData(m_connectedSocket, m_sendBuffer);
+}
 
 void cTCPClient::UserSendThread()
 {
@@ -207,7 +229,11 @@ void cTCPClient::UserSendThread()
 		// always print lobby users
 		//this->PrintLobbyUsers();
 
-		if (m_menuState == eChatMenuState::e_Connect)
+		if (m_menuState == eChatMenuState::e_PlayGame)
+		{
+			// do nothing
+		}
+		else if (m_menuState == eChatMenuState::e_Connect)
 		{
 			cConsolTool::Reference().StartPrinting();
 			cConsolTool::Reference().DrawRectangle(5, 2, 100, 25);
@@ -564,7 +590,8 @@ void cTCPClient::UserSendThread()
 			cConsolTool::Reference().PrintPos(40, 13, "Creating a room Success.");
 			cConsolTool::Reference().EndPrinting(false);
 
-			m_menuState = eChatMenuState::e_ChatRoom;
+			//m_menuState = eChatMenuState::e_ChatRoom;
+			m_menuState = eChatMenuState::e_PlayGame;
 		}
 		else if (m_menuState == eChatMenuState::e_CreateRoomFailure)
 		{
@@ -660,7 +687,8 @@ void cTCPClient::UserSendThread()
 			cConsolTool::Reference().PrintPos(40, 13, "Joining a room Success.");
 			cConsolTool::Reference().EndPrinting(false);
 
-			m_menuState = eChatMenuState::e_ChatRoom;
+			//m_menuState = eChatMenuState::e_ChatRoom;
+			m_menuState = eChatMenuState::e_PlayGame;
 		}
 		else if (m_menuState == eChatMenuState::e_JoinRoomFailure)
 		{
@@ -704,26 +732,7 @@ void cTCPClient::UserSendThread()
 			{
 				message.clear();
 
-				// clear chat history
-				m_chatHistory.numberOfMessages = 0;
-				m_chatHistory.chatHistory.clear();
-
-				// request leave room
-				sProtocolRequestLeaveRoom reaveRoom;
-
-				reaveRoom.username = this->m_userName;
-				reaveRoom.username_length = (short)this->m_userName.size();
-				reaveRoom.roomname = this->m_currentRoomInfo.roomname;
-				reaveRoom.roomname_length = (short)this->m_currentRoomInfo.roomname.size();
-				sProtocolHeader header;
-				header.SetProtocol(reaveRoom);
-
-				m_sendBuffer.CheckBufferSize(header.packet_length);
-				m_sendBuffer.Serialize(header);
-				m_sendBuffer.Serialize(reaveRoom);
-
-				this->SendData(m_connectedSocket, m_sendBuffer);
-
+				this->SendLeaveRoom();
 				while (m_menuState == eChatMenuState::e_ChatRoom)
 				{
 					Sleep(10);
@@ -873,9 +882,15 @@ void cTCPClient::PlayMonopolySendThread()
 		}
 		case eGameMonopolyState::e_GM_Start:
 		{
-			std::cout << "\t eGameMonopolyState::e_GM_Start (Press Any Key to Throw Dice)" << std::endl;
+			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
+
+			if(
+			std::cout << "\t Press any key to throw dice" << std::endl;
 
 			char anyKey = _getch();
+
+			m_gameStarted = true;
+			m_menuState = eChatMenuState::e_PlayGame;
 
 			// request throw dice
 			{
@@ -1100,6 +1115,10 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_Finish" << std::endl;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+
+			this->SendLeaveRoom();
+
+			m_gameStarted = false;
 
 			break;
 		}
@@ -1398,8 +1417,7 @@ bool cTCPClient::PacketProcedure(SOCKET& connectedSocket)
 		{
 		case sProtocolHeader::ePacketID::e_PlayMonopoly:
 		{
-			if (m_isDebug)
-				std::cout << "e_PlayMonopoly" << std::endl;
+			std::cout << "e_PlayMonopoly" << std::endl;
 
 			m_gameMonopolyPacketProcedure->ProcessReceiveData(m_receiveBuffer);
 
@@ -1610,8 +1628,7 @@ bool cTCPClient::PacketProcedure(SOCKET& connectedSocket)
 			}
 			default:
 			{
-				if (m_isDebug)
-					std::cout << "ERROR: unknown packet" << std::endl;
+				std::cout << "ERROR: unknown packet" << std::endl;
 				return false;
 			}
 		}
