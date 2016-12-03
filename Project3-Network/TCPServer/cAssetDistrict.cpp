@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-	this->m_price = price;
+cAssetDistrict::cAssetDistrict(int districtID, unsigned int price)
 	:cDistrict(districtID)
 {
 	this->m_price = price;
