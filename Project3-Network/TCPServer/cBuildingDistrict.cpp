@@ -54,7 +54,18 @@ bool cBuildingDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& l
 {
 	std::cout << "\t cBuildingDistrict::ReceiveAnswer() m_districtID: " << m_districtID << std::endl;
 
+	sProtocolAnswerAssetAction* answerAction = (sProtocolAnswerAssetAction*)logic.GetLastReceivedProtocol();
 
+	if (answerAction->yesOrNo)
+	{
+		//player said yes
+		this->SetOwner(player->User()->SocketID);
+	}
+	else
+	{
+		//player said no
+		//keep playing
+	}
 
 	return true;
 }
@@ -63,18 +74,17 @@ bool cBuildingDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "\t cBuildingDistrict::Response()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;
 
-
-	// TODO: send details to client
+	//empty play response
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
 		protocol.districtType = this->DistrictType();
-		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);
 
 		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
-		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
+		logic.PacketProcedure().SendData(logic.PlayerB().User()->SocketID());
 	}
+
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif

@@ -26,6 +26,5 @@ public:
 	virtual bool IsGameOver() = 0;
 
 	virtual void ProcessReceivedPlayData(cBuffer& receiveBuffer)= 0;
-
 };
 

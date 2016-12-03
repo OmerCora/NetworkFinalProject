@@ -29,5 +29,5 @@ bool cAssetDistrict::SetOwner(iPlayer* player)
 }
 unsigned int cAssetDistrict::GetPrice()
 {
-	return this->price;
+	return this->m_price;
 }

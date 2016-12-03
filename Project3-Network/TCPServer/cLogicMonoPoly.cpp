@@ -249,7 +249,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 	else if (this->IsCurrentState(ePlayState::e_ReceiveAnswer))
 	{
 		std::cout << "ePlayState::e_ReceiveAnswer" << std::endl;
-
+		
 		// response each action state at the each district action
 		m_districts[m_players[m_currentPlayerIndex]->CurrentLocation()]->ReceiveAnswer(m_players[m_currentPlayerIndex], *this);
 
@@ -429,6 +429,10 @@ void cLogicMonoPoly::ProcessReceiveData(cBuffer& receiveBuffer)
 
 		sProtocolAnswerAssetAction data;
 		receiveBuffer.Deserialize(data);
+		
+		sProtocolAnswerAssetAction* dataPtr = new sProtocolAnswerAssetAction();
+		receiveBuffer.Deserialize(*dataPtr);
+		this->SetLastReceivedProtocol(dataPtr);
 
 		this->SetState(iLogicMonopoly::e_ReceiveAnswer);
 
@@ -438,4 +442,14 @@ void cLogicMonoPoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		break;
 	}
 
+}
+
+void cLogicMonoPoly::SetLastReceivedProtocol(iProtocol* protocol)
+{
+	this->m_lastReceivedData = protocol;
+}
+
+iProtocol* cLogicMonoPoly::GetLastReceivedProtocol()
+{
+	return this->m_lastReceivedData;
 }
