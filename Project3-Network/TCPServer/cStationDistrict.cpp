@@ -5,8 +5,8 @@
 #include <iostream>
 
 
-cStationDistrict::cStationDistrict(int districtID)
-	:cAssetDistrict(districtID)
+cStationDistrict::cStationDistrict(int districtID, unsigned int price)
+	:cAssetDistrict(districtID, price)
 {
 	m_isRequiredAnswer = true;
 }
@@ -21,16 +21,24 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "\t cStationDistrict::Action()" << std::endl;
 	std::cout << "\t Press Any Key to Continue" << std::endl;
 
-	// implement content here
-
-
-
-	// TODO: ask to buy or pay it to client
+	//check ownership
+	if (this->m_owner)
 	{
+		//owner is set so someone already bought it
+
+		//pay up or DIE
+		player->Withdraw(this->m_price);
+
+		//price may also be modified by a multiplier dependant on number of owned station;
+	}
+	else
+	{
+		//ask if the user wants to buy it
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_AskAssetAction);
-		sProtocolResponsePlayAction protocol;
+		sProtocolAskAssetAction protocol;
 		protocol.districtType = this->DistrictType();
-		// TODO: add details into the protocol here
+		protocol.districtID = this->m_districtID;
+		protocol.price = this->m_price;
 		logic.PacketProcedure().AppendProtocol(protocol);
 
 		logic.PacketProcedure().SendData(player->User()->SocketID());

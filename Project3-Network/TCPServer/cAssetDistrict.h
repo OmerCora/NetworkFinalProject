@@ -5,7 +5,7 @@
 class cAssetDistrict : public cDistrict
 {
 public:
-	cAssetDistrict(int districtID);
+	cAssetDistrict(int districtID, unsigned int price);
 	virtual ~cAssetDistrict();
 
 
@@ -17,6 +17,6 @@ public:
 
 protected:
 	iPlayer* m_owner;
-	unsigned int price;
+	unsigned int m_price;
 };
 

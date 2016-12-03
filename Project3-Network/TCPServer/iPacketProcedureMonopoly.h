@@ -35,7 +35,6 @@ public:
 	virtual void AppendProtocol(sProtocolResponseGameOver& protocol) = 0;
 	virtual bool SendData(SOCKET client) = 0;
 
-	virtual void ProcessReceiveData(cBuffer& receiveBuffer) = 0;
 	// end of iPacketProcedureMonopoly
 };
 

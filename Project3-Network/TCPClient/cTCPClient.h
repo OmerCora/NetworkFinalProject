@@ -64,12 +64,14 @@ private:
 		e_LeaveRoomFailure,
 		e_ChatRoom,
 		e_ChatFailure,
+		e_PlayGame,
 	};
 	eChatMenuState m_menuState;
 
 
 	eGameMonopolyState m_gameMonopolyState;
 	short m_nextLocation;
+	bool m_gameStarted;
 
 	iClientPacketProcedure* m_gameMonopolyPacketProcedure;
 
@@ -103,6 +105,7 @@ private:
 	// shutdown the connection since no more data will be sent
 	bool Disconnect(SOCKET& connectedSocket);
 
+	void SendLeaveRoom();
 	void RequestLogout();
 	void RequestDisconnect();
 

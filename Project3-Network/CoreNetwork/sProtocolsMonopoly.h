@@ -13,24 +13,86 @@ struct iProtocol
 	virtual ~iProtocol() {}
 	virtual unsigned int Size() = 0;
 };
-struct sProtocolResponseGameStart : public iProtocol
+
+struct sProtocolNameInfo : public iProtocol
 {
-	sProtocolResponseGameStart()
-		:isMyTurn(0)
+	sProtocolNameInfo()
+		: name_length(0)
 	{}
-	char isMyTurn;
+	short name_length;
+	std::string name;
 	unsigned int Size()
 	{
-		return sizeof(isMyTurn);
+		name_length = (short)name.size();
+		return name_length;
 	}
 };
-struct sProtocolRequestPlayThrowDice : public iProtocol
+struct sProtocolPlayerInfo : public iProtocol
+{
+	sProtocolPlayerInfo()
+		: isMyTurn(0)
+		, money(0)
+		, location(0)
+	{}
+	char id;
+	sProtocolNameInfo nick;
+	char isMyTurn;
+	int money;
+	short location;
+	unsigned int Size()
+	{
+		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(money) + sizeof(location);
+	}
+};
+struct sProtocolDistrictInfo : public iProtocol
+{
+	sProtocolDistrictInfo()
+		: price(0)
+		, district_id(0)
+		, owner_id(0)
+	{}
+	int price;
+	char district_id;
+	char owner_id;
+	unsigned int Size()
+	{
+		return sizeof(price) + sizeof(district_id) + sizeof(owner_id);
+	}
+};
+struct sProtocolBoardInfo : public iProtocol
+{
+	sProtocolBoardInfo()
+	{}
+	sProtocolPlayerInfo playerA;
+	sProtocolPlayerInfo playerB;
+
+	sProtocolDistrictInfo districts[40];
+	unsigned int Size()
+	{
+		size_t data_size = playerA.Size() + playerB.Size();
+		for (int i = 0; i < 40; ++i)
+		{
+			data_size += districts[i].Size();
+		}
+		return data_size;
+	}
+};
+struct sProtocolResponseGameStart : public iProtocol, public sProtocolPlayerInfo
+{
+	sProtocolResponseGameStart()
+	{}
+	unsigned int Size()
+	{
+		return sProtocolPlayerInfo::Size();
+	}
+};
+struct sProtocolRequestPlayThrowDice : public iProtocol, public sProtocolPlayerInfo
 {
 	sProtocolRequestPlayThrowDice()
 	{}
 	unsigned int Size()
 	{
-		return 0;
+		return sProtocolPlayerInfo::Size();
 	}
 };
 struct sProtocolResponsePlayThrowDice : public iProtocol
@@ -70,9 +132,11 @@ struct sProtocolAskAssetAction : public iProtocol
 		: districtType(-1)
 	{}
 	short districtType;
+	int districtID;
+	int price;
 	unsigned int Size()
 	{
-		return sizeof(districtType);
+		return sizeof(districtType) + sizeof(districtID) + sizeof(price);
 	}
 };
 struct sProtocolAnswerAssetAction : public iProtocol
@@ -81,9 +145,10 @@ struct sProtocolAnswerAssetAction : public iProtocol
 		: yesOrNo(1)
 	{}
 	char yesOrNo;
+	int districtID;
 	unsigned int Size()
 	{
-		return sizeof(yesOrNo);
+		return sizeof(yesOrNo) + sizeof(districtID);
 	}
 };
 struct sProtocolResponsePlayTurnChange : public iProtocol
@@ -275,7 +340,21 @@ struct sProtocolMonopolyHeader : public iProtocol
 		packet_id = packetID;
 		packet_length += data.Size();
 	}
-
+	void SetProtocol(ePacketID packetID, sProtocolPlayerInfo& data)
+	{
+		packet_id = packetID;
+		packet_length += data.Size();
+	}
+	void SetProtocol(ePacketID packetID, sProtocolDistrictInfo& data)
+	{
+		packet_id = packetID;
+		packet_length += data.Size();
+	}
+	void SetProtocol(ePacketID packetID, sProtocolBoardInfo& data)
+	{
+		packet_id = packetID;
+		packet_length += data.Size();
+	}
 	void SetProtocol(sProtocolResponseGameStart& data)
 	{
 		packet_id = e_ResponseGameStart;

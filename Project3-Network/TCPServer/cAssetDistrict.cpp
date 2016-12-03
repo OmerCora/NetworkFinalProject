@@ -5,9 +5,11 @@
 #include <iostream>
 
 
-cAssetDistrict::cAssetDistrict(int districtID)
+cAssetDistrict::cAssetDistrict(int districtID, unsigned int price)
 	:cDistrict(districtID)
 {
+	this->m_price = price;
+	this->m_owner = 0;
 }
 
 

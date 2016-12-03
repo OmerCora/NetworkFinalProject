@@ -32,8 +32,10 @@ public:
 
 
 private:
+	sProtocolHeader m_rootHeader;
 	sProtocolMonopolyHeader m_header;
 
+	cBuffer m_temporaryBuffer;
 	cBuffer m_sendBuffer;
 	iTCPClient& m_client;
 };
