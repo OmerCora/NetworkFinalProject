@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <iostream>
 
+cBuildingDistrict::cBuildingDistrict(int districtID, unsigned int price)
 	:cAssetDistrict(districtID, price)
 {
 	m_isRequiredAnswer = true;

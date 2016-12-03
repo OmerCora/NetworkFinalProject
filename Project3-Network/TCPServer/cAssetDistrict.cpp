@@ -8,6 +8,7 @@
 	this->m_price = price;
 	:cDistrict(districtID)
 {
+	this->m_price = price;
 }
 
 
