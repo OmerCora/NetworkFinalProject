@@ -60,6 +60,7 @@ bool cBuildingDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& l
 	{
 		//player said yes
 		this->SetOwner(player);
+		player->Withdraw(this->m_price);
 	}
 	else
 	{
