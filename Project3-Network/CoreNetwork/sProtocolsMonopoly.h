@@ -83,10 +83,11 @@ struct sProtocolResponseGameStart : public iProtocol
 {
 	sProtocolResponseGameStart()
 	{}
-	sProtocolPlayerInfo playerInfo;
+	sProtocolPlayerInfo playerA;
+	sProtocolPlayerInfo playerB;
 	unsigned int Size()
 	{
-		return playerInfo.Size();
+		return playerA.Size() + playerB.Size();
 	}
 };
 struct sProtocolRequestPlayThrowDice : public iProtocol
@@ -104,21 +105,19 @@ struct sProtocolResponsePlayThrowDice : public iProtocol
 	sProtocolResponsePlayThrowDice()
 		:nextLocation(0)
 	{}
-	sProtocolPlayerInfo playerInfo;
 	short nextLocation;
 	unsigned int Size()
 	{
-		return playerInfo.Size() + sizeof(nextLocation);
+		return sizeof(nextLocation);
 	}
 };
 struct sProtocolRequestPlayAction : public iProtocol
 {
 	sProtocolRequestPlayAction()
 	{}
-	sProtocolPlayerInfo playerInfo;
 	unsigned int Size()
 	{
-		return playerInfo.Size();
+		return 0;
 	}
 };
 struct sProtocolResponsePlayAction : public iProtocol
