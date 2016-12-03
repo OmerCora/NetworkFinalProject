@@ -59,54 +59,54 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	// bot line
 	{
 		m_districts.push_back(new cStartDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 50));
 		m_districts.push_back(new cCardDistrict(districtID++,cCardDistrict::e_Community));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 100));
 		m_districts.push_back(new cTaxDistrict(districtID++, cTaxDistrict::e_Normal));
-		m_districts.push_back(new cStationDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cStationDistrict(districtID++, 250));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 150));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Chance));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 200));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 220));
 	}
 	// left line
 	{
 		m_districts.push_back(new cJailDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cUtilityDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cStationDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 240));
+		m_districts.push_back(new cUtilityDistrict(districtID++, 200));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 300));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 350));
+		m_districts.push_back(new cStationDistrict(districtID++, 250));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 400));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Community));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 450));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 550));
 	}
 	// top line
 	{
 		m_districts.push_back(new cFreeParking(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 700));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Chance));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cStationDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cUtilityDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 750));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 800));
+		m_districts.push_back(new cStationDistrict(districtID++, 250));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 850));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 900));
+		m_districts.push_back(new cUtilityDistrict(districtID++, 200));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 1050));
 	}
 	// right line
 	{
 		m_districts.push_back(new cGotoJailDistrict(districtID++, *m_districts[m_jailDistrictID]));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 1200));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 1300));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Community));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
-		m_districts.push_back(new cStationDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 1500));
+		m_districts.push_back(new cStationDistrict(districtID++, 250));
 		m_districts.push_back(new cCardDistrict(districtID++, cCardDistrict::e_Chance));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 2000));
 		m_districts.push_back(new cTaxDistrict(districtID++, cTaxDistrict::e_Luxury ));
-		m_districts.push_back(new cBuildingDistrict(districtID++));
+		m_districts.push_back(new cBuildingDistrict(districtID++, 2200));
 	}
 
 	this->SetState(ePlayState::e_Start);
