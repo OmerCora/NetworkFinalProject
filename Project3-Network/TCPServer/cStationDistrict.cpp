@@ -28,6 +28,8 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 		//pay up or DIE
 		player->Withdraw(this->m_price);
+
+		//price may also be modified by a multiplier dependant on number of owned station;
 	}
 	else
 	{

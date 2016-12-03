@@ -387,18 +387,24 @@ void cBuffer::Deserialize(sProtocolResponsePlayAction& data)
 void cBuffer::Serialize(const sProtocolAskAssetAction& data)
 {
 	this->writeInt16BE(data.districtType);
+	this->writeInt16BE(data.districtID);
+	this->writeInt16BE(data.price);
 }
 void cBuffer::Deserialize(sProtocolAskAssetAction& data)
 {
 	data.districtType = this->readInt16BE();
+	data.districtID = this->readInt16BE();
+	data.price = this->readInt16BE();
 }
 void cBuffer::Serialize(const sProtocolAnswerAssetAction& data)
 {
 	this->writeChar(data.yesOrNo);
+	this->writeInt16BE(data.districtID);
 }
 void cBuffer::Deserialize(sProtocolAnswerAssetAction& data)
 {
 	data.yesOrNo = this->readChar();
+	data.districtID = this->readInt16BE();
 }
 void cBuffer::Serialize(const sProtocolResponsePlayTurnChange& data)
 {

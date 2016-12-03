@@ -28,6 +28,8 @@ bool cBuildingDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 
 		//pay up or DIE
 		player->Withdraw(this->m_price);
+
+		//price may also be modified by number of houses/hotels in extended rules.
 	}
 	else
 	{
