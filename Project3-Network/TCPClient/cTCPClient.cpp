@@ -981,7 +981,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStart" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -991,7 +991,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictTax" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1000,7 +1000,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictCard" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1009,7 +1009,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictFreeParking" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1018,7 +1018,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictGotoJail" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1027,7 +1027,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictJail" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -1037,7 +1037,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictBuilding" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -1047,7 +1047,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStation" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -1057,7 +1057,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictUtility" << std::endl;
 
-			char anyKey = _getch();
+			//char anyKey = _getch();
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;

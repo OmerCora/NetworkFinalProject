@@ -2,7 +2,7 @@
 // source: AuthenticationDef.proto
 
 #define INTERNAL_SUPPRESS_PROTOBUF_FIELD_DEPRECATION
-#include "AuthenticationDef.pb.h"
+#include <AuthenticationDef.pb.h>
 
 #include <algorithm>
 

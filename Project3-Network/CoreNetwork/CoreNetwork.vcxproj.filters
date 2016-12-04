@@ -5,10 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -21,6 +17,10 @@
     </Filter>
     <Filter Include="GoogleProto">
       <UniqueIdentifier>{e19f2faa-373f-4a71-9f45-446fbe685a44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Protocols">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,15 +47,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cErrorReport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sProtocols.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="cSha256.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="cTCPModule.h">
       <Filter>TCPModule</Filter>
     </ClInclude>
@@ -65,17 +56,35 @@
     <ClInclude Include="cTCPModuleServer.h">
       <Filter>TCPModule</Filter>
     </ClInclude>
-    <ClInclude Include="iBuffer.h">
+    <ClInclude Include="..\include\sProtocols.h">
+      <Filter>Protocols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\sProtocolsMonopoly.h">
+      <Filter>Protocols</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cBuffer.h">
       <Filter>Buffer</Filter>
     </ClInclude>
-    <ClInclude Include="AuthenticationDef.pb.h">
+    <ClInclude Include="..\include\iBuffer.h">
+      <Filter>Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\AuthenticationDef.pb.h">
       <Filter>GoogleProto</Filter>
     </ClInclude>
-    <ClInclude Include="cBuffer.h">
-      <Filter>Buffer</Filter>
+    <ClInclude Include="..\include\cErrorReport.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="sProtocolsMonopoly.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\include\cSha256.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cTCPModule.h">
+      <Filter>TCPModule</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cTCPModuleClient.h">
+      <Filter>TCPModule</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\cTCPModuleServer.h">
+      <Filter>TCPModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
