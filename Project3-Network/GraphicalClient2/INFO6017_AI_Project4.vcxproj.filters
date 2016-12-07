@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{91d5a3a7-de9a-4ee3-bf39-ce7579f074bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MeshTypeManager">
+      <UniqueIdentifier>{e6e10b15-e12d-44f0-96b3-fe0a6af0c017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{d773d3ca-b01e-40cd-8f44-3c716d855b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ply">
+      <UniqueIdentifier>{5b0f6ca5-9a86-487b-87da-1776d9482a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GlobalStuff">
+      <UniqueIdentifier>{51b2c5a1-d011-4296-bdb1-12be3216b920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lights">
+      <UniqueIdentifier>{9de7b282-5b19-4c3a-952d-a0c39df7f314}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{48ada261-08ea-439c-8432-e4f53621717e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{c56881f4-12f8-4f5e-a00d-cac50fdae261}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Update">
+      <UniqueIdentifier>{ed0961c9-c510-4794-8926-3637185a0f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextureAndBitMap">
+      <UniqueIdentifier>{1c77a567-8b03-4ba7-9dba-ebb82df33978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AStar">
+      <UniqueIdentifier>{be50d3b4-a3a1-45a3-b584-f1f343b758cb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadObjectsIntoScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cMeshTypeManager.cpp">
+      <Filter>MeshTypeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="CHRTimer.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CPlyFile5nt.cpp">
+      <Filter>Ply</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CStringHelper.cpp">
+      <Filter>Ply</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CVector3f.cpp">
+      <Filter>Ply</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\C24BitBMPpixel.cpp">
+      <Filter>TextureAndBitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\CTextureFromBMP.cpp">
+      <Filter>TextureAndBitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\cBasicTextureManager.cpp">
+      <Filter>TextureAndBitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="key_callback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalStuff.cpp">
+      <Filter>GlobalStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Render.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cValueReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CPlyFile5nt_experimental.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse_pos_callback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSetting.cpp">
+      <Filter>Lights</Filter>
+    </ClCompile>
+    <ClCompile Include="TheMain.cpp" />
+    <ClCompile Include="mouse_scroll_callback.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemy.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="cEntity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Update.cpp">
+      <Filter>Update</Filter>
+    </ClCompile>
+    <ClCompile Include="cAreaInfo.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="cBMPmapReader.cpp">
+      <Filter>TextureAndBitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="cBMPLoader.cpp">
+      <Filter>TextureAndBitMap</Filter>
+    </ClCompile>
+    <ClCompile Include="cPath.cpp">
+      <Filter>AStar</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB.h">
+      <Filter>MeshTypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB_Nxyz.h">
+      <Filter>MeshTypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB_Nxyz_STU.h">
+      <Filter>MeshTypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="cMeshTypeManager.h">
+      <Filter>MeshTypeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="CHRTimer.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CPlyFile5nt.h">
+      <Filter>Ply</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CPlyInfo.h">
+      <Filter>Ply</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CStringHelper.h">
+      <Filter>Ply</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CVector3f.h">
+      <Filter>Ply</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\C24BitBMPpixel.h">
+      <Filter>TextureAndBitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\CTextureFromBMP.h">
+      <Filter>TextureAndBitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\cBasicTextureManager.h">
+      <Filter>TextureAndBitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalStuff.h">
+      <Filter>GlobalStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="cValueReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemy.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cEntity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Update.h">
+      <Filter>Update</Filter>
+    </ClInclude>
+    <ClInclude Include="sPhysicsInfo.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cAreaInfo.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="cBMPmapReader.h">
+      <Filter>TextureAndBitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="cBMPLoader.h">
+      <Filter>TextureAndBitMap</Filter>
+    </ClInclude>
+    <ClInclude Include="cPath.h">
+      <Filter>AStar</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\simpleVert.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\uberFragShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\uberVertShader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="assets\shaders\simpleFrag.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SceneDescription.txt" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,127 @@
+This description lists the values of Ply fileName, scale XYZ values, position XYZ values of each objects in the scene and locations of camera and lights.
+You can change the scene by changing these values.
+
+
+Obj1PlyfileName: Homer_x10_0Y_N.ply
+Obj1TexturefileName: purple_texture_1.bmp
+Obj1ScaleXYZvalue: 3.0
+Obj1PositionX: -6.0
+Obj1PositionY: 0.0
+Obj1PositionZ: 0.0
+
+Obj2PlyfileName: Bunny_x100_CenterX_0Y_N.ply
+Obj2TexturefileName: furTexture.bmp
+Obj2ScaleXYZvalue: 2.0
+Obj2PositionX: 7.0	   
+Obj2PositionY: 0.0	   
+Obj2PositionZ: 0.0	   
+
+Obj3PlyfileName: Cow_0Y_CenterX_N.ply
+Obj3TexturefileName: cowTexture.bmp
+Obj3ScaleXYZvalue: 4.0
+Obj3PositionX: 9.0
+Obj3PositionY: 0.0
+Obj3PositionZ: -10.0
+
+Obj4PlyfileName: Cube_Unit_CornerAtOrigin_N.ply
+Obj4TexturefileName: wallTexture03.bmp
+Obj4ScaleXYZvalue: 1.0
+Obj4PositionX: 0.0
+Obj4PositionY: 0.0
+Obj4PositionZ: 0.0
+
+Obj5PlyfileName: 1x1_2Tri_Quad_1_Sided_XZ_Plane.ply
+Obj5TexturefileName: grassTtexture01.bmp
+Obj5ScaleXYZvalue: 50.0
+Obj5PositionX: 0.0
+Obj5PositionY: 0.0
+Obj5PositionZ: 0.0
+
+Obj6PlyfileName: AUDI_TT_COUPE_decimate01_N.ply
+Obj6TexturefileName: gold_textured_background_hd_picture.bmp
+Obj6ScaleXYZvalue: 5.0
+Obj6PositionX: 0.0
+Obj6PositionY: 0.0
+Obj6PositionZ: 0.0
+
+Obj7PlyfileName: MilleniumFalcon_N_rotated.ply
+Obj7TexturefileName: silver_textured_sheet_metal.bmp
+Obj7ScaleXYZvalue: 3.0
+Obj7PositionX: 4.9
+Obj7PositionY: 2.8
+Obj7PositionZ: 20.0
+
+
+InitalCameraX: 0.0
+InitalCameraY: 10.0
+InitalCameraZ: -15.0
+
+
+Light00PositionX: -9
+Light00PositionY: 10.0
+Light00PositionZ: -9
+
+Light01PositionX: -27.0
+Light01PositionY: 10.0
+Light01PositionZ: 27.0
+
+Light02PositionX: 27.0
+Light02PositionY: 10.0
+Light02PositionZ: 27.0
+
+Light03PositionX: -27.0
+Light03PositionY: 10.0
+Light03PositionZ: -27.0
+
+Light04PositionX: 27.0
+Light04PositionY: 10.0
+Light04PositionZ: -27.0
+
+Light05PositionX: 0.0
+Light05PositionY: 10.0
+Light05PositionZ: -27.0
+
+Light06PositionX: 0.0
+Light06PositionY: 10.0
+Light06PositionZ: 27.0
+
+Light07PositionX: 27.0
+Light07PositionY: 10.0
+Light07PositionZ: 0.0
+
+Light08PositionX: -27.0
+Light08PositionY: 10.0
+Light08PositionZ: 0.0
+
+Light09PositionX: 9
+Light09PositionY: 10.0
+Light09PositionZ: 9
+
+Light10PositionX: -9
+Light10PositionY: 10.0
+Light10PositionZ: 9
+
+Light11PositionX: 9
+Light11PositionY: 10.0
+Light11PositionZ: -9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

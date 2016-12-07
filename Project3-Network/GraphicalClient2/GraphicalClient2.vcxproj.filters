@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="LoadObjectsIntoScene.cpp" />
+    <ClCompile Include="Render.cpp" />
+    <ClCompile Include="TheMain.cpp" />
+    <ClCompile Include="Update.cpp" />
+    <ClCompile Include="Network\cClientPacketProcedureMonopoly.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\cConsolTool.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\cTCPClient.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\C24BitBMPpixel.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\cBasicTextureManager.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="cBMPLoader.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="cBMPmapReader.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="cMeshTypeManager.cpp">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CPlyFile5nt.cpp">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CPlyFile5nt_experimental.cpp">
+      <Filter>Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture\CTextureFromBMP.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CStringHelper.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="cValueReader.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Ply\CVector3f.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="CHRTimer.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glad.c">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalStuff.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="cShader.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="cShaderManager.cpp">
+      <Filter>Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="key_callback.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse_pos_callback.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="mouse_scroll_callback.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="cAreaInfo.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="cCamera.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="cEnemy.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="cEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="cPath.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSetting.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sPhysicsInfo.h" />
+    <ClInclude Include="Update.h" />
+    <ClInclude Include="Network\cClientPacketProcedureMonopoly.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\cConsolTool.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\cTCPClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\iClientPacketProcedure.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\iTCPClient.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\C24BitBMPpixel.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\cBasicTextureManager.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="cBMPLoader.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="cBMPmapReader.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="cMeshTypeManager.h">
+      <Filter>Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CPlyFile5nt.h">
+      <Filter>Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CPlyInfo.h">
+      <Filter>Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture\CTextureFromBMP.h">
+      <Filter>Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CVector3f.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Ply\CStringHelper.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="cValueReader.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CHRTimer.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalStuff.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="cShaderManager.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB_Nxyz_STU.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB_Nxyz.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="vert_XYZ_RGB.h">
+      <Filter>Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="cAreaInfo.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cCamera.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cEnemy.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cPath.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\shaders\simpleFrag.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="assets\shaders\simpleVert.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="assets\shaders\uberVertShader.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="assets\shaders\uberFragShader.glsl">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="SceneDescription.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Network">
+      <UniqueIdentifier>{82d50d77-af39-4309-ad61-b06859aa5354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{f078da95-1b78-4b33-a3b2-903eb3c82a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{adb4ccdb-d1d7-449c-8eb5-2f5245c13cc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{5a4a5ee6-c332-48be-a794-0348a2359adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{0c6383d8-2a55-47e5-be73-098489234c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mesh">
+      <UniqueIdentifier>{2a601553-06e3-4f72-a89a-9d9c39f72ddc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
