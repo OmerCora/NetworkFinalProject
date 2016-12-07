@@ -4,7 +4,7 @@ You can change the scene by changing these values.
 
 Obj1PlyfileName: Homer_x10_0Y_N.ply
 Obj1TexturefileName: purple_texture_1.bmp
-Obj1ScaleXYZvalue: 3.0
+Obj1ScaleXYZvalue: 5.0
 Obj1PositionX: -6.0
 Obj1PositionY: 0.0
 Obj1PositionZ: 0.0
@@ -31,7 +31,7 @@ Obj4PositionY: 0.0
 Obj4PositionZ: 0.0
 
 Obj5PlyfileName: 1x1_2Tri_Quad_1_Sided_XZ_Plane.ply
-Obj5TexturefileName: grassTtexture01.bmp
+Obj5TexturefileName: monopolyBoard_x1500.bmp
 Obj5ScaleXYZvalue: 50.0
 Obj5PositionX: 0.0
 Obj5PositionY: 0.0
@@ -53,8 +53,8 @@ Obj7PositionZ: 20.0
 
 
 InitalCameraX: 0.0
-InitalCameraY: 10.0
-InitalCameraZ: -15.0
+InitalCameraY: 20.0
+InitalCameraZ: -20.0
 
 
 Light00PositionX: -9

@@ -95,8 +95,8 @@ int main(void)
 	::g_pTheMeshTypeManager->ScaleEverythingToBoundingBoxOnLoad( false, 1.0f );
 
 	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer(shadProgID, "Homer_x10_0Y_N.ply");//palyer
-	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Bunny_x100_CenterX_0Y_N.ply"); //slower enemy
-	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Cow_0Y_CenterX_N.ply");		//faster enemy		
+	//::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Bunny_x100_CenterX_0Y_N.ply"); //slower enemy
+	//::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Cow_0Y_CenterX_N.ply");		//faster enemy		
 	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Cube_Unit_CornerAtOrigin_N.ply"); //wall
 	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer(shadProgID, "1x1_2Tri_Quad_1_Sided_XZ_Plane.ply"); //ground
 	::g_pTheMeshTypeManager->LoadPlyFileIntoGLBuffer( shadProgID, "Isoshphere_xyz_InvertedNormals.ply");	//background
@@ -108,10 +108,10 @@ int main(void)
 
 	::g_pTextureManager->SetBasePath("assets/textures");
 	::g_pTextureManager->Create2DTextureFromBMPFile("purple_texture_1.bmp", true);
-	::g_pTextureManager->Create2DTextureFromBMPFile("furTexture.bmp", true);
-	::g_pTextureManager->Create2DTextureFromBMPFile( "cowTexture.bmp", true );
+	//::g_pTextureManager->Create2DTextureFromBMPFile("furTexture.bmp", true);
+	//::g_pTextureManager->Create2DTextureFromBMPFile( "cowTexture.bmp", true );
 	::g_pTextureManager->Create2DTextureFromBMPFile("wallTexture03.bmp", true);
-	::g_pTextureManager->Create2DTextureFromBMPFile("grassTtexture01.bmp", true);
+	::g_pTextureManager->Create2DTextureFromBMPFile("monopolyBoard_x1500.bmp", true);
 	::g_pTextureManager->Create2DTextureFromBMPFile("gold_textured_background_hd_picture.bmp", true);
 
 	/********** for cube box implementation ************/

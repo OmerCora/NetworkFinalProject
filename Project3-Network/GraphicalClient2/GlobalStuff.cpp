@@ -1,5 +1,7 @@
 #include "GlobalStuff.h"
 
+bool g_bMonopolyProceed = true;
+
 GLFWwindow* gWindow = 0;
 
 float gWindowRatio = 1.0f;

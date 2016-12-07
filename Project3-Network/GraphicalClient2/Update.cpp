@@ -61,27 +61,7 @@ void Update()
 			else
 				(*itr)->mbForwardable = true;
 
-			//the position point of the block is left bottom corner (min point)
-			// and the width of a block is 1.0 , with this, it checks the other corner
-
-
-
-
-			//for (size_t i = 0; i < gVec_Blocks.size(); i++)
-			//{
-			//	if (
-			//		(*itr)->collisonDetectPoint >= gVec_Blocks[i]->mPhysicsInfo.Position.x)
-			//		&& (*itr)->mPhysicsInfo.Position.z > gVec_Blocks[i]->mPhysicsInfo.Position.z
-			//		&&
-			//			
-			//		gVec_Blocks[i]->mPhysicsInfo.Position.z >= ((*itr)->mPhysicsInfo.Position.z - (*itr)->mPhysicsInfo.Position.z*(*itr)->mRenderingInfo.Scale.x / 2)
-			//		&& gVec_Blocks[i]->mPhysicsInfo.Position.x <= ((*itr)->mPhysicsInfo.Position.x + (*itr)->mPhysicsInfo.Position.x*(*itr)->mRenderingInfo.Scale.x / 2)
-			//		&& gVec_Blocks[i]->mPhysicsInfo.Position.z <= ((*itr)->mPhysicsInfo.Position.z + (*itr)->mPhysicsInfo.Position.z*(*itr)->mRenderingInfo.Scale.x / 2)
-			//		)
-
-
-
-
+			
 
 		}//if (!(*itr)->mPhysicsInfo.IsStatic)
 

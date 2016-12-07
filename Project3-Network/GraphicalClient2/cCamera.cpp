@@ -15,7 +15,7 @@ cCamera::cCamera()
 {
 	mZoomSpeed = 20.f;
 	mPanSpeed = 20.0f;
-	mDistance = 25.f;
+	mDistance = 60.0f;
 	mOffset.x = g_pValueReader->InitalCameraX; //read from the external text file
 	mOffset.y = g_pValueReader->InitalCameraY;
 	mOffset.z = g_pValueReader->InitalCameraZ;

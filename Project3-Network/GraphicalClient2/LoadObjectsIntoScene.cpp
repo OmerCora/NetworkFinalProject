@@ -14,33 +14,33 @@ bool LoadObjectsIntoScene()
 	float tempLocX = 0.0f;
 	float tempLocZ = 0.0f;
 
-	gPlayer = new cPlayer();
+	cPlayer* Player1 = new cPlayer();
 	tempLocX = aBMPreader.vec_PlayerLocXZ[0].x;
 	tempLocZ = aBMPreader.vec_PlayerLocXZ[0].z;
-	gPlayer->mPhysicsInfo.Position.x = tempLocX;
-	gPlayer->mPhysicsInfo.Position.y = 0.0f;
-	gPlayer->mPhysicsInfo.Position.z = tempLocZ;
-	gPlayer->mRenderingInfo.Scale.x = g_pValueReader->Obj1ScaleXYZ;
-	gPlayer->mRenderingInfo.Scale.y = g_pValueReader->Obj1ScaleXYZ;
-	gPlayer->mRenderingInfo.Scale.z = g_pValueReader->Obj1ScaleXYZ;
-	gPlayer->collisonDetectPoint = gPlayerMaxZ * g_pValueReader->Obj1ScaleXYZ;
-	gPlayer->mRenderingInfo.textureName = g_pValueReader->Obj1TexturefileName;
-	gPlayer->mRenderingInfo.meshName = g_pValueReader->Obj1PlyfileName;
-	gVec_Entities.push_back(gPlayer);
+	Player1->mPhysicsInfo.Position.x = tempLocX;
+	Player1->mPhysicsInfo.Position.y = 0.0f;
+	Player1->mPhysicsInfo.Position.z = tempLocZ;
+	Player1->mRenderingInfo.Scale.x = g_pValueReader->Obj1ScaleXYZ;
+	Player1->mRenderingInfo.Scale.y = g_pValueReader->Obj1ScaleXYZ;
+	Player1->mRenderingInfo.Scale.z = g_pValueReader->Obj1ScaleXYZ;
+	Player1->mPlayerNumber = 1;
+	Player1->mRenderingInfo.textureName = g_pValueReader->Obj1TexturefileName;
+	Player1->mRenderingInfo.meshName = g_pValueReader->Obj1PlyfileName;
+	gVec_Entities.push_back(Player1);
 
-	cEntity* pGoal = new cEntity();
+	cPlayer* Player2 = new cPlayer();
 	tempLocX = aBMPreader.vec_GoalLocXZ[0].x;
 	tempLocZ = aBMPreader.vec_GoalLocXZ[0].z;
-	pGoal->mPhysicsInfo.Position.x = tempLocX;
-	pGoal->mPhysicsInfo.Position.y = 0.0f;
-	pGoal->mPhysicsInfo.Position.z = tempLocZ;
-	pGoal->mRenderingInfo.Scale.x = g_pValueReader->Obj6ScaleXYZ;
-	pGoal->mRenderingInfo.Scale.y = g_pValueReader->Obj6ScaleXYZ;
-	pGoal->mRenderingInfo.Scale.z = g_pValueReader->Obj6ScaleXYZ;
-	pGoal->mPhysicsInfo.IsStatic = true;
-	pGoal->mRenderingInfo.textureName = g_pValueReader->Obj6TexturefileName;
-	pGoal->mRenderingInfo.meshName = g_pValueReader->Obj6PlyfileName;
-	gVec_Entities.push_back(pGoal);
+	Player2->mPhysicsInfo.Position.x = tempLocX;
+	Player2->mPhysicsInfo.Position.y = 0.0f;
+	Player2->mPhysicsInfo.Position.z = tempLocZ;
+	Player2->mRenderingInfo.Scale.x = g_pValueReader->Obj6ScaleXYZ;
+	Player2->mRenderingInfo.Scale.y = g_pValueReader->Obj6ScaleXYZ;
+	Player2->mRenderingInfo.Scale.z = g_pValueReader->Obj6ScaleXYZ;
+	Player2->mPlayerNumber = 2;
+	Player2->mRenderingInfo.textureName = g_pValueReader->Obj6TexturefileName;
+	Player2->mRenderingInfo.meshName = g_pValueReader->Obj6PlyfileName;
+	gVec_Entities.push_back(Player2);
 
 
 	int numOfBlocks = (int)aBMPreader.vec_BlockLocXZ.size();
@@ -60,103 +60,103 @@ bool LoadObjectsIntoScene()
 		pBlock->mPhysicsInfo.IsStatic = true;
 		pBlock->mRenderingInfo.textureName = g_pValueReader->Obj4TexturefileName;
 		pBlock->mRenderingInfo.meshName = g_pValueReader->Obj4PlyfileName;
-		gVec_Entities.push_back(pBlock);
+		//gVec_Entities.push_back(pBlock);
 		//will be used as obstacles check
-		gVec_Blocks.push_back(pBlock);
+		//gVec_Blocks.push_back(pBlock);
 	}
 
-	// for enemy type 1 position to avoid overlapping any block
-	float enemyType1LocX = 0.0f;
-	float enemyType1LocZ = 0.0f;
-	float enemyType1Scale = g_pValueReader->Obj2ScaleXYZ;
-	for (int i = 0; i < numOfBlocks; i++)
-	{
-		float tempBlockLocX = aBMPreader.vec_BlockLocXZ[i].x;
-		float tempBlockLocZ = aBMPreader.vec_BlockLocXZ[i].z;
-		tempLocX = ::getRandFloat(-22.0f, 0.0f);
-		tempLocZ = ::getRandFloat(-22.0f, 0.0f);		
-		if (!(
-			( //the position point of the block is left bottom corner (min point)
-				tempBlockLocX >= (tempLocX - tempLocX*enemyType1Scale / 2)
-				&& tempBlockLocX <= (tempLocX + tempLocX*enemyType1Scale / 2)
-				||  // the width of a block is 1.0 , this checks the other corner
-				(tempBlockLocX + 1.0f) >= (tempLocX - tempLocX*enemyType1Scale / 2)
-				&& (tempBlockLocX + 1.0f) <= (tempLocX + tempLocX*enemyType1Scale / 2)
-				) &&
-				(
-					tempBlockLocZ >= (tempLocZ - tempLocZ*enemyType1Scale / 2)
-					&& tempBlockLocZ <= (tempLocZ + tempLocZ*enemyType1Scale / 2)
-					||
-					(tempBlockLocZ + 1.0f) >= (tempLocZ - tempLocZ*enemyType1Scale / 2)
-					&& (tempBlockLocZ + 1.0f) <= (tempLocZ + tempLocZ*enemyType1Scale / 2)
-				)
-			))
-		{
-			enemyType1LocX = tempLocX;
-			enemyType1LocZ = tempLocZ;
-			break;
-		}//if
-	}//for
+	//// for enemy type 1 position to avoid overlapping any block
+	//float enemyType1LocX = 0.0f;
+	//float enemyType1LocZ = 0.0f;
+	//float enemyType1Scale = g_pValueReader->Obj2ScaleXYZ;
+	//for (int i = 0; i < numOfBlocks; i++)
+	//{
+	//	float tempBlockLocX = aBMPreader.vec_BlockLocXZ[i].x;
+	//	float tempBlockLocZ = aBMPreader.vec_BlockLocXZ[i].z;
+	//	tempLocX = ::getRandFloat(-22.0f, 0.0f);
+	//	tempLocZ = ::getRandFloat(-22.0f, 0.0f);		
+	//	if (!(
+	//		( //the position point of the block is left bottom corner (min point)
+	//			tempBlockLocX >= (tempLocX - tempLocX*enemyType1Scale / 2)
+	//			&& tempBlockLocX <= (tempLocX + tempLocX*enemyType1Scale / 2)
+	//			||  // the width of a block is 1.0 , this checks the other corner
+	//			(tempBlockLocX + 1.0f) >= (tempLocX - tempLocX*enemyType1Scale / 2)
+	//			&& (tempBlockLocX + 1.0f) <= (tempLocX + tempLocX*enemyType1Scale / 2)
+	//			) &&
+	//			(
+	//				tempBlockLocZ >= (tempLocZ - tempLocZ*enemyType1Scale / 2)
+	//				&& tempBlockLocZ <= (tempLocZ + tempLocZ*enemyType1Scale / 2)
+	//				||
+	//				(tempBlockLocZ + 1.0f) >= (tempLocZ - tempLocZ*enemyType1Scale / 2)
+	//				&& (tempBlockLocZ + 1.0f) <= (tempLocZ + tempLocZ*enemyType1Scale / 2)
+	//			)
+	//		))
+	//	{
+	//		enemyType1LocX = tempLocX;
+	//		enemyType1LocZ = tempLocZ;
+	//		break;
+	//	}//if
+	//}//for
 
-	gEnemy = new cEnemy();
-	gEnemy->mType = cEnemy::TYPE1;
-	gEnemy->mPhysicsInfo.Position.x = enemyType1LocX;
-	gEnemy->mPhysicsInfo.Position.y = 0.0f;
-	gEnemy->mPhysicsInfo.Position.z = enemyType1LocZ;
-	gEnemy->mRenderingInfo.Scale.x = enemyType1Scale;
-	gEnemy->mRenderingInfo.Scale.y = enemyType1Scale;
-	gEnemy->mRenderingInfo.Scale.z = enemyType1Scale;
-	gEnemy->collisonDetectPoint = gEnemyYtype1MaxZ * enemyType1Scale;
-	gEnemy->mRenderingInfo.textureName = g_pValueReader->Obj2TexturefileName;
-	gEnemy->mRenderingInfo.meshName = g_pValueReader->Obj2PlyfileName;
-	gVec_Entities.push_back(gEnemy);
+	//gEnemy = new cEnemy();
+	//gEnemy->mType = cEnemy::TYPE1;
+	//gEnemy->mPhysicsInfo.Position.x = enemyType1LocX;
+	//gEnemy->mPhysicsInfo.Position.y = 0.0f;
+	//gEnemy->mPhysicsInfo.Position.z = enemyType1LocZ;
+	//gEnemy->mRenderingInfo.Scale.x = enemyType1Scale;
+	//gEnemy->mRenderingInfo.Scale.y = enemyType1Scale;
+	//gEnemy->mRenderingInfo.Scale.z = enemyType1Scale;
+	//gEnemy->collisonDetectPoint = gEnemyYtype1MaxZ * enemyType1Scale;
+	//gEnemy->mRenderingInfo.textureName = g_pValueReader->Obj2TexturefileName;
+	//gEnemy->mRenderingInfo.meshName = g_pValueReader->Obj2PlyfileName;
+	//gVec_Entities.push_back(gEnemy);
 
-	// for enemy type 2 position
-	float enemyType2LocX = 0.0f;
-	float enemyType2LocZ = 0.0f;
-	float enemyType2Scale = g_pValueReader->Obj3ScaleXYZ;
-	for (int i = 0; i < numOfBlocks; i++)
-	{
-		float tempBlockLocX = aBMPreader.vec_BlockLocXZ[i].x;
-		float tempBlockLocZ = aBMPreader.vec_BlockLocXZ[i].z;
-		tempLocX = ::getRandFloat(0.0f, 22.0f);
-		tempLocZ = ::getRandFloat(0.0f, 22.0f);
-		//to avoid enemy's random position overlapping any block
-		if (!(
-			( //the position point of the block is left bottom corner (min point)
-				tempBlockLocX >= (tempLocX - tempLocX*enemyType2Scale / 2)
-				&& tempBlockLocX <= (tempLocX + tempLocX*enemyType2Scale / 2)
-				||  // the width of a block is 1.0 , this checks the other corner
-				(tempBlockLocX + 1.0f) >= (tempLocX - tempLocX*enemyType2Scale / 2)
-				&& (tempBlockLocX + 1.0f) <= (tempLocX + tempLocX*enemyType2Scale / 2)
-				) &&
-				(
-					tempBlockLocZ >= (tempLocZ - tempLocZ*enemyType2Scale / 2)
-					&& tempBlockLocZ <= (tempLocZ + tempLocZ*enemyType2Scale / 2)
-					||
-					(tempBlockLocZ + 1.0f) >= (tempLocZ - tempLocZ*enemyType2Scale / 2)
-					&& (tempBlockLocZ + 1.0f) <= (tempLocZ + tempLocZ*enemyType2Scale / 2)
-					)
-			))
-		{
-			enemyType2LocX = tempLocX;
-			enemyType2LocZ = tempLocZ;
-			break;
-		}//if
-	}//for
+	//// for enemy type 2 position
+	//float enemyType2LocX = 0.0f;
+	//float enemyType2LocZ = 0.0f;
+	//float enemyType2Scale = g_pValueReader->Obj3ScaleXYZ;
+	//for (int i = 0; i < numOfBlocks; i++)
+	//{
+	//	float tempBlockLocX = aBMPreader.vec_BlockLocXZ[i].x;
+	//	float tempBlockLocZ = aBMPreader.vec_BlockLocXZ[i].z;
+	//	tempLocX = ::getRandFloat(0.0f, 22.0f);
+	//	tempLocZ = ::getRandFloat(0.0f, 22.0f);
+	//	//to avoid enemy's random position overlapping any block
+	//	if (!(
+	//		( //the position point of the block is left bottom corner (min point)
+	//			tempBlockLocX >= (tempLocX - tempLocX*enemyType2Scale / 2)
+	//			&& tempBlockLocX <= (tempLocX + tempLocX*enemyType2Scale / 2)
+	//			||  // the width of a block is 1.0 , this checks the other corner
+	//			(tempBlockLocX + 1.0f) >= (tempLocX - tempLocX*enemyType2Scale / 2)
+	//			&& (tempBlockLocX + 1.0f) <= (tempLocX + tempLocX*enemyType2Scale / 2)
+	//			) &&
+	//			(
+	//				tempBlockLocZ >= (tempLocZ - tempLocZ*enemyType2Scale / 2)
+	//				&& tempBlockLocZ <= (tempLocZ + tempLocZ*enemyType2Scale / 2)
+	//				||
+	//				(tempBlockLocZ + 1.0f) >= (tempLocZ - tempLocZ*enemyType2Scale / 2)
+	//				&& (tempBlockLocZ + 1.0f) <= (tempLocZ + tempLocZ*enemyType2Scale / 2)
+	//				)
+	//		))
+	//	{
+	//		enemyType2LocX = tempLocX;
+	//		enemyType2LocZ = tempLocZ;
+	//		break;
+	//	}//if
+	//}//for
 
-	gEnemy = new cEnemy();
-	gEnemy->mType = cEnemy::TYPE2;
-	gEnemy->mPhysicsInfo.Position.x = enemyType2LocX;
-	gEnemy->mPhysicsInfo.Position.y = 0.0f;
-	gEnemy->mPhysicsInfo.Position.z = enemyType2LocZ;
-	gEnemy->mRenderingInfo.Scale.x = enemyType2Scale;
-	gEnemy->mRenderingInfo.Scale.y = enemyType2Scale;
-	gEnemy->mRenderingInfo.Scale.z = enemyType2Scale;
-	gEnemy->collisonDetectPoint = gEnemyYtype2MaxZ * enemyType2Scale;
-	gEnemy->mRenderingInfo.textureName = g_pValueReader->Obj3TexturefileName;
-	gEnemy->mRenderingInfo.meshName = g_pValueReader->Obj3PlyfileName;
-	gVec_Entities.push_back(gEnemy);
+	//gEnemy = new cEnemy();
+	//gEnemy->mType = cEnemy::TYPE2;
+	//gEnemy->mPhysicsInfo.Position.x = enemyType2LocX;
+	//gEnemy->mPhysicsInfo.Position.y = 0.0f;
+	//gEnemy->mPhysicsInfo.Position.z = enemyType2LocZ;
+	//gEnemy->mRenderingInfo.Scale.x = enemyType2Scale;
+	//gEnemy->mRenderingInfo.Scale.y = enemyType2Scale;
+	//gEnemy->mRenderingInfo.Scale.z = enemyType2Scale;
+	//gEnemy->collisonDetectPoint = gEnemyYtype2MaxZ * enemyType2Scale;
+	//gEnemy->mRenderingInfo.textureName = g_pValueReader->Obj3TexturefileName;
+	//gEnemy->mRenderingInfo.meshName = g_pValueReader->Obj3PlyfileName;
+	//gVec_Entities.push_back(gEnemy);
 
 	//for the field
 	cEntity* pPlayGround = new cEntity();

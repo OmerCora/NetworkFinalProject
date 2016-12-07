@@ -14,10 +14,11 @@
 #include "cEnemy.h"
 #include "cPlayer.h"
 #include "cAreaInfo.h"
-//#include "cPath.h"
 
 #include <iostream>
 #include <vector>
+
+extern bool g_bMonopolyProceed;
 
 extern GLFWwindow* gWindow;
 extern float gWindowRatio;

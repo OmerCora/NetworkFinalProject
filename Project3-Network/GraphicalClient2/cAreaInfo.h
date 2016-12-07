@@ -7,6 +7,8 @@ public:
 	cAreaInfo();
 	~cAreaInfo();
 
+	float getLocationRange();
+
 	glm::vec3 Max;
 	glm::vec3 Min;
 

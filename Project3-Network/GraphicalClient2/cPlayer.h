@@ -17,4 +17,6 @@ public:
 
 	virtual void Update(float dt);
 
+	int mPlayerNumber;
+
 };

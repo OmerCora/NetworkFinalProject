@@ -16,3 +16,12 @@ cAreaInfo::~cAreaInfo()
 {
 
 }
+
+float cAreaInfo::getLocationRange()
+{
+	float widthOfOneSide = this->Max.x - this->Min.x;
+	int numOfLocsInOneSide = 13; // 9 locations + 2 coners(x2 width) 
+	float locationRange = widthOfOneSide / numOfLocsInOneSide;
+
+	return locationRange;
+}
