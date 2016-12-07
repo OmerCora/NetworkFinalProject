@@ -5,10 +5,9 @@
 #include <iostream>
 
 
-cStationDistrict::cStationDistrict(int districtID, unsigned int price)
+cStationDistrict::cStationDistrict(int districtID, int price)
 	:cAssetDistrict(districtID, price)
 {
-	m_isRequiredAnswer = true;
 }
 
 
@@ -24,6 +23,8 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	//check ownership
 	if (this->m_owner)
 	{
+		m_isRequiredAnswer = false;
+
 		//owner is set so someone already bought it
 
 		//pay up or DIE
@@ -33,10 +34,12 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	}
 	else
 	{
+		m_isRequiredAnswer = true;
+
 		//ask if the user wants to buy it
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_AskAssetAction);
 		sProtocolAskAssetAction protocol;
-		player->GetPlayerInfo(protocol.player);
+		player->GetPlayerInfo(protocol.player, player->PlayerID());
 		protocol.districtInfo.districtType = this->DistrictType();
 		protocol.districtInfo.district_id = this->m_districtID;
 		protocol.districtInfo.price = this->m_price;
@@ -77,7 +80,7 @@ bool cStationDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
-		player->GetPlayerInfo(protocol.player);
+		player->GetPlayerInfo(protocol.player, player->PlayerID());
 		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here

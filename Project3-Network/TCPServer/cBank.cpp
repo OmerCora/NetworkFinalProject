@@ -12,10 +12,10 @@ cBank::~cBank()
 {
 }
 
-void cBank::giveMoney(cPlayer toWhom, unsigned int howmuch)
+void cBank::giveMoney(cPlayer toWhom, int howmuch)
 {
 }
 
-void cBank::takeMoney(cPlayer fromWhom, unsigned int howmuch)
+void cBank::takeMoney(cPlayer fromWhom, int howmuch)
 {
 }

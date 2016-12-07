@@ -7,7 +7,8 @@
 #include <iostream>
 
 cPlayer::cPlayer(iUser* user, char playerID)
-	:m_money(1500)
+	: m_money(1500)
+	, m_previousMoney(1500)
 	, m_isReady(true)
 	, m_user(user)
 	, m_chanceToThrowDice(false)
@@ -32,15 +33,22 @@ bool cPlayer::IsReadyToPlay()
 }
 
 bool cPlayer::IsBankrupty() { return (m_money<=0); }
-bool cPlayer::Deposit(unsigned int money)
+int cPlayer::GetMoneyVariation()
+{
+	return (m_previousMoney - m_money);
+}
+bool cPlayer::Deposit(int money)
 {
 	if (IsBankrupty()) return false;
+
+	m_previousMoney = m_money;
 	m_money += money;
 	return true;
 }
-bool cPlayer::Withdraw(unsigned int money)
+bool cPlayer::Withdraw(int money)
 {
 	if (IsBankrupty()) return false;
+	m_previousMoney = m_money;
 	m_money -= money;
 	return true;
 }
@@ -97,10 +105,12 @@ void cPlayer::setbJustCameInJail(bool bFirstTime)
 	this->m_bJustCameInJail = bFirstTime;
 }
 
-void cPlayer::GetPlayerInfo(sProtocolPlayerInfo& outInfo)
+void cPlayer::GetPlayerInfo(sProtocolPlayerInfo& outInfo, int currentPlayerID)
 {
-	outInfo.id = m_user->SocketID();
+	outInfo.id = m_playerID;
 	outInfo.nick.name = m_user->Email();
 	outInfo.money = m_money;
+	outInfo.moneyVariation = this->GetMoneyVariation();
 	outInfo.location = m_currentLocation;
+	outInfo.isMyTurn = (currentPlayerID == m_playerID);
 }

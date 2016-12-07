@@ -23,7 +23,7 @@ void cDistrict::GetDistrictInfo(sProtocolDistrictInfo& outInfo)
 	outInfo.price = 0;
 }
 
-bool cDistrict::IsRequiredAnswer() { return m_isRequiredAnswer;/*it should be a member variable*/ }
+bool cDistrict::IsRequiredAnswer() { return m_isRequiredAnswer; }
 bool cDistrict::AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cDistrict::AddPlayer() m_districtID: " << m_districtID << std::endl;

@@ -5,10 +5,9 @@
 #include <conio.h>
 #include <iostream>
 
-cBuildingDistrict::cBuildingDistrict(int districtID, unsigned int price)
+cBuildingDistrict::cBuildingDistrict(int districtID, int price)
 	:cAssetDistrict(districtID, price)
 {
-	m_isRequiredAnswer = true;
 }
 
 
@@ -19,24 +18,28 @@ sProtocolDistrictInfo::eDistrictType cBuildingDistrict::DistrictType() { return 
 bool cBuildingDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cBuildingDistrict::Action()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	//check ownership
 	if (this->m_owner)
 	{
+		m_isRequiredAnswer = false;
+
 		//owner is set so someone already bought it
 
 		//pay up or DIE
 		player->Withdraw(this->m_price);
 
 		//price may also be modified by number of houses/hotels in extended rules.
+
 	}
 	else
 	{
+		m_isRequiredAnswer = true;
+
 		//ask if the user wants to buy it
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_AskAssetAction);
 		sProtocolAskAssetAction protocol;
-		player->GetPlayerInfo(protocol.player);
+		player->GetPlayerInfo(protocol.player, player->PlayerID());
 		protocol.districtInfo.districtType = this->DistrictType();
 		protocol.districtInfo.district_id = this->m_districtID;
 		protocol.districtInfo.price = this->m_price;
@@ -80,7 +83,7 @@ bool cBuildingDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
-		player->GetPlayerInfo(protocol.player);
+		player->GetPlayerInfo(protocol.player, player->PlayerID());
 		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		logic.PacketProcedure().AppendProtocol(protocol);

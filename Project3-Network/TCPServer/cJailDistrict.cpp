@@ -51,7 +51,7 @@ bool cJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
-		player->GetPlayerInfo(protocol.player);
+		player->GetPlayerInfo(protocol.player, player->PlayerID());
 		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here

@@ -38,7 +38,7 @@ public:
 	virtual void SetState(eGameMonopolyState state) = 0;
 	//virtual void SetNextLocation(short nextLocation) = 0;
 	virtual void SetGameStarted(bool flag) = 0;
-	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info, bool isMine) = 0;
+	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info) = 0;
 
 };
 

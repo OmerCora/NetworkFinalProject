@@ -15,8 +15,9 @@ public:
 	virtual bool IsReadyToPlay();
 
 	virtual bool IsBankrupty();
-	virtual bool Deposit(unsigned int money);
-	virtual bool Withdraw(unsigned int money);
+	virtual int GetMoneyVariation();
+	virtual bool Deposit(int money);
+	virtual bool Withdraw(int money);
 	virtual void CurrentLocation(int location);
 	virtual int CurrentLocation();
 	virtual bool HasChanceToThrowDice();
@@ -31,14 +32,15 @@ public:
 	bool getbJustCameInJail();
 	void setbJustCameInJail(bool bFirstTime);
 
-	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo);
+	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo, int currentPlayerID);
 
 
 private:
 	char m_playerID;
 
-	unsigned int m_money;
-	unsigned int m_enjailedCount;
+	int m_money;
+	int m_previousMoney;
+	int m_enjailedCount;
 
 	int m_currentLocation;
 	iUser* m_user;

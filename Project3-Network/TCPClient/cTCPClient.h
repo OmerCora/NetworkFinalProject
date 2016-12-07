@@ -46,7 +46,7 @@ public:
 			m_menuState = eChatMenuState::e_PlayGame;
 		}
 	}
-	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info, bool isMine);
+	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info);
 	// end of iTCPClient
 
 private:

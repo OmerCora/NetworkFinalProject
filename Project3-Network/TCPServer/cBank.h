@@ -7,10 +7,10 @@ public:
 	cBank();
 	~cBank();
 
-	void giveMoney(cPlayer toWhom, unsigned int howmuch);
-	void takeMoney(cPlayer fromWhom, unsigned int howmuch);
+	void giveMoney(cPlayer toWhom, int howmuch);
+	void takeMoney(cPlayer fromWhom, int howmuch);
 
 private:
-	unsigned int m_money;
+	int m_money;
 
 };

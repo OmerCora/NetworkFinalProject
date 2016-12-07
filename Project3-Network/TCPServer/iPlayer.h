@@ -12,8 +12,9 @@ public:
 
 	virtual char PlayerID() = 0;
 	virtual bool IsBankrupty() = 0;
-	virtual bool Deposit(unsigned int money) = 0;
-	virtual bool Withdraw(unsigned int money) = 0;
+	virtual int GetMoneyVariation() = 0;
+	virtual bool Deposit(int money) = 0;
+	virtual bool Withdraw(int money) = 0;
 
 	virtual void CurrentLocation(int location) = 0;
 	virtual int CurrentLocation() = 0;
@@ -26,7 +27,7 @@ public:
 	virtual bool getbCanThrowDice() = 0;
 	virtual void setbCanThrowDice(bool bChance) = 0;
 
-	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo) = 0;
+	virtual void GetPlayerInfo(sProtocolPlayerInfo& outInfo, int currentPlayerID) = 0;
 	
 };
 

@@ -32,16 +32,18 @@ struct sProtocolPlayerInfo : public iProtocol
 	sProtocolPlayerInfo()
 		: isMyTurn(0)
 		, money(0)
+		, moneyVariation(0)
 		, location(0)
 	{}
 	int id;
 	sProtocolNameInfo nick;
 	char isMyTurn;
 	int money;
+	int moneyVariation;
 	short location;
 	unsigned int Size()
 	{
-		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(money) + sizeof(location);
+		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(money) + sizeof(moneyVariation) + sizeof(location);
 	}
 };
 struct sProtocolDistrictInfo : public iProtocol
@@ -229,82 +231,6 @@ struct sProtocolResponsePlayFailure : public iProtocol
 		return message_length;
 	}
 };
-
-//struct sProtocolUser
-//{
-//	sProtocolUser()
-//		:username_length(0)
-//	{}
-//	short username_length;
-//	std::string username;
-//};
-//struct sProtocolPassword
-//{
-//	sProtocolPassword()
-//		:password_length(0)
-//	{}
-//	short password_length;
-//	std::string password;
-//};
-//struct sProtocolAccount : sProtocolUser, sProtocolPassword
-//{
-//};
-//struct sProtocolRequestLeaveRoom : sProtocolUser, sProtocolRoom
-//{
-//};
-//
-//struct sProtocolRequestNewRoom : sProtocolUser, sProtocolRoom
-//{
-//};
-//struct sProtocolRequestJoinRoom : sProtocolUser, sProtocolRoom
-//{
-//};
-//struct sProtocolResponseRoomList
-//{
-//	sProtocolResponseRoomList()
-//		: numberOfRooms(0)
-//	{}
-//	short numberOfRooms;
-//	std::vector<sProtocolRoom> rooms;
-//	std::vector<short> user_counts;
-//};
-//
-//struct sProtocolResponseRoomInfo : sProtocolRoom
-//{
-//	sProtocolResponseRoomInfo()
-//		: numberOfUsers(0)
-//	{}
-//	short numberOfUsers;
-//	std::vector<sProtocolUser> users;
-//};
-//struct sProtocolLobbyUsers
-//{
-//	sProtocolLobbyUsers()
-//		: numberOfUsers(0)
-//	{}
-//	short numberOfUsers;
-//	std::vector<sProtocolUser> users;
-//};
-//struct sProtocolChatMessage
-//{
-//	sProtocolChatMessage()
-//		:message_length(0)
-//	{}
-//	int message_length;
-//	std::string message;
-//};
-//struct sProtocolSendChatMessage : sProtocolUser, sProtocolRoom, sProtocolChatMessage
-//{
-//};
-//struct sProtocolResponseChatHistory
-//{
-//	sProtocolResponseChatHistory()
-//		:numberOfMessages(0)
-//	{}
-//	int numberOfMessages;
-//	std::vector<sProtocolChatMessage> chatHistory;
-//};
-//
 
 
 

@@ -228,6 +228,8 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		m_currentPlayerInfo = data.player;
 		m_currentBoardInfo = data.board;
 
+		m_myInfo.isMyTurn = (m_myInfo.id == m_currentPlayerInfo.id);
+
 		m_client.SetState(iTCPClient::e_GM_TurnChange);
 
 		break;
@@ -242,6 +244,8 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 
 		m_currentPlayerInfo = data.player;
 		m_currentBoardInfo = data.board;
+
+		m_myInfo.isMyTurn = (m_myInfo.id == m_currentPlayerInfo.id);
 
 		m_client.SetState(iTCPClient::e_GM_TurnKeep);
 

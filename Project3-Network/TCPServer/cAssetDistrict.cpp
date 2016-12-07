@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-cAssetDistrict::cAssetDistrict(int districtID, unsigned int price)
+cAssetDistrict::cAssetDistrict(int districtID, int price)
 	:cDistrict(districtID)
 	, m_price(price)
 	, m_owner(0)
@@ -27,7 +27,7 @@ bool cAssetDistrict::SetOwner(iPlayer* player)
 	this->m_owner = player;
 	return true;
 }
-unsigned int cAssetDistrict::GetPrice()
+int cAssetDistrict::GetPrice()
 {
 	return this->m_price;
 }
