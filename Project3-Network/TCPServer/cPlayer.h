@@ -20,7 +20,7 @@ public:
 	virtual bool Withdraw(int money);
 	virtual void CurrentLocation(int location);
 	virtual int CurrentLocation();
-	virtual bool HasChanceToThrowDice();
+	virtual bool UseChanceToThrowDice();
 	virtual void TakeChanceToThrowDice();
 
 	virtual int getEnjailCount(); 

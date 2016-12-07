@@ -31,6 +31,7 @@ struct sProtocolPlayerInfo : public iProtocol
 {
 	sProtocolPlayerInfo()
 		: isMyTurn(0)
+		, chanceToThrowDice(0)
 		, money(0)
 		, moneyVariation(0)
 		, location(0)
@@ -38,12 +39,13 @@ struct sProtocolPlayerInfo : public iProtocol
 	int id;
 	sProtocolNameInfo nick;
 	char isMyTurn;
+	char chanceToThrowDice;
 	int money;
 	int moneyVariation;
 	short location;
 	unsigned int Size()
 	{
-		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(money) + sizeof(moneyVariation) + sizeof(location);
+		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(chanceToThrowDice) + sizeof(money) + sizeof(moneyVariation) + sizeof(location);
 	}
 };
 struct sProtocolDistrictInfo : public iProtocol
@@ -336,7 +338,7 @@ struct sProtocolMonopolyHeader : public iProtocol
 	}
 	void SetProtocol(sProtocolResponsePlayTurnKeep& data)
 	{
-		packet_id = e_ResponsePlayTurnChange;
+		packet_id = e_ResponsePlayTurnKeep;
 		packet_length = data.Size() + this->Size();
 	}
 	void SetProtocol(sProtocolResponseGameFinish& data)

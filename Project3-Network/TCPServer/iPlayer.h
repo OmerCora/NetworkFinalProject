@@ -18,7 +18,7 @@ public:
 
 	virtual void CurrentLocation(int location) = 0;
 	virtual int CurrentLocation() = 0;
-	virtual bool HasChanceToThrowDice() = 0;
+	virtual bool UseChanceToThrowDice() = 0;
 	virtual void TakeChanceToThrowDice() = 0;
 
 	virtual int getEnjailCount() = 0;

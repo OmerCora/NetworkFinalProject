@@ -125,6 +125,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		receiveBuffer.Deserialize(data);
 
 		m_myInfo = data.player;
+		m_currentPlayerInfo = data.player;
 
 		m_client.SetState(iTCPClient::e_GM_Start);
 
@@ -222,7 +223,6 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		std::cout << "e_ResponsePlayTurnChange" << std::endl;
 
 		sProtocolResponsePlayTurnChange data;
-		//sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
 
 		m_currentPlayerInfo = data.player;
@@ -239,7 +239,6 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		std::cout << "e_ResponsePlayTurnKeep" << std::endl;
 
 		sProtocolResponsePlayTurnKeep data;
-		//sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
 
 		m_currentPlayerInfo = data.player;
@@ -261,19 +260,21 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		// this is the winner
 		m_currentPlayerInfo = data.player;
 
-		break;
-	}
-	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameOver:
-	{
-		std::cout << "e_ResponseGameFinish" << std::endl;
-
-		sProtocolResponseGameOver data;
-		receiveBuffer.Deserialize(data);
-
-		m_client.SetGameStarted(false);
+		m_client.SetState(iTCPClient::e_GM_Finish);
 
 		break;
 	}
+	//case sProtocolMonopolyHeader::ePacketID::e_ResponseGameOver:
+	//{
+	//	std::cout << "e_ResponseGameFinish" << std::endl;
+
+	//	sProtocolResponseGameOver data;
+	//	receiveBuffer.Deserialize(data);
+
+	//	m_client.SetGameStarted(false);
+
+	//	break;
+	//}
 	default:
 	{
 		std::cout << "Unkown packet id: " << header.packet_id << std::endl;

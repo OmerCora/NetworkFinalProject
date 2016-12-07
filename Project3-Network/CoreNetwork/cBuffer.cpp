@@ -355,6 +355,7 @@ void cBuffer::Serialize(const sProtocolPlayerInfo& data)
 	this->writeInt32BE(data.id);
 	this->Serialize(data.nick);
 	this->writeChar(data.isMyTurn);
+	this->writeChar(data.chanceToThrowDice);
 	this->writeInt32BE(data.money);
 	this->writeInt32BE(data.moneyVariation);
 	this->writeInt16BE(data.location);
@@ -364,6 +365,7 @@ void cBuffer::Deserialize(sProtocolPlayerInfo& data)
 	data.id = this->readInt32BE();
 	this->Deserialize(data.nick);
 	data.isMyTurn = this->readChar();
+	data.chanceToThrowDice = this->readChar();
 	data.money = this->readInt32BE();
 	data.moneyVariation = this->readInt32BE();
 	data.location = this->readInt16BE();

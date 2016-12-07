@@ -235,11 +235,14 @@ void cTCPClient::UserSendThread()
 
 		if (m_menuState == eChatMenuState::e_PlayGame)
 		{
+			std::cout << "eChatMenuState::e_PlayGame" << std::endl;
 			// do nothing
 			while (m_gameStarted)
 			{
 				Sleep(1000);
 			}
+
+			system("cls");
 		}
 		else if (m_menuState == eChatMenuState::e_Connect)
 		{
@@ -876,15 +879,15 @@ void cTCPClient::PrintPlayerInfo(sProtocolPlayerInfo& info)
 {
 	if (m_gameMonopolyPacketProcedure->MyInfo().id == info.id)
 	{
-		std::cout << "MyInfo" << std::endl;
+		std::cout << "\t MyInfo" << std::endl;
 	}
 	else
 	{
-		std::cout << "CurrentInfo" << std::endl;
+		std::cout << "\t CurrentInfo" << std::endl;
 	}
 	{
-		std::cout << "\t ID: " << info.id << "\t Nick: " << info.nick.name << "\t MyTurn: " << (int)info.isMyTurn << "\t Location: " << info.location << std::endl;
-		std::cout << "\t Money: " << info.money << "(" << info.moneyVariation << ")" << std::endl;
+		std::cout << "\t\t ID: " << info.id << "\t Nick: " << info.nick.name << "\t MyTurn: " << (int)info.isMyTurn << "\t Location: " << info.location << std::endl;
+		std::cout << "\t\t Money: " << info.money << "(" << info.moneyVariation << ")" << "\t Chance: " << (int)info.chanceToThrowDice << std::endl;
 	}
 }
 
@@ -1229,7 +1232,7 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_TurnChange" << std::endl;
 
-			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo());
+			//this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo());
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
 
@@ -1239,8 +1242,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_TurnKeep" << std::endl;
 
-			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo());
-
+			//this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo());
+			std::cout << "[ *\^^/* Chance *\^^/* ]" << std::endl;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
 
 			break;
@@ -1250,7 +1253,23 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "\t eGameMonopolyState::e_GM_Finish" << std::endl;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 
+			if (m_gameMonopolyPacketProcedure->CurrentPlayerInfo().id == m_gameMonopolyPacketProcedure->MyInfo().id)
+			{
+				std::cout << "[ *\^^/* WINNER *\^^/* ]" << std::endl;
+			}
+			else
+			{
+				std::cout << "[ >.< LOSER >.< ]" << std::endl;
+			}
+
+			m_gameStarted = false;
+
 			this->SendLeaveRoom();
+			while (m_menuState == eChatMenuState::e_PlayGame)
+			{
+				Sleep(10);
+			}
+			//m_menuState = eChatMenuState::e_MainMenu;
 
 			break;
 		}

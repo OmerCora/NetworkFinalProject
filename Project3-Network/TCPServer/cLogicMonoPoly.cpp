@@ -278,8 +278,9 @@ bool cLogicMonoPoly::UpdateGameLoop()
 	{
 		std::cout << "ePlayState::e_ChangeTurn" << std::endl;
 
-		if (!m_players[m_currentPlayerIndex]->HasChanceToThrowDice())
+		if (!m_players[m_currentPlayerIndex]->UseChanceToThrowDice())
 		{
+			std::cout << "\t ChangeTurn" << std::endl;
 			this->SetState(ePlayState::e_Wait);
 
 
@@ -300,6 +301,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 		}
 		else
 		{
+			std::cout << "\t KeepTurn" << std::endl;
 			this->SetState(ePlayState::e_Wait);
 
 			// send turn keep information
@@ -334,6 +336,14 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			{
 				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameFinish);
 				sProtocolResponseGameFinish protocol;
+				if (m_players[0]->IsBankrupty())
+				{
+					m_players[1]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+				}
+				else
+				{
+					m_players[0]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+				}
 				m_packetProcedure->AppendProtocol(protocol);
 
 				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -369,12 +379,13 @@ bool cLogicMonoPoly::CleanUp()
 	std::cout << "ePlayState::e_GameOver" << std::endl;
 	this->SetState(ePlayState::e_GameOver);
 
-	m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameOver);
-	sProtocolResponseGameOver protocol;
-	m_packetProcedure->AppendProtocol(protocol);
+	//m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameOver);
+	//sProtocolResponseGameOver protocol;
+	//m_packetProcedure->AppendProtocol(protocol);
 
-	m_packetProcedure->SendData(m_players[0]->User()->SocketID());
-	m_packetProcedure->SendData(m_players[1]->User()->SocketID());
+	//m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+	//m_packetProcedure->SendData(m_players[1]->User()->SocketID());
+
 
 
 	std::vector<iDistrict*>::iterator iter = m_districts.begin();

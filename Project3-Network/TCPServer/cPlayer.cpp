@@ -60,7 +60,7 @@ int cPlayer::CurrentLocation()
 {
 	return m_currentLocation;
 }
-bool cPlayer::HasChanceToThrowDice()
+bool cPlayer::UseChanceToThrowDice()
 {
 	if (m_chanceToThrowDice)
 	{
@@ -113,4 +113,5 @@ void cPlayer::GetPlayerInfo(sProtocolPlayerInfo& outInfo, int currentPlayerID)
 	outInfo.moneyVariation = this->GetMoneyVariation();
 	outInfo.location = m_currentLocation;
 	outInfo.isMyTurn = (currentPlayerID == m_playerID);
+	outInfo.chanceToThrowDice = m_chanceToThrowDice;
 }

@@ -183,7 +183,7 @@ bool cCardDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 		logic.PacketProcedure().AppendProtocol(protocol);
 
 		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
-		logic.PacketProcedure().SendData(logic.PlayerA().User()->SocketID());
+		logic.PacketProcedure().SendData(logic.PlayerB().User()->SocketID());
 	}
 
 #ifdef _LOGIC_DEBUG_TEST
