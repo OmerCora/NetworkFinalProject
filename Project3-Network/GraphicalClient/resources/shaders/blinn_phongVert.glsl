@@ -76,7 +76,7 @@ void main()
 	
 	vec3 viewVector = normalize(eyeLocation - vertWorld);
 
-	vec3 hemiColor = vec3(0.0f,0.0f,0.0f);
+	vec4 hemiColor = vec4(0.0f,0.0f,0.0f,0.0f);
 	for ( int index = 0; index < NUMBEROFLIGHTS; index++ )
 	{
 
