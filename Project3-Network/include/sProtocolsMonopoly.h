@@ -46,14 +46,28 @@ struct sProtocolPlayerInfo : public iProtocol
 };
 struct sProtocolDistrictInfo : public iProtocol
 {
+	enum eDistrictType : char
+	{
+		e_None = 0,
+		e_Card,
+		e_FreeParking,
+		e_GotoJail,
+		e_Jail,
+		e_Start,
+		e_Tax,
+		e_Building,
+		e_Station,
+		e_Utility,
+	};
+
 	sProtocolDistrictInfo()
 		: price(0)
-		, districtType(0)
+		, districtType(sProtocolDistrictInfo::e_None)
 		, district_id(0)
 		, owner_id(0)
 	{}
 	int price;
-	char districtType;
+	sProtocolDistrictInfo::eDistrictType districtType;
 	char district_id;
 	char owner_id;
 	unsigned int Size()
@@ -83,11 +97,11 @@ struct sProtocolResponseGameStart : public iProtocol
 {
 	sProtocolResponseGameStart()
 	{}
-	sProtocolPlayerInfo playerA;
-	sProtocolPlayerInfo playerB;
+	sProtocolPlayerInfo player;
+	//sProtocolPlayerInfo playerB;
 	unsigned int Size()
 	{
-		return playerA.Size() + playerB.Size();
+		return player.Size();// +playerB.Size();
 	}
 };
 struct sProtocolRequestPlayThrowDice : public iProtocol
@@ -121,12 +135,14 @@ struct sProtocolRequestPlayAction : public iProtocol
 struct sProtocolResponsePlayAction : public iProtocol
 {
 	sProtocolResponsePlayAction()
-		: districtType(-1)
+		: districtType(sProtocolDistrictInfo::e_None)
 	{}
-	short districtType;
+	sProtocolDistrictInfo::eDistrictType districtType;
+	sProtocolPlayerInfo player;
+	sProtocolDistrictInfo district;
 	unsigned int Size()
 	{
-		return sizeof(districtType);
+		return sizeof(districtType) + player.Size() + district.Size();
 	}
 };
 struct sProtocolAskAssetAction : public iProtocol
@@ -134,9 +150,10 @@ struct sProtocolAskAssetAction : public iProtocol
 	sProtocolAskAssetAction()
 	{}
 	sProtocolDistrictInfo districtInfo;
+	sProtocolPlayerInfo player;
 	unsigned int Size()
 	{
-		return districtInfo.Size();
+		return districtInfo.Size() + player.Size();
 	}
 };
 struct sProtocolAnswerAssetAction : public iProtocol
@@ -155,27 +172,32 @@ struct sProtocolResponsePlayTurnChange : public iProtocol
 {
 	sProtocolResponsePlayTurnChange()
 	{}
+	sProtocolPlayerInfo player;
+	sProtocolBoardInfo board;
 	unsigned int Size()
 	{
-		return 0;
+		return player.Size() + board.Size();
 	}
 };
 struct sProtocolResponsePlayTurnKeep : public iProtocol
 {
 	sProtocolResponsePlayTurnKeep()
 	{}
+	sProtocolPlayerInfo player;
+	sProtocolBoardInfo board;
 	unsigned int Size()
 	{
-		return 0;
+		return player.Size() + board.Size();
 	}
 };
 struct sProtocolResponseGameFinish : public iProtocol
 {
 	sProtocolResponseGameFinish()
 	{}
+	sProtocolPlayerInfo player;//winner
 	unsigned int Size()
 	{
-		return 0;
+		return player.Size();
 	}
 };
 struct sProtocolResponseGameOver : public iProtocol
@@ -310,19 +332,6 @@ struct sProtocolMonopolyHeader : public iProtocol
 		e_ResponseGameOver,
 	};
 
-
-	enum eDistrictType : int
-	{
-		e_Card = 0,
-		e_FreeParking,
-		e_GotoJail,
-		e_Jail,
-		e_Start,
-		e_Tax,
-		e_Building,
-		e_Station,
-		e_Utility,
-	};
 
 	sProtocolMonopolyHeader()
 		: packet_length(0)

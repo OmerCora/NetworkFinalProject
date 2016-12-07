@@ -14,7 +14,7 @@ cFreeParking::cFreeParking(int districtID)
 cFreeParking::~cFreeParking()
 {
 }
-sProtocolMonopolyHeader::eDistrictType cFreeParking::DistrictType() { return sProtocolMonopolyHeader::e_FreeParking; }
+sProtocolDistrictInfo::eDistrictType cFreeParking::DistrictType() { return sProtocolDistrictInfo::e_FreeParking; }
 bool cFreeParking::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cFreeParking::Action()" << std::endl;
@@ -37,6 +37,8 @@ bool cFreeParking::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
+		player->GetPlayerInfo(protocol.player);
+		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);

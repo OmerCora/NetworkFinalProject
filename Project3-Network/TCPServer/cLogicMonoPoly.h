@@ -37,7 +37,7 @@ private:
 	bool CleanUp();
 
 	void GetBoardInfo(sProtocolBoardInfo& outInfo);
-	void GetPlayersInfo(sProtocolResponseGameStart& outInfo);
+	//void GetPlayersInfo(sProtocolResponseGameStart& outInfo);
 
 
 	iDice* m_dice;

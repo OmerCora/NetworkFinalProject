@@ -17,7 +17,7 @@ cGotoJailDistrict::~cGotoJailDistrict()
 {
 }
 
-sProtocolMonopolyHeader::eDistrictType cGotoJailDistrict::DistrictType() { return sProtocolMonopolyHeader::e_GotoJail; }
+sProtocolDistrictInfo::eDistrictType cGotoJailDistrict::DistrictType() { return sProtocolDistrictInfo::e_GotoJail; }
 bool cGotoJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	// implement content here
@@ -44,6 +44,8 @@ bool cGotoJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
+		player->GetPlayerInfo(protocol.player);
+		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);

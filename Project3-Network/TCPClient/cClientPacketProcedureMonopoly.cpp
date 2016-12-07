@@ -1,6 +1,7 @@
 #include "cClientPacketProcedureMonopoly.h"
 #include <cErrorReport.h>
 #include <iostream>
+#include "cConsolTool.h"
 
 cClientPacketProcedureMonopoly::cClientPacketProcedureMonopoly(iTCPClient& client)
 	:m_client(client)
@@ -108,6 +109,13 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameStart:
 	{
+		m_client.SetGameStarted(true);
+
+		while (cConsolTool::Reference().m_isPrinting)
+		{
+			Sleep(5);
+		}
+
 		system("cls");
 		SetCursorPos(0, 0);
 
@@ -116,7 +124,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponseGameStart data;
 		receiveBuffer.Deserialize(data);
 
-		//m_client.Set
+		m_myInfo = data.player;
 
 		m_client.SetState(iTCPClient::e_GM_Start);
 
@@ -129,12 +137,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayThrowDice data;
 		receiveBuffer.Deserialize(data);
 
-
-		// check this packet is for me or not
-		if (m_client.GetSocketID() == data.player.id)
-		{
-			m_client.SetNextLocation(data.player.location);
-		}
+		m_currentPlayerInfo = data.player;
 
 		m_client.SetState(iTCPClient::e_GM_ThrowDice);
 
@@ -147,39 +150,42 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayAction data;
 		receiveBuffer.Deserialize(data);
 
-		if (data.districtType == sProtocolMonopolyHeader::e_Card)
+		m_currentPlayerInfo = data.player;
+		m_currentDistrictInfo = data.district;
+
+		if (data.districtType == sProtocolDistrictInfo::e_Card)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictCard);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_FreeParking)
+		else if (data.districtType == sProtocolDistrictInfo::e_FreeParking)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictFreeParking);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_GotoJail)
+		else if (data.districtType == sProtocolDistrictInfo::e_GotoJail)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictGotoJail);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Jail)
+		else if (data.districtType == sProtocolDistrictInfo::e_Jail)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictJail);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Start)
+		else if (data.districtType == sProtocolDistrictInfo::e_Start)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictStart);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Tax)
+		else if (data.districtType == sProtocolDistrictInfo::e_Tax)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictTax);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Building)
+		else if (data.districtType == sProtocolDistrictInfo::e_Building)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictBuilding);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Station)
+		else if (data.districtType == sProtocolDistrictInfo::e_Station)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictStation);
 		}
-		else if (data.districtType == sProtocolMonopolyHeader::e_Utility)
+		else if (data.districtType == sProtocolDistrictInfo::e_Utility)
 		{
 			m_client.SetState(iTCPClient::e_GM_ActionDistrictUtility);
 		}
@@ -193,15 +199,18 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolAskAssetAction data;
 		receiveBuffer.Deserialize(data);
 
-		if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Building)
+		m_currentPlayerInfo = data.player;
+		m_currentDistrictInfo = data.districtInfo;
+
+		if (data.districtInfo.districtType == sProtocolDistrictInfo::e_Building)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictBuilding);
 		}
-		else if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Station)
+		else if (data.districtInfo.districtType == sProtocolDistrictInfo::e_Station)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictStation);
 		}
-		else if (data.districtInfo.districtType == sProtocolMonopolyHeader::e_Utility)
+		else if (data.districtInfo.districtType == sProtocolDistrictInfo::e_Utility)
 		{
 			m_client.SetState(iTCPClient::e_GM_AskDistrictUtility);
 		}
@@ -212,9 +221,12 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 		std::cout << "e_ResponsePlayTurnChange" << std::endl;
 
-		//sProtocolResponsePlayTurnChange data;
-		sProtocolBoardInfo data;
+		sProtocolResponsePlayTurnChange data;
+		//sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
+
+		m_currentPlayerInfo = data.player;
+		m_currentBoardInfo = data.board;
 
 		m_client.SetState(iTCPClient::e_GM_TurnChange);
 
@@ -224,10 +236,12 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	{
 		std::cout << "e_ResponsePlayTurnKeep" << std::endl;
 
-		//sProtocolResponsePlayTurnKeep data;
-		sProtocolBoardInfo data;
+		sProtocolResponsePlayTurnKeep data;
+		//sProtocolBoardInfo data;
 		receiveBuffer.Deserialize(data);
 
+		m_currentPlayerInfo = data.player;
+		m_currentBoardInfo = data.board;
 
 		m_client.SetState(iTCPClient::e_GM_TurnKeep);
 
@@ -240,6 +254,9 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponseGameFinish data;
 		receiveBuffer.Deserialize(data);
 
+		// this is the winner
+		m_currentPlayerInfo = data.player;
+
 		break;
 	}
 	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameOver:
@@ -248,6 +265,8 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 
 		sProtocolResponseGameOver data;
 		receiveBuffer.Deserialize(data);
+
+		m_client.SetGameStarted(false);
 
 		break;
 	}

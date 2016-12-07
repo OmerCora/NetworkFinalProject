@@ -35,10 +35,18 @@ public:
 	bool ShutDown();
 
 
+	// monopoly
 	// begin of iTCPClient
 	virtual SOCKET GetSocketID();
 	virtual void SetState(eGameMonopolyState state);
-	virtual void SetNextLocation(short nextLocation);
+	virtual void SetGameStarted(bool flag) {
+		m_gameStarted = flag;
+		if (flag)
+		{
+			m_menuState = eChatMenuState::e_PlayGame;
+		}
+	}
+	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info, bool isMine);
 	// end of iTCPClient
 
 private:
@@ -70,7 +78,7 @@ private:
 
 
 	eGameMonopolyState m_gameMonopolyState;
-	short m_nextLocation;
+	//short m_nextLocation;
 	bool m_gameStarted;
 
 	iClientPacketProcedure* m_gameMonopolyPacketProcedure;
@@ -152,6 +160,8 @@ private:
 	static const char* mc_DEFAULT_IPADDRESS;
 
 	bool m_isDebug;
+
+
 };
 
 #endif

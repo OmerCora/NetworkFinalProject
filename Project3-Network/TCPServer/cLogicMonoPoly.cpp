@@ -123,10 +123,17 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	{
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
 		sProtocolResponseGameStart protocol;
-		this->GetPlayersInfo(protocol);
+		m_players[0]->GetPlayerInfo(protocol.player);
 		m_packetProcedure->AppendProtocol(protocol);
 
 		m_packetProcedure->SendData(m_players[0]->User()->SocketID());
+	}
+	{
+		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
+		sProtocolResponseGameStart protocol;
+		m_players[1]->GetPlayerInfo(protocol.player);
+		m_packetProcedure->AppendProtocol(protocol);
+
 		m_packetProcedure->SendData(m_players[1]->User()->SocketID());
 	}
 
@@ -148,15 +155,15 @@ void cLogicMonoPoly::GetBoardInfo(sProtocolBoardInfo& outInfo)
 	}
 
 }
-void cLogicMonoPoly::GetPlayersInfo(sProtocolResponseGameStart& outInfo)
-{
-	outInfo.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
-	outInfo.playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
-
-	m_players[0]->GetPlayerInfo(outInfo.playerA);
-	m_players[1]->GetPlayerInfo(outInfo.playerB);
-
-}
+//void cLogicMonoPoly::GetPlayersInfo(sProtocolResponseGameStart& outInfo)
+//{
+//	outInfo.playerA.isMyTurn = m_currentPlayerIndex == 0 ? 1 : 0;
+//	outInfo.playerB.isMyTurn = m_currentPlayerIndex == 1 ? 1 : 0;
+//
+//	m_players[0]->GetPlayerInfo(outInfo.playerA);
+//	m_players[1]->GetPlayerInfo(outInfo.playerB);
+//
+//}
 void cLogicMonoPoly::BringToStart(iPlayer* player)
 {
 	m_districts[0]->AddPlayer(player, *this);
@@ -168,7 +175,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 {
 	if (this->IsCurrentState(ePlayState::e_Wait))
 	{
-		std::cout << "ePlayState::e_Wait" << std::endl;
+		//std::cout << "ePlayState::e_Wait" << std::endl;
 
 #ifdef _LOGIC_DEBUG_TEST
 		std::cout << "(Press Any Key to Continue...)" << std::endl;
@@ -209,7 +216,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			if (doubleSame) m_players[m_currentPlayerIndex]->TakeChanceToThrowDice();
 			m_nextLocation =  throwValue + m_players[m_currentPlayerIndex]->CurrentLocation();
 			if (m_nextLocation >= (int)m_districts.size())
-				m_nextLocation = 0;
+				m_nextLocation -= m_districts.size();
 
 			// TODO: send packet of dice number
 			{
@@ -284,9 +291,10 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			// send turn change information
 			{
 				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnChange);
-				sProtocolBoardInfo protocol;
-				this->GetBoardInfo(protocol);
-				m_packetProcedure->AppendProtocol(protocol);
+				sProtocolResponsePlayTurnChange turnChangeInfo;
+				this->GetBoardInfo(turnChangeInfo.board);
+				m_players[m_currentPlayerIndex]->GetPlayerInfo(turnChangeInfo.player);
+				m_packetProcedure->AppendProtocol(turnChangeInfo);
 
 				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
 				m_packetProcedure->SendData(m_players[1]->User()->SocketID());
@@ -299,9 +307,10 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			// send turn keep information
 			{
 				m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponsePlayTurnKeep);
-				sProtocolBoardInfo protocol;
-				this->GetBoardInfo(protocol);
-				m_packetProcedure->AppendProtocol(protocol);
+				sProtocolResponsePlayTurnKeep turnKeepInfo;
+				this->GetBoardInfo(turnKeepInfo.board);
+				m_players[m_currentPlayerIndex]->GetPlayerInfo(turnKeepInfo.player);
+				m_packetProcedure->AppendProtocol(turnKeepInfo);
 
 				m_packetProcedure->SendData(m_players[0]->User()->SocketID());
 				m_packetProcedure->SendData(m_players[1]->User()->SocketID());

@@ -31,9 +31,7 @@ cTCPClient::cTCPClient()
 	, m_isDebug(false)
 
 	, m_menuState(eChatMenuState::e_Connect)
-	, m_nextLocation(0)
 	, m_gameStarted(false)
-
 {
 	m_instance = this;
 }
@@ -84,6 +82,7 @@ bool cTCPClient::StartClient()
 
 void cTCPClient::PrintTitlePage(const std::string& title)
 {
+	if (m_gameStarted) return;
 	cConsolTool::Reference().StartPrinting();
 	cConsolTool::Reference().DrawRectangle(5, 2, 100, 5);
 	cConsolTool::Reference().PrintPos((short)(55 - title.size() / 2), 4, title.c_str());
@@ -92,6 +91,7 @@ void cTCPClient::PrintTitlePage(const std::string& title)
 }
 void cTCPClient::PrintLobbyUsers()
 {
+	if (m_gameStarted) return;
 	cConsolTool::Reference().StartPrinting();
 	// lobby users
 	cConsolTool::Reference().DrawRectangle(89, 2, 16, 25);
@@ -107,6 +107,7 @@ void cTCPClient::PrintLobbyUsers()
 }
 void cTCPClient::PrintRoomList()
 {
+	if (m_gameStarted) return;
 	cConsolTool::Reference().StartPrinting();
 	// room list
 	cConsolTool::Reference().DrawRectangle(5, 10, 82, 17);
@@ -122,6 +123,7 @@ void cTCPClient::PrintRoomList()
 }
 void cTCPClient::PrintCurrentRoomUsers()
 {
+	if (m_gameStarted) return;
 	cConsolTool::Reference().StartPrinting();
 
 	// room users
@@ -141,6 +143,7 @@ void cTCPClient::PrintCurrentRoomUsers()
 }
 void cTCPClient::PrintChatHistory()
 {
+	if (m_gameStarted) return;
 	cConsolTool::Reference().StartPrinting();
 
 	// chat history
@@ -233,7 +236,7 @@ void cTCPClient::UserSendThread()
 		if (m_menuState == eChatMenuState::e_PlayGame)
 		{
 			// do nothing
-			while (m_menuState == eChatMenuState::e_PlayGame)
+			while (m_gameStarted)
 			{
 				Sleep(1000);
 			}
@@ -616,7 +619,7 @@ void cTCPClient::UserSendThread()
 			cConsolTool::Reference().EndPrinting(false);
 
 			//m_menuState = eChatMenuState::e_ChatRoom;
-			m_menuState = eChatMenuState::e_PlayGame;
+			//m_menuState = eChatMenuState::e_PlayGame;
 		}
 		else if (m_menuState == eChatMenuState::e_CreateRoomFailure)
 		{
@@ -713,7 +716,7 @@ void cTCPClient::UserSendThread()
 			cConsolTool::Reference().EndPrinting(false);
 
 			//m_menuState = eChatMenuState::e_ChatRoom;
-			m_menuState = eChatMenuState::e_PlayGame;
+			//m_menuState = eChatMenuState::e_PlayGame;
 		}
 		else if (m_menuState == eChatMenuState::e_JoinRoomFailure)
 		{
@@ -869,7 +872,25 @@ void cTCPClient::ClientReceiveTherad()
 
 SOCKET cTCPClient::GetSocketID() { return m_connectedSocket; }
 void cTCPClient::SetState(eGameMonopolyState state) { m_gameMonopolyState = state; }
-void cTCPClient::SetNextLocation(short nextLocation) { m_nextLocation = nextLocation; }
+void cTCPClient::PrintPlayerInfo(sProtocolPlayerInfo& info, bool isMine)
+{
+	if (isMine)
+	{
+		std::cout << "MyInfo" << info.id << std::endl;
+	}
+	else
+	{
+		std::cout << "CurrentInfo" << info.id << std::endl;
+	}
+	{
+		std::cout << "\t ID: " << info.id << std::endl;
+		std::cout << "\t Nick: " << info.nick.name << std::endl;
+		std::cout << "\t MyTurn: " << info.isMyTurn << std::endl;
+		std::cout << "\t Location: " << info.location << std::endl;
+		std::cout << "\t Money: " << info.money << std::endl;
+	}
+}
+
 void cTCPClient::PlayMonopolySendThread()
 {
 	std::cout << "cTCPClient::PlayMonopolySendThread()" << std::endl;
@@ -881,7 +902,9 @@ void cTCPClient::PlayMonopolySendThread()
 	float durationOfDiceAnimationDuration = 1.0f;
 	float diceAnimation = 0.0f;
 
-	float pieceLocation = 0.0f;
+	float myPieceLocation = 0.0f;
+	float otherPieceLocation = 0.0f;
+	float pieceNextLocation = 0.0f;
 	float moveSpeed = 2.0f;
 
 
@@ -910,20 +933,22 @@ void cTCPClient::PlayMonopolySendThread()
 		case eGameMonopolyState::e_GM_Start:
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_Start" << std::endl;
-			std::cout << "\t Press any key to throw dice" << std::endl;
 
-			char anyKey = _getch();
+			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->MyInfo(), true);
 
-			m_gameStarted = true;
-			m_menuState = eChatMenuState::e_PlayGame;
-
-			// request throw dice
+			if (m_gameMonopolyPacketProcedure->MyInfo().isMyTurn)
 			{
-				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_RequestPlayThrowDice);
-				sProtocolRequestPlayThrowDice data;
-				m_gameMonopolyPacketProcedure->AppendProtocol(data);
+				std::cout << "\t Press any key to throw dice" << std::endl;
+				char anyKey = _getch();
 
-				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+				// request throw dice
+				{
+					m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_RequestPlayThrowDice);
+					sProtocolRequestPlayThrowDice data;
+					m_gameMonopolyPacketProcedure->AppendProtocol(data);
+
+					m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
+				}
 			}
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -933,9 +958,12 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ThrowDice" << std::endl;
 
+			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->MyInfo(), true);
+			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo(), false);
 
 			diceAnimation = 0.0f;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationThrowDice;
+
 			break;
 		}
 		case eGameMonopolyState::e_GM_AnimationThrowDice:
@@ -945,9 +973,17 @@ void cTCPClient::PlayMonopolySendThread()
 				diceAnimation += (float)deltaTime;
 			}
 
-			std::cout << "\t Your Current Square: " << m_nextLocation << std::endl;
+			if (m_gameMonopolyPacketProcedure->IsMyTurn())
+			{
+				std::cout << "\t My Current Square: " << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().location << std::endl;
+			}
+			else
+			{
+				std::cout << "\t Oppenent's Current Square: " << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().location << std::endl;
+			}
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_MovePiece;
+
 			break;
 		}
 		case eGameMonopolyState::e_GM_MovePiece:
@@ -955,16 +991,30 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "\t eGameMonopolyState::e_GM_MovePiece" << std::endl;
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationMovePiece;
+
 			break;
 		}
 		case eGameMonopolyState::e_GM_AnimationMovePiece:
 		{
-			while (pieceLocation < m_nextLocation)
+
+			float pieceLocation = 0;
+			if (m_gameMonopolyPacketProcedure->IsMyTurn())
+			{
+				pieceLocation = myPieceLocation;
+			}
+			else
+			{
+				pieceLocation = otherPieceLocation;
+			}
+
+			pieceNextLocation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().location;
+			while (pieceLocation < pieceNextLocation)
 			{
 				pieceLocation += (float)(deltaTime * moveSpeed);
 			}
 
 			// request play action
+			if (m_gameMonopolyPacketProcedure->IsMyTurn())
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_RequestPlayAction);
 				sProtocolRequestPlayAction data;
@@ -1069,7 +1119,6 @@ void cTCPClient::PlayMonopolySendThread()
 
 
 			char anyKey = _getch();
-			
 
 			// request asking
 			{
@@ -1097,7 +1146,9 @@ void cTCPClient::PlayMonopolySendThread()
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = 1;
+				data.yesOrNo = 0;
+				if (anyKey == 89 || anyKey == 121)
+					data.yesOrNo = 1;
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
@@ -1116,7 +1167,9 @@ void cTCPClient::PlayMonopolySendThread()
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = 1;
+				data.yesOrNo = 0;
+				if (anyKey == 89 || anyKey == 121)
+					data.yesOrNo = 1;
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
@@ -1129,7 +1182,9 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_TurnChange" << std::endl;
 
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
+			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo(), m_gameMonopolyPacketProcedure->IsMyTurn());
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 
 			break;
 		}
@@ -1137,7 +1192,9 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_TurnKeep" << std::endl;
 
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Start;
+			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo(), m_gameMonopolyPacketProcedure->IsMyTurn());
+
+			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 
 			break;
 		}
@@ -1147,8 +1204,6 @@ void cTCPClient::PlayMonopolySendThread()
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 
 			this->SendLeaveRoom();
-
-			m_gameStarted = false;
 
 			break;
 		}
@@ -1447,6 +1502,7 @@ bool cTCPClient::PacketProcedure(SOCKET& connectedSocket)
 		{
 		case sProtocolHeader::ePacketID::e_PlayMonopoly:
 		{
+
 			std::cout << "e_PlayMonopoly" << std::endl;
 
 			m_gameMonopolyPacketProcedure->ProcessReceiveData(m_receiveBuffer);

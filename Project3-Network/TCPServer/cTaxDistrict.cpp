@@ -14,7 +14,7 @@ cTaxDistrict::cTaxDistrict(int districtID, eTaxDistrictType taxtype)
 cTaxDistrict::~cTaxDistrict()
 {
 }
-sProtocolMonopolyHeader::eDistrictType cTaxDistrict::DistrictType() { return sProtocolMonopolyHeader::e_Tax; }
+sProtocolDistrictInfo::eDistrictType cTaxDistrict::DistrictType() { return sProtocolDistrictInfo::e_Tax; }
 bool cTaxDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	// implement content here
@@ -43,6 +43,8 @@ bool cTaxDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
+		player->GetPlayerInfo(protocol.player);
+		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);

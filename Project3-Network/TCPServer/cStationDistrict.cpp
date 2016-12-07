@@ -15,7 +15,7 @@ cStationDistrict::cStationDistrict(int districtID, unsigned int price)
 cStationDistrict::~cStationDistrict()
 {
 }
-sProtocolMonopolyHeader::eDistrictType cStationDistrict::DistrictType() { return sProtocolMonopolyHeader::e_Station; }
+sProtocolDistrictInfo::eDistrictType cStationDistrict::DistrictType() { return sProtocolDistrictInfo::e_Station; }
 bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cStationDistrict::Action()" << std::endl;
@@ -36,6 +36,7 @@ bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 		//ask if the user wants to buy it
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_AskAssetAction);
 		sProtocolAskAssetAction protocol;
+		player->GetPlayerInfo(protocol.player);
 		protocol.districtInfo.districtType = this->DistrictType();
 		protocol.districtInfo.district_id = this->m_districtID;
 		protocol.districtInfo.price = this->m_price;
@@ -76,6 +77,8 @@ bool cStationDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
+		player->GetPlayerInfo(protocol.player);
+		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);

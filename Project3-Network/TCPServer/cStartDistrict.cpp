@@ -13,7 +13,7 @@ cStartDistrict::cStartDistrict(int districtID)
 cStartDistrict::~cStartDistrict()
 {
 }
-sProtocolMonopolyHeader::eDistrictType cStartDistrict::DistrictType() { return sProtocolMonopolyHeader::e_Start; }
+sProtocolDistrictInfo::eDistrictType cStartDistrict::DistrictType() { return sProtocolDistrictInfo::e_Start; }
 bool cStartDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	// implement content here
@@ -37,6 +37,8 @@ bool cStartDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);
 		sProtocolResponsePlayAction protocol;
+		player->GetPlayerInfo(protocol.player);
+		this->GetDistrictInfo(protocol.district);
 		protocol.districtType = this->DistrictType();
 		// TODO: add details into the protocol here
 		logic.PacketProcedure().AppendProtocol(protocol);

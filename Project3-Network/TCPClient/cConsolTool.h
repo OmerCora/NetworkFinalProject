@@ -27,8 +27,8 @@ public:
 	void PrintPos(short x, short y, const char* txt);
 
 	bool m_isDebug;
-private:
 	bool m_isPrinting;
+private:
 	COORD m_inputCursorPos;
 };
 

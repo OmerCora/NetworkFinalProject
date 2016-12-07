@@ -377,7 +377,7 @@ void cBuffer::Serialize(const sProtocolDistrictInfo& data)
 void cBuffer::Deserialize(sProtocolDistrictInfo& data)
 {
 	data.price = this->readInt32BE();
-	data.districtType = this->readChar();
+	data.districtType = (sProtocolDistrictInfo::eDistrictType)this->readChar();
 	data.district_id = this->readChar();
 	data.owner_id = this->readChar();
 	this->flushBuffer();
@@ -418,13 +418,13 @@ void cBuffer::Deserialize(sProtocolMonopolyHeader& data)
 
 void cBuffer::Serialize(const sProtocolResponseGameStart& data)
 {
-	this->Serialize(data.playerA);
-	this->Serialize(data.playerB);
+	this->Serialize(data.player);
+	//this->Serialize(data.playerB);
 }
 void cBuffer::Deserialize(sProtocolResponseGameStart& data)
 {
-	this->Deserialize(data.playerA);
-	this->Deserialize(data.playerB);
+	this->Deserialize(data.player);
+	//this->Deserialize(data.playerB);
 }
 
 void cBuffer::Serialize(const sProtocolRequestPlayThrowDice& data)
@@ -452,20 +452,26 @@ void cBuffer::Deserialize(sProtocolRequestPlayAction& data)
 
 void cBuffer::Serialize(const sProtocolResponsePlayAction& data)
 {
-	this->writeInt16BE(data.districtType);
+	this->writeChar(data.districtType);
+	this->Serialize(data.player);
+	this->Serialize(data.district);
 }
 void cBuffer::Deserialize(sProtocolResponsePlayAction& data)
 {
-	data.districtType = this->readInt16BE();
+	data.districtType = (sProtocolDistrictInfo::eDistrictType)this->readChar();
+	this->Deserialize(data.player);
+	this->Deserialize(data.district);
 }
 
 void cBuffer::Serialize(const sProtocolAskAssetAction& data)
 {
 	this->Serialize(data.districtInfo);
+	this->Serialize(data.player);
 }
 void cBuffer::Deserialize(sProtocolAskAssetAction& data)
 {
 	this->Deserialize(data.districtInfo);
+	this->Deserialize(data.player);
 }
 
 void cBuffer::Serialize(const sProtocolAnswerAssetAction& data)
@@ -481,23 +487,33 @@ void cBuffer::Deserialize(sProtocolAnswerAssetAction& data)
 
 void cBuffer::Serialize(const sProtocolResponsePlayTurnChange& data)
 {
+	this->Serialize(data.player);
+	this->Serialize(data.board);
 }
 void cBuffer::Deserialize(sProtocolResponsePlayTurnChange& data)
 {
+	this->Deserialize(data.player);
+	this->Deserialize(data.board);
 }
 
 void cBuffer::Serialize(const sProtocolResponsePlayTurnKeep& data)
 {
+	this->Serialize(data.player);
+	this->Serialize(data.board);
 }
 void cBuffer::Deserialize(sProtocolResponsePlayTurnKeep& data)
 {
+	this->Deserialize(data.player);
+	this->Deserialize(data.board);
 }
 
 void cBuffer::Serialize(const sProtocolResponseGameFinish& data)
 {
+	this->Serialize(data.player);// winner
 }
 void cBuffer::Deserialize(sProtocolResponseGameFinish& data)
 {
+	this->Deserialize(data.player);// winner
 }
 
 void cBuffer::Serialize(const sProtocolResponseGameOver& data)

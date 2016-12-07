@@ -14,7 +14,7 @@ public:
 
 
 	// begin of iDistrict
-	virtual sProtocolMonopolyHeader::eDistrictType DistrictType() = 0;
+	virtual sProtocolDistrictInfo::eDistrictType DistrictType() = 0;
 	virtual void GetDistrictInfo(sProtocolDistrictInfo& outInfo) = 0;
 	virtual bool IsRequiredAnswer() = 0;
 	virtual bool AddPlayer(iPlayer* player, iLogicMonopolyMediator& logic) = 0;

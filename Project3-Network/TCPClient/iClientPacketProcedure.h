@@ -35,5 +35,11 @@ public:
 	virtual bool SendData(SOCKET client) = 0;
 
 	virtual void ProcessReceiveData(cBuffer& receiveBuffer) = 0;
+
+	virtual sProtocolPlayerInfo& MyInfo() = 0;
+	virtual sProtocolPlayerInfo& CurrentPlayerInfo() = 0;
+	virtual bool IsMyTurn() = 0;
+	virtual sProtocolDistrictInfo& CurrentDistrictInfo() = 0;
+	virtual sProtocolBoardInfo& CurrentBoardInfo() = 0;
 	// end of iPacketProcedureMonopoly
 };
