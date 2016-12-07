@@ -161,7 +161,9 @@ private:
 
 	bool m_isDebug;
 
-
+	std::thread m_recvthread;
+	std::thread m_sendthread;
+	std::thread m_gamethread;
 };
 
 #endif

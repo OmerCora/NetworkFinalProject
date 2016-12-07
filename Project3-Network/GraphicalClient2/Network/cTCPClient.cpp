@@ -76,6 +76,9 @@ bool cTCPClient::StartClient()
 		return false;
 	}
 
+	m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly(*this);
+
+
 	return true;
 }
 
@@ -1309,27 +1312,27 @@ std::thread cTCPClient::GetReceiverThread()
 
 bool cTCPClient::RunClient()
 {
-	m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly(*this);
+	//m_gameMonopolyPacketProcedure = new cClientPacketProcedureMonopoly(*this);
 
 	system("cls");
 
-	std::thread recvthread = this->GetReceiverThread();
-	std::thread sendthread = this->GetChatSenderThread();
-	std::thread gamethread = this->GetPlayMonopolySenderThread();
+	m_recvthread = this->GetReceiverThread();
+	m_sendthread = this->GetChatSenderThread();
+	m_gamethread = this->GetPlayMonopolySenderThread();
 
-	recvthread.join();
+	//recvthread.join();
 	//sendthread.join();
 
-	std::cout << "try to detach thread" << std::endl;
-	sendthread.detach();
-	gamethread.detach();
+	//std::cout << "try to detach thread" << std::endl;
+	//sendthread.detach();
+	//gamethread.detach();
 
-	// sender thread
-	//senderThread.join();
-	std::cout << "detached thread" << std::endl;
+	//// sender thread
+	////senderThread.join();
+	//std::cout << "detached thread" << std::endl;
 
-	delete m_gameMonopolyPacketProcedure;
-	m_gameMonopolyPacketProcedure = 0;
+	//delete m_gameMonopolyPacketProcedure;
+	//m_gameMonopolyPacketProcedure = 0;
 
 	return true;
 }
@@ -1341,6 +1344,14 @@ bool cTCPClient::ShutDown()
 	std::cout << "Step 5: Disconnect Server" << std::endl;
 
 	m_isStopped = true;
+
+	std::cout << "try to detach thread" << std::endl;
+	//m_sendthread.detach();
+	//m_gamethread.detach();
+
+	delete m_gameMonopolyPacketProcedure;
+	m_gameMonopolyPacketProcedure = 0;
+
 
 	// shutdown the send half of the connection since no more data will be sent
 	// TODO: when server socket is shutdown, all the times, error occur. client sockets are not tested yet

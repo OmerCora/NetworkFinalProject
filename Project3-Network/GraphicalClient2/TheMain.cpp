@@ -33,8 +33,6 @@ static void error_callback(int error, const char* description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-bool MainLoop();
-
 int main(void)
 {
 	cTCPClient* client = new cTCPClient();
@@ -196,43 +194,10 @@ int main(void)
 	
 	glEnable(GL_DEPTH_TEST);
 
-	std::thread mainThread = std::thread(::MainLoop);
 
 	// message loop
-	if (!client->RunClient())
-		exit(EXIT_FAILURE);
-
-	mainThread.detach();
-
-	//free the heap
-	delete ::g_pTheMeshTypeManager;
-	delete ::g_pTheShaderManager;
-	delete ::g_pTextureManager;
-	delete ::g_pValueReader;
-	delete ::gCamera;
-	delete ::gAreaInfo;
-	gCamera = 0;
-	//freeing the heap allocated by all the entities 
-	for (auto x : gVec_Entities)
-	{
-		delete x;
-		x = 0;
-	}
-
-    glfwDestroyWindow(gWindow);
-    glfwTerminate();
-
-	// clean up server
-	if (!client->ShutDown())
-		exit(EXIT_FAILURE);
-	delete client;
-
-    exit(EXIT_SUCCESS);
-
-}//end of Main()
-
-bool MainLoop()
-{
+	//if (!client->RunClient())
+	//	exit(EXIT_FAILURE);
 
 	double lastTime = glfwGetTime();
 
@@ -287,9 +252,33 @@ bool MainLoop()
 		glfwPollEvents();
 	}
 
-	return true;
-}
 
+	//free the heap
+	delete ::g_pTheMeshTypeManager;
+	delete ::g_pTheShaderManager;
+	delete ::g_pTextureManager;
+	delete ::g_pValueReader;
+	delete ::gCamera;
+	delete ::gAreaInfo;
+	gCamera = 0;
+	//freeing the heap allocated by all the entities 
+	for (auto x : gVec_Entities)
+	{
+		delete x;
+		x = 0;
+	}
+
+    glfwDestroyWindow(gWindow);
+    glfwTerminate();
+
+	// clean up server
+	if (!client->ShutDown())
+		exit(EXIT_FAILURE);
+	delete client;
+
+    exit(EXIT_SUCCESS);
+
+}//end of Main()
 
 void DrawSkyBox(void)
 {
