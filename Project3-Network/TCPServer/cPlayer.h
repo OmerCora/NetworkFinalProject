@@ -15,6 +15,7 @@ public:
 	virtual bool IsReadyToPlay();
 
 	virtual bool IsBankrupty();
+	virtual bool CanBuy(int price);
 	virtual int GetMoneyVariation();
 	virtual bool Deposit(int money);
 	virtual bool Withdraw(int money);

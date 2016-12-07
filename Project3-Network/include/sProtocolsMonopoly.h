@@ -35,6 +35,7 @@ struct sProtocolPlayerInfo : public iProtocol
 		, money(0)
 		, moneyVariation(0)
 		, location(0)
+		, jailCount(0)
 	{}
 	int id;
 	sProtocolNameInfo nick;
@@ -43,9 +44,11 @@ struct sProtocolPlayerInfo : public iProtocol
 	int money;
 	int moneyVariation;
 	short location;
+	short jailCount;
 	unsigned int Size()
 	{
-		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(chanceToThrowDice) + sizeof(money) + sizeof(moneyVariation) + sizeof(location);
+		return sizeof(id) + nick.Size() + sizeof(isMyTurn) + sizeof(chanceToThrowDice)
+			+ sizeof(money) + sizeof(moneyVariation) + sizeof(location) + sizeof(jailCount);
 	}
 };
 struct sProtocolDistrictInfo : public iProtocol

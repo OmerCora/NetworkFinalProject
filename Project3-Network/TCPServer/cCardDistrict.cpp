@@ -154,7 +154,6 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	
 	std::cout << "\t cCardDistrict::Action()" << std::endl;
 
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif
@@ -166,7 +165,6 @@ bool cCardDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 bool cCardDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cCardDistrict::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	// implement content here
 

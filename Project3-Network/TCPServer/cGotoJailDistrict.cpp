@@ -27,7 +27,6 @@ bool cGotoJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	m_jail.AddPlayer(player, logic);
 
 	std::cout << "\t cGotoJailDistrict::Action()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif
@@ -37,7 +36,6 @@ bool cGotoJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 bool cGotoJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cGotoJailDistrict::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 
 	// TODO: send details to client

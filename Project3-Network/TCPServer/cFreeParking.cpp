@@ -18,7 +18,6 @@ sProtocolDistrictInfo::eDistrictType cFreeParking::DistrictType() { return sProt
 bool cFreeParking::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cFreeParking::Action()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif
@@ -27,7 +26,6 @@ bool cFreeParking::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 bool cFreeParking::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cFreeParking::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	// implement content here
 

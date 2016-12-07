@@ -33,6 +33,11 @@ bool cPlayer::IsReadyToPlay()
 }
 
 bool cPlayer::IsBankrupty() { return (m_money<=0); }
+bool cPlayer::CanBuy(int price)
+{
+	return (m_money > price);
+}
+
 int cPlayer::GetMoneyVariation()
 {
 	return (m_previousMoney - m_money);
@@ -114,4 +119,5 @@ void cPlayer::GetPlayerInfo(sProtocolPlayerInfo& outInfo, int currentPlayerID)
 	outInfo.location = m_currentLocation;
 	outInfo.isMyTurn = (currentPlayerID == m_playerID);
 	outInfo.chanceToThrowDice = m_chanceToThrowDice;
+	outInfo.jailCount = m_enjailedCount;
 }

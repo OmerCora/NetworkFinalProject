@@ -20,19 +20,18 @@ bool cBuildingDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	std::cout << "\t cBuildingDistrict::Action()" << std::endl;
 
 	//check ownership
+	m_isRequiredAnswer = false;
 	if (this->m_owner)
 	{
-		m_isRequiredAnswer = false;
-
 		//owner is set so someone already bought it
 
 		//pay up or DIE
 		player->Withdraw(this->m_price);
-
+		this->m_owner->Deposit(m_price);
 		//price may also be modified by number of houses/hotels in extended rules.
 
 	}
-	else
+	else if(player->CanBuy(this->m_price))
 	{
 		m_isRequiredAnswer = true;
 
@@ -77,7 +76,6 @@ bool cBuildingDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& l
 bool cBuildingDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cBuildingDistrict::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	//empty play response
 	{

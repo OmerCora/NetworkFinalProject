@@ -12,6 +12,7 @@ public:
 
 	virtual char PlayerID() = 0;
 	virtual bool IsBankrupty() = 0;
+	virtual bool CanBuy(int price) = 0;
 	virtual int GetMoneyVariation() = 0;
 	virtual bool Deposit(int money) = 0;
 	virtual bool Withdraw(int money) = 0;

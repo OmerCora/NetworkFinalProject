@@ -34,7 +34,6 @@ bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 	player->SetEnjailCount(--tempCount);
 
 	std::cout << "\t cJailDistrict::Action()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 #ifdef _LOGIC_DEBUG_TEST
 	char anyKey = _getch();
 #endif
@@ -44,7 +43,6 @@ bool cJailDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 bool cJailDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cJailDistrict::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 
 	// TODO: send details to client

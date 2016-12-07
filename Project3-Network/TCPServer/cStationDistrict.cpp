@@ -18,21 +18,21 @@ sProtocolDistrictInfo::eDistrictType cStationDistrict::DistrictType() { return s
 bool cStationDistrict::Action(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cStationDistrict::Action()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	//check ownership
+	m_isRequiredAnswer = false;
 	if (this->m_owner)
 	{
-		m_isRequiredAnswer = false;
 
 		//owner is set so someone already bought it
 
 		//pay up or DIE
 		player->Withdraw(this->m_price);
+		this->m_owner->Deposit(m_price);
 
 		//price may also be modified by a multiplier dependant on number of owned station;
 	}
-	else
+	else if (player->CanBuy(this->m_price))
 	{
 		m_isRequiredAnswer = true;
 
@@ -75,7 +75,6 @@ bool cStationDistrict::ReceiveAnswer(iPlayer* player, iLogicMonopolyMediator& lo
 bool cStationDistrict::Response(iPlayer* player, iLogicMonopolyMediator& logic)
 {
 	std::cout << "\t cStationDistrict::Response()" << std::endl;
-	std::cout << "\t Press Any Key to Continue" << std::endl;
 
 	{
 		logic.PacketProcedure().SetHeader(sProtocolMonopolyHeader::e_ResponsePlayAction);

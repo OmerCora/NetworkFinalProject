@@ -359,6 +359,7 @@ void cBuffer::Serialize(const sProtocolPlayerInfo& data)
 	this->writeInt32BE(data.money);
 	this->writeInt32BE(data.moneyVariation);
 	this->writeInt16BE(data.location);
+	this->writeInt16BE(data.jailCount);
 }
 void cBuffer::Deserialize(sProtocolPlayerInfo& data)
 {
@@ -369,6 +370,7 @@ void cBuffer::Deserialize(sProtocolPlayerInfo& data)
 	data.money = this->readInt32BE();
 	data.moneyVariation = this->readInt32BE();
 	data.location = this->readInt16BE();
+	data.jailCount = this->readInt16BE();
 	this->flushBuffer();
 }
 void cBuffer::Serialize(const sProtocolDistrictInfo& data)
