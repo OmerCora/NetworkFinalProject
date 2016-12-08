@@ -21,6 +21,7 @@
 
 #include <conio.h>
 #include <iostream>
+#include <sstream>
 
 
 cLogicMonoPoly::cLogicMonoPoly()
@@ -335,10 +336,6 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 			this->SetState(ePlayState::e_Finish);
 
-			// TODO: record rate of current play
-			{
-				system("https://thawing-sands-45656.herokuapp.com/score/?id=4&nickname=%27test01%27&score=4567");
-			}
 
 			// send result to the rating server
 			{
@@ -347,10 +344,19 @@ bool cLogicMonoPoly::UpdateGameLoop()
 				if (m_players[0]->IsBankrupty())
 				{
 					m_players[1]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+
 				}
 				else
 				{
 					m_players[0]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+				}
+
+
+				// TODO: record rate of current play
+				{
+					std::stringstream ratingStr;
+					ratingStr << "https://thawing-sands-45656.herokuapp.com/score/?nickname='" << protocol.player.nick.name << "'&score=" << protocol.player.money;
+						system(ratingStr.str().c_str());
 				}
 				m_packetProcedure->AppendProtocol(protocol);
 
