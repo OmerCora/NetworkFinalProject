@@ -337,7 +337,7 @@ bool cLogicMonoPoly::UpdateGameLoop()
 
 			// TODO: record rate of current play
 			{
-
+				system("https://thawing-sands-45656.herokuapp.com/score/?id=4&nickname=%27test01%27&score=4567");
 			}
 
 			// send result to the rating server
