@@ -13,6 +13,7 @@
 
 
 cEntity::cEntity()
+	:isVisible(true)
 {
 	mbForwardable = false;
 	collisonDetectPoint = 0.0f;

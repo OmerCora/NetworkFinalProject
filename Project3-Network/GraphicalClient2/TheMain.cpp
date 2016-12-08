@@ -25,7 +25,7 @@
 
 //void PhysicsStep(float deltaTime);
 
-bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2);
+bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2, cPlayer** building);
 
 
 static void error_callback(int error, const char* description)
@@ -36,13 +36,70 @@ static void error_callback(int error, const char* description)
 
 //#define __TEST_GRAPHICS_MONOPOLY_
 
+static const int numDistricts = 40;
+static glm::vec3 districtLocations[] =
+{
+	// bot line
+	{ -23,0,-23 },
+	{ -16,0,-23 },
+	{ -12,0,-23 },
+	{ -8,0,-23 },
+	{ -4,0,-23 },
+	{ 0,0,-23 },
+	{ 4,0,-23 },
+	{ 8,0,-23 },
+	{ 12,0,-23 },
+	{ 16,0,-23 },
+
+	// left
+	{ 23, 0, -23 },
+	{ 23, 0, -16 },
+	{ 23, 0, -12 },
+	{ 23, 0,  -8 },
+	{ 23, 0,  -4 },
+	{ 23, 0,   0 },
+	{ 23, 0,   4 },
+	{ 23, 0,   8 },
+	{ 23, 0,  12 },
+	{ 23, 0,  16 },
+
+	// top
+	{ 23,0,23 },
+	{ 16,0,23 },
+	{ 12,0,23 },
+	{ 8,0,23 },
+	{ 4,0,23 },
+	{ -0,0,23 },
+	{ -4,0,23 },
+	{ -8,0,23 },
+	{ -12,0,23 },
+	{ -16,0,23 },
+
+	// right
+	{ -23, 0, 23 },
+	{ -23, 0, 16 },
+	{ -23, 0, 12 },
+	{ -23, 0,  8 },
+	{ -23, 0,  4 },
+	{ -23, 0,   0 },
+	{ -23, 0,   -4 },
+	{ -23, 0,  -8 },
+	{ -23, 0,  -12 },
+	{ -23, 0,  -16 },
+};
 cTCPClient* gMonopolyClient = 0;
 struct sPlayerInfo
 {
 	cPlayer* playerObject;
 	sProtocolPlayerInfo playerInfo;
+	glm::vec3 color;
 };
-void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client);
+struct sBuildingInfo
+{
+	cPlayer* buildig;
+	sProtocolPlayerInfo* owner;
+};
+void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, sBuildingInfo* buildingInfos, cTCPClient* client);
 int main(void)
 {
 	cTCPClient* client = new cTCPClient();
@@ -197,12 +254,13 @@ int main(void)
 	// player infomations
 	sPlayerInfo playerA;
 	sPlayerInfo playerB;
+	sBuildingInfo buildingInfos[numDistricts];
 
 	playerA.playerInfo = client->MonopolyPacketProcedure()->MyInfo();
 	playerB.playerInfo = client->MonopolyPacketProcedure()->OpponentInfo();
 
-	cPlayer* p1, *p2;
-	if ( ! LoadObjectsIntoScene(p1, p2) )
+	cPlayer* p1, *p2, *buildig[numDistricts];
+	if ( ! LoadObjectsIntoScene(p1, p2, buildig) )
 	{
 		std::cout << "WARNING: Could not load all models into the scene." << std::endl;
 	}
@@ -221,6 +279,9 @@ int main(void)
 		playerA.playerObject = p2;
 		playerB.playerObject = p1;
 	}
+
+	playerA.playerObject->mRenderingInfo.Color = glm::vec3(1.0f, 0.5f, 0.5f);
+	playerB.playerObject->mRenderingInfo.Color = glm::vec3(0.5f, 0.5f, 1.0f);
 #endif
 
 	playerA.playerObject->mPhysicsInfo.Position = { -23,0,-23 };
@@ -228,6 +289,42 @@ int main(void)
 
 	// player infomations
 	////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////
+	// building infomations
+	for (int i = 0; i < numDistricts; ++i)
+	{
+		buildingInfos[i].buildig = buildig[i];
+		buildingInfos[i].buildig->isVisible = false;
+		buildingInfos[i].buildig->mPhysicsInfo.Position = districtLocations[i];
+		buildingInfos[i].buildig->mRenderingInfo.Scale = glm::vec3(1.3f, 1.3f, 1.3f);
+		if (buildingInfos[i].buildig->mPhysicsInfo.Position.z < -20)
+		{
+			// bot line
+			buildingInfos[i].buildig->mPhysicsInfo.Position.z = -20;
+		}
+		else if (buildingInfos[i].buildig->mPhysicsInfo.Position.z > 20)
+		{
+			// top line
+			buildingInfos[i].buildig->mPhysicsInfo.Position.z = 20;
+		}
+		else if (buildingInfos[i].buildig->mPhysicsInfo.Position.x < -20)
+		{
+			// right line
+			buildingInfos[i].buildig->mPhysicsInfo.Position.x = -20;
+		}
+		else if (buildingInfos[i].buildig->mPhysicsInfo.Position.x > 20)
+		{
+			// left line
+			buildingInfos[i].buildig->mPhysicsInfo.Position.x = 20;
+		}
+		buildingInfos[i].buildig->mPhysicsInfo.Position.z -= -4;
+		buildingInfos[i].owner = 0;
+	}
+
+	// building infomations
+	////////////////////////////////////////////////////////////////////////////
+
 
 
 	UniformLoc_ID_objectColour = glGetUniformLocation( shadProgID, "objectColour" );
@@ -274,7 +371,7 @@ int main(void)
 		LightSetting();
 
 		// logic update
-		PlayerUpdate(playerA, playerB, client);
+		PlayerUpdate(playerA, playerB, buildingInfos, client);
 		//Update();
 
 		glm::mat4 matProjection;
@@ -297,8 +394,13 @@ int main(void)
 		for (int index = 0; index != ::gVec_Entities.size(); index++)
 		{
 			cEntity* pCurrEntity = ::gVec_Entities[index];
-			DrawObject(pCurrEntity);
+			if (pCurrEntity->isVisible)
+			{
+				DrawObject(pCurrEntity);
+			}
 		}
+
+
 
 
 		// Show or "present" what we drew...
@@ -365,59 +467,9 @@ void DrawSkyBox(void)
 
 
 //update the scene and supplying delta time to camera and entities
-void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client)
+void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, sBuildingInfo* buildingInfos, cTCPClient* client)
 {
-	static const int numDistricts = 40;
-	static glm::vec3 districtLocations[] =
-	{
-		// bot line
-		{ -23,0,-23 },
-		{ -16,0,-23 },
-		{ -12,0,-23 },
-		{  -8,0,-23 },
-		{  -4,0,-23 },
-		{   0,0,-23 },
-		{   4,0,-23 },
-		{   8,0,-23 },
-		{  12,0,-23 },
-		{  16,0,-23 },
 
-		// left
-		{ 23, 0, -23 },
-		{ 23, 0, -16 },
-		{ 23, 0, -12 },
-		{ 23, 0,  -8 },
-		{ 23, 0,  -4 },
-		{ 23, 0,   0 },
-		{ 23, 0,   4 },
-		{ 23, 0,   8 },
-		{ 23, 0,  12 },
-		{ 23, 0,  16 },
-		
-		// top
-		{ 23,0,23 },
-		{ 16,0,23 },
-		{ 12,0,23 },
-		{ 8,0,23 },
-		{ 4,0,23 },
-		{ -0,0,23 },
-		{ -4,0,23 },
-		{ -8,0,23 },
-		{ -12,0,23 },
-		{ -16,0,23 },
-
-		// right
-		{ -23, 0, 23 },
-		{ -23, 0, 16 },
-		{ -23, 0, 12 },
-		{ -23, 0,  8 },
-		{ -23, 0,  4 },
-		{ -23, 0,   0 },
-		{ -23, 0,   -4 },
-		{ -23, 0,  -8 },
-		{ -23, 0,  -12 },
-		{ -23, 0,  -16 },
-	};
 	double tmpLastTime = glfwGetTime();
 	static double lastTime = glfwGetTime();
 
@@ -437,7 +489,7 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 		deltaTime = 0.05;
 	}
 
-	static const float pieceAnimationDurationPerDistrict = 0.1f;
+	static const float pieceAnimationDurationPerDistrict = 0.2f;
 	static float pieceAnimationTime = 0.0f;
 	//static int pieceCurrentLocationA = 0;
 	//static int pieceCurrentLocationB = 0;
@@ -446,7 +498,8 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 	static glm::vec3 currentLocationB = districtLocations[0];
 	static glm::vec3 nextLocationB = districtLocations[0];
 
-
+	static const float jumpHeight = 3;
+	static float ratioAnimationTime;
 
 	if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationThrowDice)
 	{
@@ -492,9 +545,6 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 			}
 		}
 
-
-		static const float jumpHeight = 3;
-		static float ratioAnimationTime;
 		ratioAnimationTime = (pieceAnimationTime / pieceAnimationDurationPerDistrict);
 		if (client->MonopolyPacketProcedure()->IsMyTurn())
 		{
@@ -513,9 +563,65 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 	}
 	else if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationBuy)
 	{
+		if (client->MonopolyPacketProcedure()->IsMyTurn())
+		{
+			if (buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].owner == 0 &&
+				client->MonopolyPacketProcedure()->CurrentDistrictInfo().owner_id >= 0)
+			{
+				pieceAnimationTime = 0;
+				buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].owner = &client->MonopolyPacketProcedure()->MyInfo();
+				buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].buildig->isVisible = true;
+				buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].buildig->mRenderingInfo.Color = playerA.playerObject->mRenderingInfo.Color;
+				buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].buildig->mPhysicsInfo.Position.y = jumpHeight;
+			}
+			else
+			{
+				client->SetState(iTCPClient::eGameMonopolyState::e_GM_Wait);
+			}
+		}
+		else
+		{
+			if (buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].owner == 0 &&
+				client->MonopolyPacketProcedure()->CurrentDistrictInfo().owner_id >= 0)
+			{
+				pieceAnimationTime = 0;
+				buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].owner = &client->MonopolyPacketProcedure()->OpponentInfo();
+				buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].buildig->isVisible = true;
+				buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].buildig->mRenderingInfo.Color = playerB.playerObject->mRenderingInfo.Color;
+				buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].buildig->mPhysicsInfo.Position.y = jumpHeight;
+			}
+			else
+			{
+				client->SetState(iTCPClient::eGameMonopolyState::e_GM_Wait);
+			}
+		}
+
+		pieceAnimationTime += deltaTime;
+		ratioAnimationTime = (pieceAnimationTime / pieceAnimationDurationPerDistrict);
+
+		if (pieceAnimationTime >= pieceAnimationDurationPerDistrict)
+		{
+			pieceAnimationTime = 0;
+			client->SetState(iTCPClient::eGameMonopolyState::e_GM_Wait);
+			if (client->MonopolyPacketProcedure()->IsMyTurn())
+			{
+				buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].buildig->mPhysicsInfo.Position.y = 0;
+			}
+			else
+			{
+				buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].buildig->mPhysicsInfo.Position.y = 0;
+			}
+		}
+
+		if (client->MonopolyPacketProcedure()->IsMyTurn())
+		{
+			buildingInfos[client->MonopolyPacketProcedure()->MyInfo().location].buildig->mPhysicsInfo.Position.y = glm::cos(glm::pi<float>() * ratioAnimationTime) * jumpHeight;
+		}
+		else
+		{
+			buildingInfos[client->MonopolyPacketProcedure()->OpponentInfo().location].buildig->mPhysicsInfo.Position.y = glm::cos(glm::pi<float>() * ratioAnimationTime) * jumpHeight;
+		}
 	}
-
-
 
 
 	gCamera->Update(deltaTime);

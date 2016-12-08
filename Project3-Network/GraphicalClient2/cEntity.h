@@ -40,5 +40,6 @@ public:
 
 	sRenderingInfo mRenderingInfo;
 	sPhysicsInfo mPhysicsInfo;
+	bool isVisible;
 };
 

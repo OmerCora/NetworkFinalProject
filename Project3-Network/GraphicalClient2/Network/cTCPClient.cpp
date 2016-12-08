@@ -1096,6 +1096,14 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
 			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
+			{
+				m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationBuy;
+				while (m_gameMonopolyState == eGameMonopolyState::e_GM_AnimationBuy)
+				{
+					Sleep(5);
+				}
+			}
+
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
 		}
@@ -1105,7 +1113,13 @@ void cTCPClient::PlayMonopolySendThread()
 
 			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
 			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
-
+			{
+				m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationBuy;
+				while (m_gameMonopolyState == eGameMonopolyState::e_GM_AnimationBuy)
+				{
+					Sleep(5);
+				}
+			}
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1117,7 +1131,13 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
 			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
-
+			{
+				m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationBuy;
+				while (m_gameMonopolyState == eGameMonopolyState::e_GM_AnimationBuy)
+				{
+					Sleep(5);
+				}
+			}
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
 		}
@@ -1206,7 +1226,6 @@ void cTCPClient::PlayMonopolySendThread()
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
 			}
-
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
 		}

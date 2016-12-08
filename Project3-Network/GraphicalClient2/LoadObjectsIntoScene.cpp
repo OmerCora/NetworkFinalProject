@@ -5,7 +5,7 @@
 #include <vector>
 //#include <glm/glm.hpp>
 
-bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2)
+bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2, cPlayer** building)
 {
 	//instantiate cBMPmapReader object to read the BMP file
 	cBMPmapReader aBMPreader;
@@ -41,6 +41,24 @@ bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2)
 	Player2->mRenderingInfo.textureName = g_pValueReader->Obj6TexturefileName;
 	Player2->mRenderingInfo.meshName = g_pValueReader->Obj6PlyfileName;
 	gVec_Entities.push_back(Player2);
+
+	for (int i = 0; i < 40; ++i)
+	{
+		building[i] = new cPlayer();
+		tempLocX = aBMPreader.vec_GoalLocXZ[0].x;
+		tempLocZ = aBMPreader.vec_GoalLocXZ[0].z;
+		building[i]->mPhysicsInfo.Position.x = tempLocX;
+		building[i]->mPhysicsInfo.Position.y = 0.0f;
+		building[i]->mPhysicsInfo.Position.z = tempLocZ;
+		building[i]->mRenderingInfo.Scale.x = g_pValueReader->Obj6ScaleXYZ;
+		building[i]->mRenderingInfo.Scale.y = g_pValueReader->Obj6ScaleXYZ;
+		building[i]->mRenderingInfo.Scale.z = g_pValueReader->Obj6ScaleXYZ;
+		building[i]->mPlayerNumber = 3;
+		building[i]->mRenderingInfo.textureName = g_pValueReader->Obj4TexturefileName;
+		building[i]->mRenderingInfo.meshName = g_pValueReader->Obj4PlyfileName;
+		gVec_Entities.push_back(building[i]);
+	}
+
 
 
 	int numOfBlocks = (int)aBMPreader.vec_BlockLocXZ.size();

@@ -88,7 +88,7 @@ void DrawObject(cEntity* pCurrEntity, bool bUseLighting /*= true*/ )
 	glUniformMatrix4fv( locID_matModel, 1, GL_FALSE, 
 				        (const GLfloat*) glm::value_ptr(matModel) );
 
-	glUniform4f( UniformLoc_ID_objectColour, 1.0f, 1.0f, 1.0f, 1.0f );
+	glUniform4f( UniformLoc_ID_objectColour, pCurrEntity->mRenderingInfo.Color.x, pCurrEntity->mRenderingInfo.Color.y, pCurrEntity->mRenderingInfo.Color.z, 1.0f );
 
 		glUniform1i( UniformLoc_ID_isWireframe, FALSE );	
 		glUniform1i( UniformLoc_ID_bUseObjColorNoTexture, FALSE );	

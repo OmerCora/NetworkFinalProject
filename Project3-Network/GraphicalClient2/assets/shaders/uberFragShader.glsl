@@ -88,7 +88,7 @@ void main()
 	{			
 		vec3 diffuse0 = texture( texSamp2D_00, text_STU.xy ).rgb;
 		
-		objectDiffuseColour = diffuse0;		
+		objectDiffuseColour *= diffuse0;		
 		alphaOut = normalize(diffuse0.r + diffuse0.g + diffuse0.b );
 	}
 	

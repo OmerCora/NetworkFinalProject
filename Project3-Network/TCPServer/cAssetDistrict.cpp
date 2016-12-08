@@ -35,6 +35,7 @@ void cAssetDistrict::GetDistrictInfo(sProtocolDistrictInfo& outInfo)
 {
 	outInfo.districtType = this->DistrictType();
 	outInfo.district_id = this->m_districtID;
+	outInfo.owner_id - 1;
 	if(m_owner)
 		outInfo.owner_id = m_owner->PlayerID();
 	outInfo.price = m_price;
