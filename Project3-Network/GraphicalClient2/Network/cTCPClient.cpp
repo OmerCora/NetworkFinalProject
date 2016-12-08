@@ -886,6 +886,9 @@ void cTCPClient::KeyboardCallback(int key, int scancode, int action, int mods)
 	switch (m_gameMonopolyState)
 	{
 	case eGameMonopolyState::e_GM_Start:
+	case eGameMonopolyState::e_GM_AskDistrictBuilding:
+	case eGameMonopolyState::e_GM_AskDistrictStation:
+	case eGameMonopolyState::e_GM_AskDistrictUtility:
 	{
 		m_isPressedKey = true;
 		m_isPressedYesOrNo = true;
@@ -1134,7 +1137,7 @@ void cTCPClient::PlayMonopolySendThread()
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = m_isPressedYesOrNo;
+				data.yesOrNo = m_isPressedYesOrNo?1:0;
 				//if(anyKey==89 || anyKey==121)
 				//	data.yesOrNo = 1;
 				//if (anyKey == 78 || anyKey == 110)
@@ -1164,7 +1167,7 @@ void cTCPClient::PlayMonopolySendThread()
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = m_isPressedYesOrNo;
+				data.yesOrNo = m_isPressedYesOrNo ? 1 : 0;
 				//if(anyKey==89 || anyKey==121)
 				//	data.yesOrNo = 1;
 				//if (anyKey == 78 || anyKey == 110)

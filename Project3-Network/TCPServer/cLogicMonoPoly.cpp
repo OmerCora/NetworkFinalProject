@@ -158,6 +158,8 @@ void cLogicMonoPoly::GetBoardInfo(sProtocolBoardInfo& outInfo)
 
 void cLogicMonoPoly::BringToStart(iPlayer* player)
 {
+	std::cout << "\t BringToStart: " << player->User()->Email() << std::endl;
+
 	m_districts[0]->AddPlayer(player, *this);
 
 	m_districts[0]->Action(player, *this);
@@ -209,9 +211,13 @@ bool cLogicMonoPoly::UpdateGameLoop()
 			int throwValue;
 			bool doubleSame = m_dice->DoubleThrow(throwValue);
 			if (doubleSame) m_players[m_currentPlayerIndex]->TakeChanceToThrowDice();
+
+			std::cout << "\t throwValue: " << throwValue << " doubleChance: " << doubleSame << std::endl;
+
 			m_nextLocation =  throwValue + m_players[m_currentPlayerIndex]->CurrentLocation();
 			if (m_nextLocation >= (int)m_districts.size())
 			{
+				std::cout << "\t move over start district" << std::endl;
 				m_nextLocation -= m_districts.size();
 
 				m_districts[0]->Action(m_players[m_currentPlayerIndex], *this);

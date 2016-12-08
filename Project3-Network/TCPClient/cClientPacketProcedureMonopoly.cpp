@@ -116,6 +116,11 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 	sProtocolMonopolyHeader header;
 	receiveBuffer.Deserialize(header);
 
+	while (m_client.GetState() != iTCPClient::e_GM_Wait)
+	{
+		Sleep(5);
+	}
+
 	switch (header.packet_id)
 	{
 	case sProtocolMonopolyHeader::ePacketID::e_ResponseGameStart:

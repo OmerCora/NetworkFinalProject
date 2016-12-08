@@ -875,6 +875,7 @@ void cTCPClient::ClientReceiveTherad()
 
 SOCKET cTCPClient::GetSocketID() { return m_connectedSocket; }
 void cTCPClient::SetState(eGameMonopolyState state) { m_gameMonopolyState = state; }
+iTCPClient::eGameMonopolyState cTCPClient::GetState() { return m_gameMonopolyState; }
 void cTCPClient::PrintPlayerInfo(sProtocolPlayerInfo& info)
 {
 	if (m_gameMonopolyPacketProcedure->MyInfo().id == info.id)
