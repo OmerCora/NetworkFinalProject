@@ -104,11 +104,11 @@ struct sProtocolResponseGameStart : public iProtocol
 {
 	sProtocolResponseGameStart()
 	{}
-	sProtocolPlayerInfo player;
-	//sProtocolPlayerInfo playerB;
+	sProtocolPlayerInfo playerA;
+	sProtocolPlayerInfo playerB;
 	unsigned int Size()
 	{
-		return player.Size();// +playerB.Size();
+		return playerA.Size() +playerB.Size();
 	}
 };
 struct sProtocolRequestPlayThrowDice : public iProtocol

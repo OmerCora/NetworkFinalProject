@@ -171,7 +171,7 @@ bool cMeshTypeManager::LoadPlyFileIntoGLBuffer( unsigned int programID, std::str
 			tempVert.nZ = plyModel.getVertex_at(index).nz;
 
 			tempVert.s = plyModel.getVertex_at(index).tex0u;
-			tempVert.t = plyModel.getVertex_at(index).tex0v;
+			tempVert.t = 1.0f-plyModel.getVertex_at(index).tex0v;
 			tempVert.u = 0.0f;
 
 			vecPlyVerts.push_back(tempVert);

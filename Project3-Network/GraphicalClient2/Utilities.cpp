@@ -1,8 +1,10 @@
-#include "Utilities.h"
 
 #include <stdlib.h>     // srand, rand 
+#include "Utilities.h"
 
-// http://stackoverflow.com/questions/686353/c-random-float-number-generation
+
+
+
 float getRandFloat( float LO, float HI )
 {
 	float r3 = LO + 

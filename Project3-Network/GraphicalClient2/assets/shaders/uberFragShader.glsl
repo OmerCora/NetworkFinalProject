@@ -20,8 +20,8 @@ uniform vec3 eyeLocation;
 
 uniform float alpha;		
 
-uniform sampler2D texSamp2D_00;	
 uniform samplerCube myCubemapSkyBoxSampler;
+uniform sampler2D texSamp2D_00;	
 uniform bool bIsCubeMapObject;
 
 uniform bool bUseTextureAsDiffuse;

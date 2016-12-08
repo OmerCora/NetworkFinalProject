@@ -1030,12 +1030,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStart" << std::endl;
 
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().money;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money Variation: " << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << " ]" << std::endl;
-			}
+			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
+			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1044,10 +1040,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictTax" << std::endl;
 
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
-			{
-				std::cout << "[My Money Variation: " << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << " ]" << std::endl;
-			}
+			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
+			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1093,19 +1087,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictBuilding" << std::endl;
 
-			// check money variation
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().money;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
-			else
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money -= m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
+			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
+			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;
@@ -1114,19 +1097,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictStation" << std::endl;
 
-			// check money variation
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().money;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
-			else
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money -= m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
+			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
+			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
@@ -1136,20 +1108,8 @@ void cTCPClient::PlayMonopolySendThread()
 		{
 			std::cout << "\t eGameMonopolyState::e_GM_ActionDistrictUtility" << std::endl;
 
-			// check money variation
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().money;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
-			else
-			{
-				m_gameMonopolyPacketProcedure->MyInfo().money -= m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				m_gameMonopolyPacketProcedure->MyInfo().moneyVariation = -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation;
-				std::cout << "[My Money : " << m_gameMonopolyPacketProcedure->MyInfo().money << "(" << -m_gameMonopolyPacketProcedure->CurrentPlayerInfo().moneyVariation << ")" << " ]" << std::endl;
-			}
-
+			std::cout << "[My Money: " << m_gameMonopolyPacketProcedure->MyInfo().money << " ]" << std::endl;
+			std::cout << "[Opponent Money: " << m_gameMonopolyPacketProcedure->OpponentInfo().money << " ]" << std::endl;
 
 			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 			break;

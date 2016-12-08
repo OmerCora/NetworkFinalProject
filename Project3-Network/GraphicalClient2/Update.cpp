@@ -1,6 +1,7 @@
 #include "Update.h"
 #include <iostream>
 
+
 //update the scene and supplying delta time to camera and entities
 void Update()
 {

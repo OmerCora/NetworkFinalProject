@@ -117,5 +117,7 @@ bool cBasicTextureManager::CreateNewCubeTextureFromBMPFiles(std::string cubeMapN
 		return false;
 	}
 
+	this->m_map_TexNameToTexture[cubeMapName] = pTempTexture;
+
 	return true;
 }

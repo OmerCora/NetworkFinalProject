@@ -25,7 +25,7 @@
 
 //void PhysicsStep(float deltaTime);
 
-bool LoadObjectsIntoScene();
+bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2);
 
 
 static void error_callback(int error, const char* description)
@@ -33,6 +33,14 @@ static void error_callback(int error, const char* description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
+
+#define __TEST_GRAPHICS_MONOPOLY_
+struct sPlayerInfo
+{
+	cPlayer* playerObject;
+	sProtocolPlayerInfo playerInfo;
+};
+void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client);
 int main(void)
 {
 	cTCPClient* client = new cTCPClient();
@@ -40,6 +48,20 @@ int main(void)
 	// initialize server
 	if (!client->StartClient())
 		exit(EXIT_FAILURE);
+
+	// message loop
+	//if (!client->RunClient())
+	//	exit(EXIT_FAILURE);
+
+
+#ifndef __TEST_GRAPHICS_MONOPOLY_
+	// wait for game start
+	while (!client->IsGameStarted())
+	{
+		Sleep(100);
+	}
+#endif
+
 
     glfwSetErrorCallback(error_callback);
 
@@ -168,10 +190,37 @@ int main(void)
 	//gPathNodeGrid = new cPathNodeGrid(50, 50, initPoint, edgeAPoint, edgeBPoint);
 	
 
-	if ( ! LoadObjectsIntoScene() )
+	////////////////////////////////////////////////////////////////////////////
+	// player infomations
+	sPlayerInfo playerA;
+	sPlayerInfo playerB;
+
+	playerA.playerInfo = client->MonopolyPacketProcedure()->MyInfo();
+	playerB.playerInfo = client->MonopolyPacketProcedure()->OpponentInfo();
+
+	cPlayer* p1, *p2;
+	if ( ! LoadObjectsIntoScene(p1, p2) )
 	{
 		std::cout << "WARNING: Could not load all models into the scene." << std::endl;
 	}
+
+#ifdef __TEST_GRAPHICS_MONOPOLY_
+	playerA.playerObject = p1;
+	playerB.playerObject = p2;
+#else
+	if (playerA.playerInfo.id == 0)
+	{
+		playerA.playerObject = p1;
+		playerB.playerObject = p2;
+	}
+	else
+	{
+		playerA.playerObject = p2;
+		playerB.playerObject = p1;
+	}
+#endif
+	// player infomations
+	////////////////////////////////////////////////////////////////////////////
 
 
 	UniformLoc_ID_objectColour = glGetUniformLocation( shadProgID, "objectColour" );
@@ -192,12 +241,8 @@ int main(void)
 	UniformLoc_bIsCubeMapObject = glGetUniformLocation(shadProgID, "bIsCubeMapObject");
 	UniformLoc_myCubemapSkyBoxSampler = glGetUniformLocation(shadProgID, "myCubemapSkyBoxSampler");
 	
+
 	glEnable(GL_DEPTH_TEST);
-
-
-	// message loop
-	//if (!client->RunClient())
-	//	exit(EXIT_FAILURE);
 
 	double lastTime = glfwGetTime();
 
@@ -207,7 +252,7 @@ int main(void)
 		glfwGetFramebufferSize(gWindow, &width, &height);
 		gWindowRatio = width / (float)height;
 
-		glViewport(0, 0, width, height);
+		//glViewport(0, 0, width, height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -221,7 +266,9 @@ int main(void)
 
 		LightSetting();
 
-		Update();
+		// logic update
+		PlayerUpdate(playerA, playerB, client);
+		//Update();
 
 		glm::mat4 matProjection;
 		glm::mat4 matView;
@@ -236,6 +283,7 @@ int main(void)
 			(const GLfloat*)glm::value_ptr(matView));
 
 
+		glUniform1i(UniformLoc_bIsCubeMapObject, FALSE);
 		DrawSkyBox();
 
 		// Draw Scene
@@ -286,21 +334,140 @@ void DrawSkyBox(void)
 
 	GLuint texNumberSky = ::g_pTextureManager->getTextureIDFromName("SkyMap");
 
-	GLuint texture01Unit = 1;
+	GLuint texture01Unit = 0;
 	glActiveTexture(texture01Unit + GL_TEXTURE0);
 
-	glBindTexture(GL_TEXTURE_2D, texNumberSky);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, texNumberSky);
 
-	glUniform1i(UniformLoc_myCubemapSkyBoxSampler, texNumberSky);
+	glUniform1i(UniformLoc_myCubemapSkyBoxSampler, texture01Unit);
 
-	glDisable(GL_DEPTH);			// turn off depth test (i.e. just write)
+	//glDisable(GL_DEPTH);			// turn off depth test (i.e. just write)
 	glDepthMask(GL_FALSE);		// no writing to z or depth buffer
 	DrawObject(::g_pSkyBoxObject, false);
 	glDepthMask(GL_TRUE);
-	glEnable(GL_DEPTH);
+	//glEnable(GL_DEPTH);
 
 	glUniform1i(UniformLoc_bIsCubeMapObject, FALSE);
 
 	return;
+}
+
+
+
+//update the scene and supplying delta time to camera and entities
+void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client)
+{
+	static const int numDistricts = 40;
+	static glm::vec3 districtLocations[] =
+	{
+		// bot line
+		{ -23,0,-23 },
+		{ -16,0,-23 },
+		{ -12,0,-23 },
+		{  -8,0,-23 },
+		{  -4,0,-23 },
+		{   0,0,-23 },
+		{   4,0,-23 },
+		{   8,0,-23 },
+		{  12,0,-23 },
+		{  16,0,-23 },
+
+		// left
+		{ 23, 0, -23 },
+		{ 23, 0, -16 },
+		{ 23, 0, -12 },
+		{ 23, 0,  -8 },
+		{ 23, 0,  -4 },
+		{ 23, 0,   0 },
+		{ 23, 0,   4 },
+		{ 23, 0,   8 },
+		{ 23, 0,  12 },
+		{ 23, 0,  16 },
+		
+		// top
+		{ 23,0,23 },
+		{ 16,0,23 },
+		{ 12,0,23 },
+		{ 8,0,23 },
+		{ 4,0,23 },
+		{ -0,0,23 },
+		{ -4,0,23 },
+		{ -8,0,23 },
+		{ -12,0,23 },
+		{ -16,0,23 },
+
+		// right
+		{ -23, 0, 23 },
+		{ -23, 0, 16 },
+		{ -23, 0, 12 },
+		{ -23, 0,  8 },
+		{ -23, 0,  4 },
+		{ -23, 0,   0 },
+		{ -23, 0,   -4 },
+		{ -23, 0,  -8 },
+		{ -23, 0,  -12 },
+		{ -23, 0,  -16 },
+	};
+	double tmpLastTime = glfwGetTime();
+	static double lastTime = glfwGetTime();
+
+	double currentTime = glfwGetTime();
+	float deltaTime = float(currentTime - lastTime);
+	if (deltaTime == 0.f)
+	{
+		lastTime = currentTime;
+		return;
+	}
+	if (deltaTime < 0.01)
+	{
+		return;
+	}
+	if (deltaTime > 0.05)
+	{
+		deltaTime = 0.05;
+	}
+
+	static const float pieceAnimationDurationPerDistrict = 0.5f;
+	static float pieceAnimationTime = 0.0f;
+	static int pieceCurrentLocationA = 0;
+	static int pieceCurrentLocationB = 0;
+
+	pieceAnimationTime += deltaTime;
+	if (pieceAnimationTime >= pieceAnimationDurationPerDistrict)
+	{
+		pieceAnimationTime = 0;
+		pieceCurrentLocationA++;
+		pieceCurrentLocationB++;
+	}
+
+	if (pieceCurrentLocationA >= numDistricts)
+		pieceCurrentLocationA = 0;
+	if (pieceCurrentLocationB >= numDistricts)
+		pieceCurrentLocationB = 0;
+
+
+	playerA.playerObject->mPhysicsInfo.Position = districtLocations[pieceCurrentLocationA];
+	playerB.playerObject->mPhysicsInfo.Position = districtLocations[pieceCurrentLocationB];
+
+
+	if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationThrowDice)
+	{
+	}
+	else if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationMovePiece)
+	{
+		playerA.playerObject->Update(deltaTime);
+		playerB.playerObject->Update(deltaTime);
+	}
+	else if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationBuy)
+	{
+	}
+
+
+
+
+	gCamera->Update(deltaTime);
+
+	lastTime = currentTime;
+
 }
 

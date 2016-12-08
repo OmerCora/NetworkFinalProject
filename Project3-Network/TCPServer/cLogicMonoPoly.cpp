@@ -124,7 +124,8 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	{
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
 		sProtocolResponseGameStart protocol;
-		m_players[0]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+		m_players[0]->GetPlayerInfo(protocol.playerA, m_currentPlayerIndex);
+		m_players[1]->GetPlayerInfo(protocol.playerB, m_currentPlayerIndex);
 		m_packetProcedure->AppendProtocol(protocol);
 
 		m_packetProcedure->SendData(m_players[0]->User()->SocketID());
@@ -132,7 +133,8 @@ bool cLogicMonoPoly::PlayGame(iUser* userA, iUser* userB)
 	{
 		m_packetProcedure->SetHeader(sProtocolMonopolyHeader::e_ResponseGameStart);
 		sProtocolResponseGameStart protocol;
-		m_players[1]->GetPlayerInfo(protocol.player, m_currentPlayerIndex);
+		m_players[1]->GetPlayerInfo(protocol.playerA, m_currentPlayerIndex);
+		m_players[0]->GetPlayerInfo(protocol.playerB, m_currentPlayerIndex);
 		m_packetProcedure->AppendProtocol(protocol);
 
 		m_packetProcedure->SendData(m_players[1]->User()->SocketID());

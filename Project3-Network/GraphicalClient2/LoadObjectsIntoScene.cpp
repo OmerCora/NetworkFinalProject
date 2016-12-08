@@ -5,7 +5,7 @@
 #include <vector>
 //#include <glm/glm.hpp>
 
-bool LoadObjectsIntoScene()
+bool LoadObjectsIntoScene(cPlayer*& Player1, cPlayer*& Player2)
 {
 	//instantiate cBMPmapReader object to read the BMP file
 	cBMPmapReader aBMPreader;
@@ -14,7 +14,7 @@ bool LoadObjectsIntoScene()
 	float tempLocX = 0.0f;
 	float tempLocZ = 0.0f;
 
-	cPlayer* Player1 = new cPlayer();
+	Player1 = new cPlayer();
 	tempLocX = aBMPreader.vec_PlayerLocXZ[0].x;
 	tempLocZ = aBMPreader.vec_PlayerLocXZ[0].z;
 	Player1->mPhysicsInfo.Position.x = tempLocX;
@@ -28,7 +28,7 @@ bool LoadObjectsIntoScene()
 	Player1->mRenderingInfo.meshName = g_pValueReader->Obj1PlyfileName;
 	gVec_Entities.push_back(Player1);
 
-	cPlayer* Player2 = new cPlayer();
+	Player2 = new cPlayer();
 	tempLocX = aBMPreader.vec_GoalLocXZ[0].x;
 	tempLocZ = aBMPreader.vec_GoalLocXZ[0].z;
 	Player2->mPhysicsInfo.Position.x = tempLocX;

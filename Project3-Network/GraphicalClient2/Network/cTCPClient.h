@@ -39,6 +39,8 @@ public:
 	// begin of iTCPClient
 	virtual SOCKET GetSocketID();
 	virtual void SetState(eGameMonopolyState state);
+	virtual eGameMonopolyState GetState();
+	virtual bool IsGameStarted() { return m_gameStarted; }
 	virtual void SetGameStarted(bool flag) {
 		m_gameStarted = flag;
 		if (flag)
@@ -46,6 +48,7 @@ public:
 			m_menuState = eChatMenuState::e_PlayGame;
 		}
 	}
+	iClientPacketProcedure* MonopolyPacketProcedure() { return m_gameMonopolyPacketProcedure; }
 	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info);
 	// end of iTCPClient
 

@@ -100,6 +100,17 @@ bool cClientPacketProcedureMonopoly::SendData(SOCKET client)
 	return true;
 }
 
+void cClientPacketProcedureMonopoly::SetPlayerInfo(sProtocolPlayerInfo& playerInfo)
+{
+	if (playerInfo.id == m_myInfo.id)
+	{
+		m_myInfo = playerInfo;
+	}
+	else
+	{
+		m_opponentInfo = playerInfo;
+	}
+}
 void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 {
 	sProtocolMonopolyHeader header;
@@ -124,8 +135,10 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponseGameStart data;
 		receiveBuffer.Deserialize(data);
 
-		m_myInfo = data.player;
-		m_currentPlayerInfo = data.player;
+		m_myInfo = data.playerA;
+		m_opponentInfo = data.playerB;
+
+		m_currentPlayerInfo = data.playerA;
 
 		m_client.SetState(iTCPClient::e_GM_Start);
 
@@ -138,6 +151,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayThrowDice data;
 		receiveBuffer.Deserialize(data);
 
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 
 		m_client.SetState(iTCPClient::e_GM_ThrowDice);
@@ -151,6 +165,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayAction data;
 		receiveBuffer.Deserialize(data);
 
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 		m_currentDistrictInfo = data.district;
 
@@ -200,6 +215,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolAskAssetAction data;
 		receiveBuffer.Deserialize(data);
 
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 		m_currentDistrictInfo = data.districtInfo;
 
@@ -225,6 +241,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayTurnChange data;
 		receiveBuffer.Deserialize(data);
 
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 		m_currentBoardInfo = data.board;
 
@@ -241,6 +258,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		sProtocolResponsePlayTurnKeep data;
 		receiveBuffer.Deserialize(data);
 
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 		m_currentBoardInfo = data.board;
 
@@ -258,6 +276,7 @@ void cClientPacketProcedureMonopoly::ProcessReceiveData(cBuffer& receiveBuffer)
 		receiveBuffer.Deserialize(data);
 
 		// this is the winner
+		this->SetPlayerInfo(data.player);
 		m_currentPlayerInfo = data.player;
 
 		m_client.SetState(iTCPClient::e_GM_Finish);

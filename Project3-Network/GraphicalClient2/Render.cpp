@@ -10,19 +10,23 @@
 
 
 
-void SetUpTextureBindings( cEntity* pCurrEntity)
+void SetUpTextureBindings(cEntity* pCurrEntity)
 {
 	// Get texture number
 	std::string textureName = pCurrEntity->mRenderingInfo.textureName;
 
 	GLuint texture00Number = ::g_pTextureManager->getTextureIDFromName(textureName);
-	GLuint texture00Unit = 0;		
 
-	glActiveTexture( texture00Unit + GL_TEXTURE0 );		
-	glBindTexture( GL_TEXTURE_2D, texture00Number );
-	glUniform1i( UniformLoc_texSamp2D_00, texture00Unit );
+	if (texture00Number > 0)
+	{
+		glUniform1i(UniformLoc_bUseTextureAsDiffuse, TRUE);
+		GLuint texture00Unit = 1;
 
-	glUniform1i( UniformLoc_bUseTextureAsDiffuse, TRUE );		
+		glActiveTexture(texture00Unit + GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture00Number);
+		glUniform1i(UniformLoc_texSamp2D_00, texture00Unit);
+
+	}
 
 	return;
 }

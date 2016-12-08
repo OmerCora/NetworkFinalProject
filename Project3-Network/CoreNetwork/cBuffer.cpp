@@ -424,13 +424,13 @@ void cBuffer::Deserialize(sProtocolMonopolyHeader& data)
 
 void cBuffer::Serialize(const sProtocolResponseGameStart& data)
 {
-	this->Serialize(data.player);
-	//this->Serialize(data.playerB);
+	this->Serialize(data.playerA);
+	this->Serialize(data.playerB);
 }
 void cBuffer::Deserialize(sProtocolResponseGameStart& data)
 {
-	this->Deserialize(data.player);
-	//this->Deserialize(data.playerB);
+	this->Deserialize(data.playerA);
+	this->Deserialize(data.playerB);
 }
 
 void cBuffer::Serialize(const sProtocolRequestPlayThrowDice& data)

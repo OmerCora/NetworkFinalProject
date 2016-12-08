@@ -12,8 +12,10 @@ public:
 		e_GM_Start,
 		e_GM_ThrowDice,
 		e_GM_AnimationThrowDice,
+
 		e_GM_MovePiece,
 		e_GM_AnimationMovePiece,
+		e_GM_AnimationBuy,
 
 		e_GM_ActionDistrictStart,
 		e_GM_ActionDistrictTax,

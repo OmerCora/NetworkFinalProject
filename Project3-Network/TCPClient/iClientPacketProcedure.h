@@ -37,6 +37,7 @@ public:
 	virtual void ProcessReceiveData(cBuffer& receiveBuffer) = 0;
 
 	virtual sProtocolPlayerInfo& MyInfo() = 0;
+	virtual sProtocolPlayerInfo& OpponentInfo() = 0;
 	virtual sProtocolPlayerInfo& CurrentPlayerInfo() = 0;
 	virtual bool IsMyTurn() = 0;
 	virtual sProtocolDistrictInfo& CurrentDistrictInfo() = 0;
