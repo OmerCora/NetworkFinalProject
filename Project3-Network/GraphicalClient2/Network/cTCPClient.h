@@ -52,6 +52,8 @@ public:
 	virtual void PrintPlayerInfo(sProtocolPlayerInfo& info);
 	// end of iTCPClient
 
+	void KeyboardCallback(int key, int scancode, int action, int mods);
+
 private:
 
 	enum eChatMenuState : int
@@ -163,6 +165,10 @@ private:
 	static const char* mc_DEFAULT_IPADDRESS;
 
 	bool m_isDebug;
+
+	bool m_isPressedKey;
+	bool m_isPressedYesOrNo;
+
 
 	std::thread m_recvthread;
 	std::thread m_sendthread;

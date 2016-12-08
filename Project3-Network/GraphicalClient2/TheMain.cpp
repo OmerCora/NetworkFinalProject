@@ -34,7 +34,9 @@ static void error_callback(int error, const char* description)
 }
 
 
-#define __TEST_GRAPHICS_MONOPOLY_
+//#define __TEST_GRAPHICS_MONOPOLY_
+
+cTCPClient* gMonopolyClient = 0;
 struct sPlayerInfo
 {
 	cPlayer* playerObject;
@@ -44,14 +46,15 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 int main(void)
 {
 	cTCPClient* client = new cTCPClient();
+	gMonopolyClient = client;
 
 	// initialize server
 	if (!client->StartClient())
 		exit(EXIT_FAILURE);
 
 	// message loop
-	//if (!client->RunClient())
-	//	exit(EXIT_FAILURE);
+	if (!client->RunClient())
+		exit(EXIT_FAILURE);
 
 
 #ifndef __TEST_GRAPHICS_MONOPOLY_
@@ -219,6 +222,10 @@ int main(void)
 		playerB.playerObject = p1;
 	}
 #endif
+
+	playerA.playerObject->mPhysicsInfo.Position = { -23,0,-23 };
+	playerB.playerObject->mPhysicsInfo.Position = { -23,0,-23 };
+
 	// player infomations
 	////////////////////////////////////////////////////////////////////////////
 
@@ -322,7 +329,10 @@ int main(void)
 	// clean up server
 	if (!client->ShutDown())
 		exit(EXIT_FAILURE);
+
 	delete client;
+	gMonopolyClient = 0;
+	client = 0;
 
     exit(EXIT_SUCCESS);
 
@@ -427,36 +437,79 @@ void PlayerUpdate(sPlayerInfo& playerA, sPlayerInfo& playerB, cTCPClient* client
 		deltaTime = 0.05;
 	}
 
-	static const float pieceAnimationDurationPerDistrict = 0.5f;
+	static const float pieceAnimationDurationPerDistrict = 0.1f;
 	static float pieceAnimationTime = 0.0f;
-	static int pieceCurrentLocationA = 0;
-	static int pieceCurrentLocationB = 0;
+	//static int pieceCurrentLocationA = 0;
+	//static int pieceCurrentLocationB = 0;
+	static glm::vec3 currentLocationA = districtLocations[0];
+	static glm::vec3 nextLocationA = districtLocations[0];
+	static glm::vec3 currentLocationB = districtLocations[0];
+	static glm::vec3 nextLocationB = districtLocations[0];
 
-	pieceAnimationTime += deltaTime;
-	if (pieceAnimationTime >= pieceAnimationDurationPerDistrict)
-	{
-		pieceAnimationTime = 0;
-		pieceCurrentLocationA++;
-		pieceCurrentLocationB++;
-	}
-
-	if (pieceCurrentLocationA >= numDistricts)
-		pieceCurrentLocationA = 0;
-	if (pieceCurrentLocationB >= numDistricts)
-		pieceCurrentLocationB = 0;
-
-
-	playerA.playerObject->mPhysicsInfo.Position = districtLocations[pieceCurrentLocationA];
-	playerB.playerObject->mPhysicsInfo.Position = districtLocations[pieceCurrentLocationB];
 
 
 	if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationThrowDice)
 	{
+		// TODO: doing something
+
+		client->SetState(iTCPClient::eGameMonopolyState::e_GM_MovePiece);
 	}
 	else if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationMovePiece)
 	{
-		playerA.playerObject->Update(deltaTime);
-		playerB.playerObject->Update(deltaTime);
+		pieceAnimationTime += deltaTime;
+
+		if (pieceAnimationTime >= pieceAnimationDurationPerDistrict)
+		{
+			pieceAnimationTime = 0;
+
+			if (client->MonopolyPacketProcedure()->IsMyTurn())
+			{
+				currentLocationA = districtLocations[playerA.playerInfo.location];
+				if (playerA.playerInfo.location == client->MonopolyPacketProcedure()->MyInfo().location)
+				{
+					client->SetState(iTCPClient::eGameMonopolyState::e_GM_Wait);
+				}
+				playerA.playerInfo.location++;
+				if (playerA.playerInfo.location >= numDistricts)
+					playerA.playerInfo.location = 0;
+
+
+				nextLocationA = districtLocations[playerA.playerInfo.location];
+			}
+			else
+			{
+				currentLocationB = districtLocations[playerB.playerInfo.location];
+				if (playerB.playerInfo.location == client->MonopolyPacketProcedure()->OpponentInfo().location)
+				{
+					client->SetState(iTCPClient::eGameMonopolyState::e_GM_Wait);
+				}
+				playerB.playerInfo.location++;
+				if (playerB.playerInfo.location >= numDistricts)
+					playerB.playerInfo.location = 0;
+
+
+				nextLocationB = districtLocations[playerB.playerInfo.location];
+			}
+		}
+
+
+		static const float jumpHeight = 3;
+		static float ratioAnimationTime;
+		ratioAnimationTime = (pieceAnimationTime / pieceAnimationDurationPerDistrict);
+		if (client->MonopolyPacketProcedure()->IsMyTurn())
+		{
+			// move
+			playerA.playerObject->mPhysicsInfo.Position = currentLocationA + (nextLocationA - currentLocationA) * ratioAnimationTime;
+			// jump
+			playerA.playerObject->mPhysicsInfo.Position.y = glm::sin(glm::pi<float>() * ratioAnimationTime) * jumpHeight;
+		}
+		else
+		{
+			// move
+			playerB.playerObject->mPhysicsInfo.Position = currentLocationB + (nextLocationB - currentLocationB) * ratioAnimationTime;
+			// jump
+			playerB.playerObject->mPhysicsInfo.Position.y = glm::sin(glm::pi<float>() * ratioAnimationTime) * jumpHeight;
+		}
 	}
 	else if (client->GetState() == iTCPClient::eGameMonopolyState::e_GM_AnimationBuy)
 	{

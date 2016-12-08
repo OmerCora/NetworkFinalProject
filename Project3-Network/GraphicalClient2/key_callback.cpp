@@ -1,7 +1,7 @@
 #include "GlobalStuff.h"
 
 #include <sstream>
-
+#include "Network/cTCPClient.h"
 
 bool isShiftDownAlone( int mods )
 {
@@ -30,10 +30,22 @@ bool isAltDownAlone( int mods )
 	return false;
 }
 
+extern cTCPClient* gMonopolyClient;
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GLFW_TRUE);
+
+
+
+	//////////////////////////////////////////////////////////////////////
+	// call monopoly keyboard callback
+	gMonopolyClient->KeyboardCallback(key, scancode, action, mods);
+	// call monopoly keyboard callback
+	//////////////////////////////////////////////////////////////////////
+
+
 
 	switch (key)
 	{

@@ -1,4 +1,5 @@
 
+#include <GLFW/glfw3.h>
 
 #include <stdio.h>
 #include <iostream>
@@ -32,6 +33,7 @@ cTCPClient::cTCPClient()
 
 	, m_menuState(eChatMenuState::e_Connect)
 	, m_gameStarted(false)
+	, m_isPressedKey(false)
 {
 	m_instance = this;
 }
@@ -879,6 +881,28 @@ void cTCPClient::ClientReceiveTherad()
 SOCKET cTCPClient::GetSocketID() { return m_connectedSocket; }
 void cTCPClient::SetState(eGameMonopolyState state) { m_gameMonopolyState = state; }
 iTCPClient::eGameMonopolyState cTCPClient::GetState() { return m_gameMonopolyState; }
+void cTCPClient::KeyboardCallback(int key, int scancode, int action, int mods)
+{
+	switch (m_gameMonopolyState)
+	{
+	case eGameMonopolyState::e_GM_Start:
+	{
+		m_isPressedKey = true;
+		m_isPressedYesOrNo = true;
+		if (action == GLFW_PRESS)
+		{
+			if (key == GLFW_KEY_N)
+			{
+				m_isPressedYesOrNo = false;
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
+}
+
 void cTCPClient::PrintPlayerInfo(sProtocolPlayerInfo& info)
 {
 	if (m_gameMonopolyPacketProcedure->MyInfo().id == info.id)
@@ -898,23 +922,6 @@ void cTCPClient::PrintPlayerInfo(sProtocolPlayerInfo& info)
 void cTCPClient::PlayMonopolySendThread()
 {
 	std::cout << "cTCPClient::PlayMonopolySendThread()" << std::endl;
-
-	//*****************************************
-	// TODO: require a timer for animation
-	double deltaTime = 1.0/60;
-
-	float durationOfDiceAnimationDuration = 1.0f;
-	float diceAnimation = 0.0f;
-
-	float myPieceLocation = 0.0f;
-	float otherPieceLocation = 0.0f;
-	float pieceNextLocation = 0.0f;
-	float moveSpeed = 2.0f;
-
-
-	//*****************************************
-
-
 
 	while (!m_isStopped)
 	{
@@ -943,7 +950,12 @@ void cTCPClient::PlayMonopolySendThread()
 			if (m_gameMonopolyPacketProcedure->MyInfo().isMyTurn)
 			{
 				std::cout << "[ Press any key to throw dice ]" << std::endl;
-				char anyKey = _getch();
+				while (!m_isPressedKey)
+				{
+					Sleep(5);
+				}
+				m_isPressedKey = false;
+				//char anyKey = _getch();
 
 				// request throw dice
 				{
@@ -964,16 +976,15 @@ void cTCPClient::PlayMonopolySendThread()
 
 			this->PrintPlayerInfo(m_gameMonopolyPacketProcedure->CurrentPlayerInfo());
 
-			diceAnimation = 0.0f;
 			m_gameMonopolyState = eGameMonopolyState::e_GM_AnimationThrowDice;
 
 			break;
 		}
 		case eGameMonopolyState::e_GM_AnimationThrowDice:
 		{
-			while (diceAnimation < durationOfDiceAnimationDuration)
+			while (m_gameMonopolyState == eGameMonopolyState::e_GM_AnimationThrowDice)
 			{
-				diceAnimation += (float)deltaTime;
+				Sleep(1);
 			}
 
 			if (m_gameMonopolyPacketProcedure->IsMyTurn())
@@ -985,7 +996,7 @@ void cTCPClient::PlayMonopolySendThread()
 				std::cout << "[ Oppenent's Current Square: " << m_gameMonopolyPacketProcedure->CurrentPlayerInfo().location << " ]" << std::endl;
 			}
 
-			m_gameMonopolyState = eGameMonopolyState::e_GM_MovePiece;
+			//m_gameMonopolyState = eGameMonopolyState::e_GM_MovePiece;
 
 			break;
 		}
@@ -999,21 +1010,9 @@ void cTCPClient::PlayMonopolySendThread()
 		}
 		case eGameMonopolyState::e_GM_AnimationMovePiece:
 		{
-
-			float pieceLocation = 0;
-			if (m_gameMonopolyPacketProcedure->IsMyTurn())
+			while (m_gameMonopolyState == eGameMonopolyState::e_GM_AnimationMovePiece)
 			{
-				pieceLocation = myPieceLocation;
-			}
-			else
-			{
-				pieceLocation = otherPieceLocation;
-			}
-
-			pieceNextLocation = m_gameMonopolyPacketProcedure->CurrentPlayerInfo().location;
-			while (pieceLocation < pieceNextLocation)
-			{
-				pieceLocation += (float)(deltaTime * moveSpeed);
+				Sleep(1);
 			}
 
 			// request play action
@@ -1025,8 +1024,8 @@ void cTCPClient::PlayMonopolySendThread()
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
 			}
-				
-			m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
+			//	
+			//m_gameMonopolyState = eGameMonopolyState::e_GM_Wait;
 
 			break;
 		}
@@ -1124,18 +1123,22 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictBuilding" << std::endl;
 			std::cout << "[ Would you buy this Building? (Y or N) ]" << std::endl;
 
-
-			char anyKey = _getch();
+			while (!m_isPressedKey)
+			{
+				Sleep(5);
+			}
+			m_isPressedKey = false;
+			//char anyKey = _getch();
 
 			// request asking
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = 1;
+				data.yesOrNo = m_isPressedYesOrNo;
 				//if(anyKey==89 || anyKey==121)
 				//	data.yesOrNo = 1;
-				if (anyKey == 78 || anyKey == 110)
-					data.yesOrNo = 0;
+				//if (anyKey == 78 || anyKey == 110)
+				//	data.yesOrNo = 0;
 
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
@@ -1150,17 +1153,22 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictStation" << std::endl;
 			std::cout << "[ Would you buy this Station? (Y or N) ]" << std::endl;
 
-			char anyKey = _getch();
+			while (!m_isPressedKey)
+			{
+				Sleep(5);
+			}
+			m_isPressedKey = false;
+			//char anyKey = _getch();
 
 			// request asking
 			{
 				m_gameMonopolyPacketProcedure->SetHeader(sProtocolMonopolyHeader::e_AnswerAssetAction);
 				sProtocolAnswerAssetAction data;
-				data.yesOrNo = 1;
+				data.yesOrNo = m_isPressedYesOrNo;
 				//if(anyKey==89 || anyKey==121)
 				//	data.yesOrNo = 1;
-				if (anyKey == 78 || anyKey == 110)
-					data.yesOrNo = 0;
+				//if (anyKey == 78 || anyKey == 110)
+				//	data.yesOrNo = 0;
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
@@ -1174,7 +1182,13 @@ void cTCPClient::PlayMonopolySendThread()
 			std::cout << "\t eGameMonopolyState::e_GM_AskDistrictUtility" << std::endl;
 
 			std::cout << "[ Would you buy this Utility? (Y or N) ]" << std::endl;
-			char anyKey = _getch();
+
+			while (!m_isPressedKey)
+			{
+				Sleep(5);
+			}
+			m_isPressedKey = false;
+			//char anyKey = _getch();
 
 			// request asking
 			{
@@ -1183,8 +1197,8 @@ void cTCPClient::PlayMonopolySendThread()
 				data.yesOrNo = 1;
 				//if(anyKey==89 || anyKey==121)
 				//	data.yesOrNo = 1;
-				if (anyKey == 78 || anyKey == 110)
-					data.yesOrNo = 0;
+				//if (anyKey == 78 || anyKey == 110)
+				//	data.yesOrNo = 0;
 				m_gameMonopolyPacketProcedure->AppendProtocol(data);
 
 				m_gameMonopolyPacketProcedure->SendData(m_connectedSocket);
