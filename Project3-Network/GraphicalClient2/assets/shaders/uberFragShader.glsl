@@ -106,6 +106,7 @@ void main()
 			lightContrib += calcLightContribution( objectDiffuseColour, vecView, index );
 		}
 		
+		lightContrib += diffuseColour.xyz * 0.2f;		
 		out_Colour = vec4(lightContrib, alphaOut);	
 	}
 

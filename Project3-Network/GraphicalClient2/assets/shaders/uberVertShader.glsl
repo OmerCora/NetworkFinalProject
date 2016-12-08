@@ -68,7 +68,8 @@ void main()
 	}
 	else  
 	{	
-		diffuseColour = vec4(vColour, 1.0f);
+		diffuseColour = vec4(objectColour.xyz, 1.0f);
+		//diffuseColour = vec4(vColour, 1.0f);
 	}
 	
 

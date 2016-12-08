@@ -12,6 +12,7 @@
 
 struct sRenderingInfo
 {
+	sRenderingInfo() :Color(1, 1, 1), Scale(1,1,1) {}
 	glm::vec3 Color;
 	glm::vec3 Scale;
 	glm::mat4 modelMatrix;

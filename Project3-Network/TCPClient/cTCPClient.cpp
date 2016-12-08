@@ -400,7 +400,7 @@ void cTCPClient::UserSendThread()
 		else if (m_menuState == eChatMenuState::e_Login)
 		{
 			// TODO: this is for debug
-#if 1
+#if 0
 			sProtocolHeader header;
 			sProtocolAccount loginInfo;
 			header.SetProtocol(loginInfo);

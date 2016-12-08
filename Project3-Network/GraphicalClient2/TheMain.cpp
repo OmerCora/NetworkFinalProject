@@ -297,7 +297,7 @@ int main(void)
 		buildingInfos[i].buildig = buildig[i];
 		buildingInfos[i].buildig->isVisible = false;
 		buildingInfos[i].buildig->mPhysicsInfo.Position = districtLocations[i];
-		buildingInfos[i].buildig->mRenderingInfo.Scale = glm::vec3(1.3f, 1.3f, 1.3f);
+		buildingInfos[i].buildig->mRenderingInfo.Scale = glm::vec3(1.5f, 1.5f, 1.5f);
 		if (buildingInfos[i].buildig->mPhysicsInfo.Position.z < -20)
 		{
 			// bot line
@@ -318,7 +318,7 @@ int main(void)
 			// left line
 			buildingInfos[i].buildig->mPhysicsInfo.Position.x = 20;
 		}
-		buildingInfos[i].buildig->mPhysicsInfo.Position.z -= -4;
+		buildingInfos[i].buildig->mPhysicsInfo.Position.z -= 2;
 		buildingInfos[i].owner = 0;
 	}
 

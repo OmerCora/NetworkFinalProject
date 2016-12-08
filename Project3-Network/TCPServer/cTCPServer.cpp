@@ -636,6 +636,7 @@ bool cTCPServer::ProcessReceivedDataFromUsers()
 
 			receiveBuffer.Deserialize(m_loginInfoRecvBuff);
 
+#if 0
 			// TODO: this is hard coding
 			m_loginInfoRecvBuff.password_length = 8;
 			m_loginInfoRecvBuff.password = "password";
@@ -648,6 +649,7 @@ bool cTCPServer::ProcessReceivedDataFromUsers()
 			{
 				m_loginInfoRecvBuff.username = "test1";
 			}
+#endif
 
 			// check already logged-in
 			if (cUserManager::GetInstance().UserExist(m_loginInfoRecvBuff.username))
